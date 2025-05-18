@@ -21,7 +21,7 @@ interface HeaderProps {
 }
 
 export const Header = ({ title }: HeaderProps) => {
-  const { collapsed } = useSidebar();
+  const { state } = useSidebar();
   const { t } = useLanguage();
 
   return (

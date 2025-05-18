@@ -16,7 +16,7 @@ import {
 import { useLanguage } from "@/contexts/LanguageContext";
 
 export function Sidebar() {
-  const { collapsed, setCollapsed } = useSidebar();
+  const { open, setOpen } = useSidebar();
   const { t } = useLanguage();
   const { pathname } = useLocation();
   
@@ -58,11 +58,11 @@ export function Sidebar() {
       <div 
         className={cn(
           "fixed top-0 z-40 h-16 items-center border-b bg-background px-4 md:hidden",
-          collapsed ? "left-0 w-16" : "left-0 right-0"
+          open ? "left-0 w-16" : "left-0 right-0"
         )}
       >
         <button 
-          onClick={() => setCollapsed(!collapsed)} 
+          onClick={() => setOpen(!open)} 
           className="inline-flex h-10 w-10 items-center justify-center"
         >
           <Menu className="h-4 w-4" />
@@ -72,7 +72,7 @@ export function Sidebar() {
       <div
         className={cn(
           "fixed z-30 h-full border-r bg-background transition-all duration-300",
-          collapsed ? "w-16" : "w-56",
+          open ? "w-16" : "w-56",
           "md:pt-0"
         )}
         style={{ paddingTop: "4rem" }}
@@ -81,13 +81,13 @@ export function Sidebar() {
           <div 
             className={cn(
               "font-display text-xl font-semibold transition-opacity",
-              collapsed ? "opacity-0" : "opacity-100"
+              open ? "opacity-0" : "opacity-100"
             )}
           >
             {t('app.name')}
           </div>
           <button 
-            onClick={() => setCollapsed(!collapsed)} 
+            onClick={() => setOpen(!open)} 
             className="absolute right-4 top-5 inline-flex h-8 w-8 items-center justify-center md:hidden"
           >
             <Menu className="h-4 w-4" />
@@ -104,12 +104,12 @@ export function Sidebar() {
                   buttonVariants({ variant: "ghost" }),
                   "justify-start px-4 py-2",
                   pathname === route.path && "bg-muted hover:bg-muted",
-                  collapsed && "justify-center px-0"
+                  open && "justify-center px-0"
                 )}
               >
                 {route.icon}
                 <span
-                  className={cn("transition-opacity", collapsed && "opacity-0")}
+                  className={cn("transition-opacity", open && "opacity-0")}
                 >
                   {route.title}
                 </span>
@@ -119,20 +119,20 @@ export function Sidebar() {
         </div>
         <div className="absolute bottom-4 left-0 right-0 mx-auto px-2">
           <button
-            onClick={() => setCollapsed(!collapsed)}
+            onClick={() => setOpen(!open)}
             className={cn(
               buttonVariants({ variant: "ghost" }),
               "h-8 w-full justify-center",
-              collapsed ? "px-0" : "px-4"
+              open ? "px-0" : "px-4"
             )}
           >
             <Menu
-              className={cn("h-4 w-4 transition-transform", collapsed && "rotate-90")}
+              className={cn("h-4 w-4 transition-transform", open && "rotate-90")}
             />
             <span
-              className={cn("ml-2 transition-opacity", collapsed && "opacity-0")}
+              className={cn("ml-2 transition-opacity", open && "opacity-0")}
             >
-              {collapsed ? "Expand" : "Collapse"}
+              {open ? "Expand" : "Collapse"}
             </span>
           </button>
         </div>
