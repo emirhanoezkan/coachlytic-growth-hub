@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Calendar } from "@/components/ui/calendar";
@@ -6,7 +7,7 @@ import { useSessions, useUpdateSession, useDeleteSession } from "@/services/sess
 import { format } from "date-fns";
 import { useTimeFormat } from "@/contexts/TimeFormatContext";
 import { Button } from "@/components/ui/button";
-import { Edit, Trash2, Clock, Calendar as CalendarIcon } from "lucide-react";
+import { Edit, Trash2, Clock, Calendar as CalendarIcon, Info } from "lucide-react";
 import { 
   Dialog, 
   DialogContent, 
@@ -25,6 +26,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 export const SessionDateSelector: React.FC = () => {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
@@ -117,13 +119,13 @@ export const SessionDateSelector: React.FC = () => {
   };
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
       <Card className="lg:col-span-2 overflow-hidden border-border/40 shadow-sm">
-        <CardHeader className="bg-muted/30">
-          <CardTitle>Session Calendar</CardTitle>
+        <CardHeader className="bg-muted/30 pb-3">
+          <CardTitle className="text-xl text-center text-gray-800">Session Calendar</CardTitle>
         </CardHeader>
         <CardContent className="p-4 flex justify-center">
-          <div className="w-full max-w-md">
+          <div className="w-full max-w-sm">
             <Calendar 
               mode="single"
               selected={selectedDate}
@@ -139,9 +141,27 @@ export const SessionDateSelector: React.FC = () => {
 
       <Card className="border-border/40 shadow-sm">
         <CardHeader className="bg-muted/30 pb-2">
-          <CardTitle className="text-lg">
-            {selectedDate ? format(selectedDate, 'MMMM d, yyyy') : "No date selected"}
-          </CardTitle>
+          <div className="flex items-center justify-between">
+            <CardTitle className="text-lg">
+              {selectedDate ? format(selectedDate, 'MMMM d, yyyy') : "No date selected"}
+            </CardTitle>
+            
+            {sessionsForSelectedDate.length > 0 && (
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <div className="flex items-center gap-1 text-xs text-lavender-600 bg-lavender-50 px-2 py-1 rounded-full">
+                      <Info className="h-3 w-3" />
+                      <span>{sessionsForSelectedDate.length} {sessionsForSelectedDate.length === 1 ? 'session' : 'sessions'}</span>
+                    </div>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>You have {sessionsForSelectedDate.length} {sessionsForSelectedDate.length === 1 ? 'session' : 'sessions'} scheduled on this date</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            )}
+          </div>
         </CardHeader>
         <CardContent className="p-4">
           <div className="space-y-3 max-h-[400px] overflow-y-auto pr-1 custom-scrollbar">
@@ -184,6 +204,21 @@ export const SessionDateSelector: React.FC = () => {
                     </Badge>
                     <p className="text-sm mt-2 font-medium">{session.clients?.name || "Client"}</p>
                     <p className="text-xs text-muted-foreground mt-0.5">{session.title}</p>
+                    {session.status && (
+                      <Badge className="mt-2 mr-2 bg-forest-100 text-forest-800 hover:bg-forest-200 font-normal">
+                        {session.status.charAt(0).toUpperCase() + session.status.slice(1)}
+                      </Badge>
+                    )}
+                    {session.location_type && (
+                      <Badge className="mt-2 bg-stone-100 text-stone-800 hover:bg-stone-200 font-normal">
+                        {session.location_type}
+                      </Badge>
+                    )}
+                    {session.notes && (
+                      <p className="text-xs mt-2 p-2 bg-muted/30 rounded-md text-muted-foreground">
+                        {session.notes}
+                      </p>
+                    )}
                   </div>
                 );
               })
