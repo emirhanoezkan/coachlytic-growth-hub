@@ -41,11 +41,11 @@ const Index = () => {
               <DashboardOverview period={period} />
               
               <div className="pt-6">
-                <SessionCalendar />
+                <ClientList />
               </div>
               
               <div className="pt-6">
-                <ClientList />
+                <SessionCalendar />
               </div>
             </div>
           </main>
