@@ -77,7 +77,7 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({ period }) 
         <Card>
           <CardHeader>
             <CardTitle>{t('dashboard.revenue')}</CardTitle>
-            <CardDescription>{t('dashboard.revenueDesc', { period })}</CardDescription>
+            <CardDescription>{t('dashboard.revenueDesc')} {period}</CardDescription>
           </CardHeader>
           <CardContent>
             <RevenueChart period={period} />
@@ -87,7 +87,7 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({ period }) 
         <Card>
           <CardHeader>
             <CardTitle>{t('dashboard.clientRetentionTitle')}</CardTitle>
-            <CardDescription>{t('dashboard.clientRetentionDesc', { period })}</CardDescription>
+            <CardDescription>{t('dashboard.clientRetentionDesc')} {period}</CardDescription>
           </CardHeader>
           <CardContent>
             <ClientRetentionChart period={period} />
@@ -120,4 +120,3 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({ period }) 
     </div>
   );
 };
-
