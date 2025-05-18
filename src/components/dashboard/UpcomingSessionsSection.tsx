@@ -5,7 +5,6 @@ import { Users } from "lucide-react";
 export const UpcomingSessionsSection: React.FC = () => {
   return (
     <div className="space-y-4">
-      <h3 className="text-lg font-medium">Upcoming Sessions</h3>
       {[
         {
           time: "10:00 AM",

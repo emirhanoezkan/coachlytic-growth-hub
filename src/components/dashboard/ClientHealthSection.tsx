@@ -5,7 +5,6 @@ import { Progress } from "@/components/ui/progress";
 export const ClientHealthSection: React.FC = () => {
   return (
     <div className="space-y-4">
-      <h3 className="text-lg font-medium">Client Health</h3>
       {[
         { name: "High Performers", value: 45, color: "bg-forest-500" },
         { name: "On Track", value: 32, color: "bg-forest-300" },

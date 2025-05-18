@@ -86,22 +86,28 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({ period }) 
         <ClientRetentionChart period={period} />
       </div>
 
-      {/* Client Dashboard Card with separated components */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Client Dashboard</CardTitle>
-          <CardDescription>Health scores and upcoming sessions</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* Client Health Section */}
+      {/* Client Dashboard Sections */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <Card>
+          <CardHeader>
+            <CardTitle>Client Health</CardTitle>
+            <CardDescription>Current client status distribution</CardDescription>
+          </CardHeader>
+          <CardContent>
             <ClientHealthSection />
-            
-            {/* Upcoming Sessions Section */}
+          </CardContent>
+        </Card>
+        
+        <Card>
+          <CardHeader>
+            <CardTitle>Upcoming Sessions</CardTitle>
+            <CardDescription>Today's coaching appointments</CardDescription>
+          </CardHeader>
+          <CardContent>
             <UpcomingSessionsSection />
-          </div>
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 };
