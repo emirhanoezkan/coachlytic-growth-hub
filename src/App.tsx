@@ -15,6 +15,7 @@ import SessionsPage from "./pages/sessions/SessionsPage";
 import ProgramsPage from "./pages/programs/ProgramsPage";
 import AnalyticsPage from "./pages/analytics/AnalyticsPage";
 import BillingPage from "./pages/billing/BillingPage";
+import LandingPage from "./pages/LandingPage";
 
 const queryClient = new QueryClient();
 
@@ -27,6 +28,7 @@ const App = () => (
           <Sonner />
           <BrowserRouter>
             <Routes>
+              <Route path="/landing" element={<LandingPage />} />
               <Route path="/auth" element={<AuthPage />} />
               <Route element={<ProtectedRoute />}>
                 <Route path="/" element={<Index />} />

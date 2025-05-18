@@ -10,6 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const Index = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [period, setPeriod] = useState("day");
   
   return (
     <SidebarProvider open={sidebarOpen} setOpen={setSidebarOpen}>
@@ -17,7 +18,7 @@ const Index = () => {
         <Sidebar />
         
         <div className="flex-1 flex flex-col overflow-hidden">
-          <Header title="Dashboard" />
+          <Header />
           
           <main className="flex-1 overflow-auto p-6 bg-slate-50">
             <div className="max-w-7xl mx-auto space-y-8">
@@ -27,7 +28,7 @@ const Index = () => {
                   <p className="text-gray-500 mt-1">Your coaching analytics dashboard</p>
                 </div>
                 <div className="flex gap-3">
-                  <Tabs defaultValue="day" className="w-[230px]">
+                  <Tabs value={period} onValueChange={setPeriod} className="w-[230px]">
                     <TabsList className="grid w-full grid-cols-3">
                       <TabsTrigger value="day">Day</TabsTrigger>
                       <TabsTrigger value="week">Week</TabsTrigger>
@@ -37,7 +38,7 @@ const Index = () => {
                 </div>
               </div>
 
-              <DashboardOverview />
+              <DashboardOverview period={period} />
               
               <div className="pt-6">
                 <SessionCalendar />

@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Bell, Search, Settings, User } from "lucide-react";
+import { Bell, Settings, User } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,33 +11,15 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Input } from "@/components/ui/input";
 import { LanguageSelector } from "./LanguageSelector";
 import { useLanguage } from "@/contexts/LanguageContext";
 
-interface HeaderProps {
-  title?: string;
-}
-
-export const Header = ({ title }: HeaderProps) => {
+export const Header = () => {
   const { t } = useLanguage();
 
   return (
-    <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b bg-background px-4">
+    <header className="sticky top-0 z-30 flex h-14 items-center justify-end border-b bg-background px-4">
       <div className="flex items-center gap-2">
-        {title && (
-          <h1 className="text-xl font-semibold">{t(title.toLowerCase() + '.title') || title}</h1>
-        )}
-      </div>
-      <div className="flex items-center gap-2">
-        <div className="relative hidden md:block">
-          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-          <Input
-            type="search"
-            placeholder={t('app.search')}
-            className="w-64 rounded-full bg-muted pl-8 md:w-80"
-          />
-        </div>
         <LanguageSelector />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -90,4 +72,4 @@ export const Header = ({ title }: HeaderProps) => {
       </div>
     </header>
   );
-};
+}

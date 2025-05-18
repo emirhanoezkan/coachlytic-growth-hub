@@ -19,7 +19,7 @@ const BillingPage = () => {
         <Sidebar />
         
         <div className="flex-1 flex flex-col overflow-hidden">
-          <Header title="Billing" />
+          <Header />
           
           <main className="flex-1 overflow-auto p-6 bg-slate-50">
             <div className="max-w-7xl mx-auto space-y-6">
