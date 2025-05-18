@@ -3,8 +3,22 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
 
-// Sample data for client retention chart
-const data = [
+// Sample data for client retention chart for different periods
+const dailyData = [
+  { name: 'Active Clients', value: 12 },
+  { name: 'Completed', value: 3 },
+  { name: 'Inactive', value: 2 },
+  { name: 'At-Risk', value: 1 },
+];
+
+const weeklyData = [
+  { name: 'Active Clients', value: 15 },
+  { name: 'Completed', value: 4 },
+  { name: 'Inactive', value: 3 },
+  { name: 'At-Risk', value: 2 },
+];
+
+const monthlyData = [
   { name: 'Active Clients', value: 18 },
   { name: 'Completed', value: 5 },
   { name: 'Inactive', value: 3 },
@@ -13,7 +27,18 @@ const data = [
 
 const COLORS = ['#2F5D3E', '#B39BC8', '#A3A3A3', '#FF6B6B'];
 
-export const ClientRetentionChart: React.FC = () => {
+interface ClientRetentionChartProps {
+  period: string;
+}
+
+export const ClientRetentionChart: React.FC<ClientRetentionChartProps> = ({ period }) => {
+  // Select data based on the period
+  const data = period === 'day' 
+    ? dailyData 
+    : period === 'week' 
+      ? weeklyData 
+      : monthlyData;
+      
   return (
     <Card>
       <CardHeader>
