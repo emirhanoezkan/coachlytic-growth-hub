@@ -1,78 +1,43 @@
 
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { useI18n } from "@/contexts/I18nContext";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 
-interface RevenueChartProps {
-  timeFilter?: 'day' | 'week' | 'month' | 'quarter';
-}
+// Sample data for revenue chart
+const data = [
+  { month: 'Jan', revenue: 2400, sessions: 24 },
+  { month: 'Feb', revenue: 2800, sessions: 28 },
+  { month: 'Mar', revenue: 3200, sessions: 35 },
+  { month: 'Apr', revenue: 3600, sessions: 39 },
+  { month: 'May', revenue: 4320, sessions: 45 }
+];
 
-export const RevenueChart: React.FC<RevenueChartProps> = ({ timeFilter = 'month' }) => {
-  const { t } = useI18n();
-  
-  // Sample data based on timeFilter
-  const getChartData = () => {
-    switch(timeFilter) {
-      case 'day':
-        return [
-          { name: '8 AM', revenue: 50 },
-          { name: '10 AM', revenue: 120 },
-          { name: '12 PM', revenue: 80 },
-          { name: '2 PM', revenue: 180 },
-          { name: '4 PM', revenue: 150 },
-          { name: '6 PM', revenue: 100 },
-        ];
-      case 'week':
-        return [
-          { name: 'Mon', revenue: 150 },
-          { name: 'Tue', revenue: 230 },
-          { name: 'Wed', revenue: 180 },
-          { name: 'Thu', revenue: 340 },
-          { name: 'Fri', revenue: 290 },
-          { name: 'Sat', revenue: 120 },
-          { name: 'Sun', revenue: 80 },
-        ];
-      case 'month':
-        return [
-          { name: 'Week 1', revenue: 980 },
-          { name: 'Week 2', revenue: 1200 },
-          { name: 'Week 3', revenue: 850 },
-          { name: 'Week 4', revenue: 1290 },
-        ];
-      case 'quarter':
-        return [
-          { name: 'Jan', revenue: 3800 },
-          { name: 'Feb', revenue: 4200 },
-          { name: 'Mar', revenue: 4800 },
-        ];
-      default:
-        return [
-          { name: 'Week 1', revenue: 980 },
-          { name: 'Week 2', revenue: 1200 },
-          { name: 'Week 3', revenue: 850 },
-          { name: 'Week 4', revenue: 1290 },
-        ];
-    }
-  };
-  
+export const RevenueChart: React.FC = () => {
   return (
-    <Card className="bg-white">
+    <Card>
       <CardHeader>
-        <CardTitle className="text-lg font-medium">{t('monthlyRevenue')}</CardTitle>
+        <CardTitle>Revenue & Sessions</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="h-80">
+        <div className="h-[300px]">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart
-              data={getChartData()}
-              margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+              data={data}
+              margin={{
+                top: 5,
+                right: 30,
+                left: 20,
+                bottom: 5,
+              }}
             >
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip formatter={(value) => [`$${value}`, 'Revenue']} />
-              <Bar dataKey="revenue" fill="#10b981" radius={[4, 4, 0, 0]} />
+              <XAxis dataKey="month" />
+              <YAxis yAxisId="left" orientation="left" stroke="#8884d8" />
+              <YAxis yAxisId="right" orientation="right" stroke="#82ca9d" />
+              <Tooltip />
+              <Legend />
+              <Bar yAxisId="left" dataKey="revenue" name="Revenue ($)" fill="#2F5D3E" />
+              <Bar yAxisId="right" dataKey="sessions" name="Sessions" fill="#B39BC8" />
             </BarChart>
           </ResponsiveContainer>
         </div>

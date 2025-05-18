@@ -25,7 +25,6 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Search, Plus, MoreHorizontal } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { useI18n } from "@/contexts/I18nContext";
 
 const clients = [
   {
@@ -80,22 +79,8 @@ const clients = [
   }
 ];
 
-interface ClientListProps {
-  onAddClient?: () => void;
-  onViewProfile?: (id: number) => void;
-  onScheduleSession?: (id: number) => void;
-  onAddNote?: (name: string) => void;
-}
-
-export const ClientList: React.FC<ClientListProps> = ({
-  onAddClient,
-  onViewProfile,
-  onScheduleSession,
-  onAddNote
-}) => {
-  const { t } = useI18n();
+export const ClientList: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [isFiltersOpen, setIsFiltersOpen] = useState(false);
   
   const filteredClients = clients.filter(client => 
     client.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -103,102 +88,43 @@ export const ClientList: React.FC<ClientListProps> = ({
     client.program.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const handleAction = (action: 'view' | 'schedule' | 'notes', client: typeof clients[0]) => {
-    switch (action) {
-      case 'view':
-        onViewProfile?.(client.id);
-        break;
-      case 'schedule':
-        onScheduleSession?.(client.id);
-        break;
-      case 'notes':
-        onAddNote?.(client.name);
-        break;
-    }
-  };
-
   return (
     <Card>
       <CardHeader>
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
-            <CardTitle>{t('clientDirectory')}</CardTitle>
-            <CardDescription>{t('manageClients')}</CardDescription>
+            <CardTitle>Client Directory</CardTitle>
+            <CardDescription>Manage your coaching clients</CardDescription>
           </div>
           <div className="flex items-center gap-2">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-500" />
               <input
                 type="text"
-                placeholder={`${t('search')} ${t('clients')}`}
+                placeholder="Search clients..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="pl-9 pr-4 py-2 border rounded-md w-full md:w-64 focus:outline-none focus:ring-2 focus:ring-forest-400"
               />
             </div>
-            <Button 
-              variant="outline" 
-              size="sm" 
-              className="flex items-center gap-1"
-              onClick={() => setIsFiltersOpen(!isFiltersOpen)}
-            >
-              {t('filter')}
-            </Button>
-            <Button 
-              className="bg-forest-500 hover:bg-forest-600"
-              onClick={onAddClient}
-            >
+            <Button className="bg-forest-500 hover:bg-forest-600">
               <Plus className="h-4 w-4 mr-2" />
-              {t('addClient')}
+              Add Client
             </Button>
           </div>
         </div>
-        
-        {isFiltersOpen && (
-          <div className="mt-4 p-4 border rounded-md bg-gray-50">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div>
-                <label className="text-sm font-medium block mb-1">Status</label>
-                <select className="w-full rounded-md border p-2">
-                  <option value="">All Statuses</option>
-                  <option value="active">Active</option>
-                  <option value="at-risk">At Risk</option>
-                  <option value="inactive">Inactive</option>
-                </select>
-              </div>
-              <div>
-                <label className="text-sm font-medium block mb-1">Program</label>
-                <select className="w-full rounded-md border p-2">
-                  <option value="">All Programs</option>
-                  <option value="career">Career Development</option>
-                  <option value="business">Business Strategy</option>
-                  <option value="life">Life Coaching</option>
-                </select>
-              </div>
-              <div>
-                <label className="text-sm font-medium block mb-1">Progress</label>
-                <select className="w-full rounded-md border p-2">
-                  <option value="">All Progress Levels</option>
-                  <option value="high">High (75-100%)</option>
-                  <option value="medium">Medium (50-74%)</option>
-                  <option value="low">Low (0-49%)</option>
-                </select>
-              </div>
-            </div>
-          </div>
-        )}
       </CardHeader>
       <CardContent>
         <div className="rounded-md border overflow-hidden">
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>{t('client')}</TableHead>
-                <TableHead>{t('program')}</TableHead>
-                <TableHead>{t('progress')}</TableHead>
-                <TableHead>{t('status')}</TableHead>
-                <TableHead>{t('sessions')}</TableHead>
-                <TableHead>{t('nextSession')}</TableHead>
+                <TableHead>Client</TableHead>
+                <TableHead>Program</TableHead>
+                <TableHead>Progress</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead>Sessions</TableHead>
+                <TableHead>Next Session</TableHead>
                 <TableHead></TableHead>
               </TableRow>
             </TableHeader>
@@ -244,15 +170,9 @@ export const ClientList: React.FC<ClientListProps> = ({
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
-                        <DropdownMenuItem onClick={() => handleAction('view', client)}>
-                          {t('viewProfile')}
-                        </DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => handleAction('schedule', client)}>
-                          {t('scheduleSession')}
-                        </DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => handleAction('notes', client)}>
-                          {t('addNotes')}
-                        </DropdownMenuItem>
+                        <DropdownMenuItem>View Profile</DropdownMenuItem>
+                        <DropdownMenuItem>Schedule Session</DropdownMenuItem>
+                        <DropdownMenuItem>Add Notes</DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </TableCell>

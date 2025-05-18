@@ -1,5 +1,8 @@
 
 import React, { useState } from 'react';
+import { SidebarProvider } from "@/components/ui/sidebar";
+import { Sidebar } from "@/components/layout/Sidebar";
+import { Header } from "@/components/layout/Header";
 import { InvoiceList } from "@/components/billing/InvoiceList";
 import { Button } from "@/components/ui/button";
 import { Plus, Filter } from "lucide-react";
@@ -7,131 +10,62 @@ import { InvoiceForm } from "@/components/billing/InvoiceForm";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DollarSign } from "lucide-react";
-import { useI18n } from "@/contexts/I18nContext";
-import { useToast } from "@/hooks/use-toast";
 
 const BillingPage = () => {
-  const { t, locale } = useI18n();
-  const { toast } = useToast();
   const [isCreateInvoiceOpen, setIsCreateInvoiceOpen] = useState(false);
-  const [isFiltersOpen, setIsFiltersOpen] = useState(false);
-
-  const handleCreateInvoice = () => {
-    setIsCreateInvoiceOpen(true);
-  };
-
-  const handleInvoiceSubmit = () => {
-    toast({
-      title: t('success'),
-      description: t('invoiceCreated'),
-    });
-    setIsCreateInvoiceOpen(false);
-  };
-
-  const handleInvoiceAction = (action: string, id: string) => {
-    toast({
-      title: action,
-      description: `${action} invoice ${id}`,
-    });
-  };
 
   return (
-    <div className="p-6 bg-slate-50">
-      <div className="max-w-7xl mx-auto space-y-6">
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-          <div>
-            <h1 className="text-2xl font-display font-semibold text-gray-900">{t('billingInvoices')}</h1>
-            <p className="text-gray-500 mt-1">{t('manageInvoices')}</p>
-          </div>
-          <div className="flex gap-3">
-            <Button 
-              variant="outline" 
-              size="sm" 
-              className="flex items-center gap-1"
-              onClick={() => setIsFiltersOpen(!isFiltersOpen)}
-            >
-              <Filter className="h-4 w-4" />
-              {t('filter')}
-            </Button>
-            <Button 
-              onClick={handleCreateInvoice} 
-              className="bg-forest-500 hover:bg-forest-600"
-            >
-              <Plus className="h-4 w-4 mr-2" />
-              {t('createInvoice')}
-            </Button>
-          </div>
-        </div>
+    <SidebarProvider>
+      <div className="min-h-screen flex w-full">
+        <Sidebar />
         
-        {isFiltersOpen && (
-          <Card className="p-4">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div>
-                <label className="text-sm font-medium block mb-1">Status</label>
-                <select className="w-full rounded-md border p-2">
-                  <option value="">All Statuses</option>
-                  <option value="paid">Paid</option>
-                  <option value="pending">Pending</option>
-                  <option value="overdue">Overdue</option>
-                </select>
+        <div className="flex-1 flex flex-col overflow-hidden">
+          <Header title="Billing" />
+          
+          <main className="flex-1 overflow-auto p-6 bg-slate-50">
+            <div className="max-w-7xl mx-auto space-y-6">
+              <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <div>
+                  <h1 className="text-2xl font-display font-semibold text-gray-900">Billing & Invoices</h1>
+                  <p className="text-gray-500 mt-1">Manage invoices and track payments</p>
+                </div>
+                <div className="flex gap-3">
+                  <Button variant="outline" size="sm" className="flex items-center gap-1">
+                    <Filter className="h-4 w-4" />
+                    Filter
+                  </Button>
+                  <Button 
+                    onClick={() => setIsCreateInvoiceOpen(true)} 
+                    className="bg-forest-500 hover:bg-forest-600"
+                  >
+                    <Plus className="h-4 w-4 mr-2" />
+                    Create Invoice
+                  </Button>
+                </div>
               </div>
-              <div>
-                <label className="text-sm font-medium block mb-1">Client</label>
-                <select className="w-full rounded-md border p-2">
-                  <option value="">All Clients</option>
-                  <option value="sarah">Sarah Johnson</option>
-                  <option value="michael">Michael Chen</option>
-                  <option value="emma">Emma Davis</option>
-                </select>
+              
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <BillingStatCard title="Total Revenue" value="$36,420" trend={{ value: 12, isPositive: true }} />
+                <BillingStatCard title="Outstanding" value="$5,840" trend={{ value: 8, isPositive: false }} />
+                <BillingStatCard title="Overdue" value="$1,250" trend={{ value: 5, isPositive: false }} />
+                <BillingStatCard title="Paid this month" value="$4,320" trend={{ value: 15, isPositive: true }} />
               </div>
-              <div>
-                <label className="text-sm font-medium block mb-1">Date Range</label>
-                <select className="w-full rounded-md border p-2">
-                  <option value="">All Dates</option>
-                  <option value="this-month">This Month</option>
-                  <option value="last-month">Last Month</option>
-                  <option value="last-3-months">Last 3 Months</option>
-                </select>
-              </div>
+              
+              <InvoiceList />
             </div>
-          </Card>
-        )}
-        
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <BillingStatCard 
-            title={t('totalRevenue')} 
-            value={locale === 'en' ? "$36,420" : "₺1,092,600"} 
-            trend={{ value: 12, isPositive: true }} 
-          />
-          <BillingStatCard 
-            title={t('outstanding')} 
-            value={locale === 'en' ? "$5,840" : "₺175,200"} 
-            trend={{ value: 8, isPositive: false }} 
-          />
-          <BillingStatCard 
-            title={t('overdue')} 
-            value={locale === 'en' ? "$1,250" : "₺37,500"} 
-            trend={{ value: 5, isPositive: false }} 
-          />
-          <BillingStatCard 
-            title={t('paidThisMonth')} 
-            value={locale === 'en' ? "$4,320" : "₺129,600"} 
-            trend={{ value: 15, isPositive: true }} 
-          />
+          </main>
+          
+          <Dialog open={isCreateInvoiceOpen} onOpenChange={setIsCreateInvoiceOpen}>
+            <DialogContent className="sm:max-w-[600px]">
+              <DialogHeader>
+                <DialogTitle>Create New Invoice</DialogTitle>
+              </DialogHeader>
+              <InvoiceForm onSubmit={() => setIsCreateInvoiceOpen(false)} />
+            </DialogContent>
+          </Dialog>
         </div>
-        
-        <InvoiceList onInvoiceAction={handleInvoiceAction} />
       </div>
-      
-      <Dialog open={isCreateInvoiceOpen} onOpenChange={setIsCreateInvoiceOpen}>
-        <DialogContent className="sm:max-w-[600px]">
-          <DialogHeader>
-            <DialogTitle>{t('createInvoice')}</DialogTitle>
-          </DialogHeader>
-          <InvoiceForm onSubmit={handleInvoiceSubmit} />
-        </DialogContent>
-      </Dialog>
-    </div>
+    </SidebarProvider>
   );
 };
 

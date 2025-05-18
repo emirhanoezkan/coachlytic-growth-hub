@@ -10,84 +10,38 @@ import {
 } from "@/components/ui/card";
 import { Users, Calendar, FileText, BarChart } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
-import { useI18n } from "@/contexts/I18nContext";
-import { Button } from "@/components/ui/button";
-import { useToast } from "@/hooks/use-toast";
 
-interface DashboardOverviewProps {
-  timeFilter: "day" | "week" | "month";
-}
-
-export const DashboardOverview: React.FC<DashboardOverviewProps> = ({ timeFilter }) => {
-  const { t } = useI18n();
-  const { toast } = useToast();
-
-  // Sample data based on time filter
-  const getFilteredData = () => {
-    switch (timeFilter) {
-      case 'day':
-        return {
-          activeClients: { value: 15, trend: 25 },
-          sessions: { value: 4, trend: 33 },
-          completion: { value: 82, trend: 3 },
-          revenue: { value: '$580', trend: 15 }
-        };
-      case 'week':
-        return {
-          activeClients: { value: 24, trend: 33 },
-          sessions: { value: 12, trend: 25 },
-          completion: { value: 86, trend: 5 },
-          revenue: { value: '$4,280', trend: 23 }
-        };
-      case 'month':
-        return {
-          activeClients: { value: 32, trend: 42 },
-          sessions: { value: 45, trend: 18 },
-          completion: { value: 84, trend: 2 },
-          revenue: { value: '$15,840', trend: 28 }
-        };
-    }
-  };
-
-  const data = getFilteredData();
-  
-  const handleViewSession = (time: string, client: string) => {
-    toast({
-      title: "Session Details",
-      description: `${time} session with ${client}`,
-    });
-  };
-
+export const DashboardOverview = () => {
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatsCard
-          title={t('activeClients')}
-          value={data.activeClients.value.toString()}
+          title="Active Clients"
+          value="24"
           icon={<Users className="h-4 w-4" />}
-          description={`${t('fromLastMonth')}`}
-          trend={{ value: data.activeClients.trend, isPositive: true }}
+          description="From 18 clients last month"
+          trend={{ value: 33, isPositive: true }}
         />
         <StatsCard
-          title={t('sessionsThisWeek')}
-          value={data.sessions.value.toString()}
+          title="Sessions This Week"
+          value="12"
           icon={<Calendar className="h-4 w-4" />}
-          description={`${data.sessions.trend} ${t('moreLastWeek')}`}
-          trend={{ value: data.sessions.trend, isPositive: true }}
+          description="3 more than last week"
+          trend={{ value: 25, isPositive: true }}
         />
         <StatsCard
-          title={t('programCompletion')}
-          value={`${data.completion.value}%`}
+          title="Program Completion"
+          value="86%"
           icon={<FileText className="h-4 w-4" />}
-          description={t('averageClients')}
-          trend={{ value: data.completion.trend, isPositive: true }}
+          description="Average across all clients"
+          trend={{ value: 5, isPositive: true }}
         />
         <StatsCard
-          title={t('monthlyRevenue')}
-          value={data.revenue.value}
+          title="Monthly Revenue"
+          value="$4,280"
           icon={<BarChart className="h-4 w-4" />}
-          description={`${data.revenue.value} ${t('moreThanLastMonth')}`}
-          trend={{ value: data.revenue.trend, isPositive: true }}
+          description="$820 more than last month"
+          trend={{ value: 23, isPositive: true }}
         />
       </div>
 
@@ -95,20 +49,20 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({ timeFilter
         {/* Client Health Card */}
         <Card>
           <CardHeader>
-            <CardTitle>{t('clientHealth')}</CardTitle>
-            <CardDescription>{t('averageProgress')}</CardDescription>
+            <CardTitle>Client Health</CardTitle>
+            <CardDescription>Average progress score across all clients</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
               {[
-                { name: "highPerformers", value: 45, color: "bg-forest-500" },
-                { name: "onTrack", value: 32, color: "bg-forest-300" },
-                { name: "needsAttention", value: 15, color: "bg-yellow-400" },
-                { name: "atRisk", value: 8, color: "bg-red-500" }
+                { name: "High Performers", value: 45, color: "bg-forest-500" },
+                { name: "On Track", value: 32, color: "bg-forest-300" },
+                { name: "Needs Attention", value: 15, color: "bg-yellow-400" },
+                { name: "At Risk", value: 8, color: "bg-red-500" }
               ].map((item) => (
                 <div key={item.name} className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium">{t(item.name as any)}</span>
+                    <span className="text-sm font-medium">{item.name}</span>
                     <span className="text-sm text-gray-500">{item.value}%</span>
                   </div>
                   <Progress value={item.value} className={item.color} />
@@ -121,13 +75,8 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({ timeFilter
         {/* Upcoming Sessions Card */}
         <Card>
           <CardHeader>
-            <div className="flex items-center justify-between">
-              <div>
-                <CardTitle>{t('upcomingSessions')}</CardTitle>
-                <CardDescription>{t('scheduleToday')}</CardDescription>
-              </div>
-              <Button variant="outline" size="sm">View All</Button>
-            </div>
+            <CardTitle>Upcoming Sessions</CardTitle>
+            <CardDescription>Your schedule for today</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
@@ -157,11 +106,7 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({ timeFilter
                   duration: "60 min"
                 }
               ].map((session, index) => (
-                <div 
-                  key={index} 
-                  className="flex items-center justify-between p-3 rounded-lg bg-gray-50 hover:bg-gray-100 cursor-pointer"
-                  onClick={() => handleViewSession(session.time, session.client)}
-                >
+                <div key={index} className="flex items-center justify-between p-3 rounded-lg bg-gray-50 hover:bg-gray-100">
                   <div className="flex items-center gap-3">
                     <div className="bg-lavender-100 text-lavender-500 p-2 rounded-full">
                       <Users className="h-4 w-4" />
