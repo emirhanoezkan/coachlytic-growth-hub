@@ -1,4 +1,3 @@
-
 import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -217,7 +216,7 @@ export const SessionForm: React.FC<SessionFormProps> = ({ onSubmit, preselectedC
                       <div className="flex items-center justify-center">
                         <Clock className="h-4 w-4 mr-2 opacity-50" />
                         <Input
-                          type={timeFormat === '24h' ? "time" : "time"} 
+                          type="time"
                           onChange={(e) => {
                             const [hours, minutes] = e.target.value.split(":").map(Number);
                             const date = field.value || new Date();

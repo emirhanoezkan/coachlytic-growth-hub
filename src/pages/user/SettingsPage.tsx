@@ -18,6 +18,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useToast } from "@/hooks/use-toast";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Bell, Globe, Lock, Settings, WifiOff } from "lucide-react";
+import { TimeFormatSettings } from "@/components/settings/TimeFormatSettings";
 
 const SettingsPage = () => {
   const { t } = useLanguage();
@@ -172,6 +173,9 @@ const SettingsPage = () => {
                           </Select>
                         </div>
                       </div>
+                      
+                      {/* Time Format Settings */}
+                      <TimeFormatSettings />
                       
                       <div className="flex items-center justify-between">
                         <div>

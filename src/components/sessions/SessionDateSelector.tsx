@@ -5,10 +5,12 @@ import { Calendar } from "@/components/ui/calendar";
 import { Badge } from "@/components/ui/badge";
 import { useSessions } from "@/services/sessionsService";
 import { format } from "date-fns";
+import { useTimeFormat } from "@/contexts/TimeFormatContext";
 
 export const SessionDateSelector: React.FC = () => {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
   const { data: sessions = [] } = useSessions();
+  const { timeFormat, formatTime } = useTimeFormat();
 
   // Extract dates with sessions
   const datesWithSessions = sessions.reduce((acc, session) => {
@@ -99,7 +101,7 @@ export const SessionDateSelector: React.FC = () => {
                 return (
                   <div key={idx} className="border border-gray-200 rounded-lg p-3 hover:bg-gray-50">
                     <div className="flex justify-between">
-                      <p className="font-medium">{format(sessionDate, 'h:mm a')}</p>
+                      <p className="font-medium">{formatTime(sessionDate)}</p>
                       <p className="text-sm text-gray-500">{session.duration} min</p>
                     </div>
                     <p className="text-sm mt-1">{session.clients?.name || "Client"}</p>

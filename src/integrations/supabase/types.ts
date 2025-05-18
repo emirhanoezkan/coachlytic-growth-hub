@@ -126,6 +126,7 @@ export type Database = {
           id: string
           language: string
           last_name: string | null
+          time_format: string
           updated_at: string
         }
         Insert: {
@@ -136,6 +137,7 @@ export type Database = {
           id: string
           language?: string
           last_name?: string | null
+          time_format?: string
           updated_at?: string
         }
         Update: {
@@ -146,6 +148,7 @@ export type Database = {
           id?: string
           language?: string
           last_name?: string | null
+          time_format?: string
           updated_at?: string
         }
         Relationships: []

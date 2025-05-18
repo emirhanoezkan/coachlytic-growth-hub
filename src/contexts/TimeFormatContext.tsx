@@ -20,13 +20,13 @@ export const TimeFormatProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     const loadTimeFormat = async () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (user) {
-        const { data } = await supabase
+        const { data, error } = await supabase
           .from('profiles')
           .select('time_format')
           .eq('id', user.id)
           .single();
         
-        if (data?.time_format) {
+        if (data?.time_format && !error) {
           setTimeFormatState(data.time_format as TimeFormat);
         }
       }
