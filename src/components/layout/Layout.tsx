@@ -26,13 +26,13 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
           <Header />
           
           <main className="flex-1 overflow-auto bg-slate-50">
-            {/* Mobile sidebar toggle that's always visible */}
-            <div className="md:hidden fixed top-4 left-4 z-50">
-              <SidebarTrigger />
-            </div>
-            
             {children}
           </main>
+          
+          {/* Always visible sidebar toggle for mobile */}
+          <div className="md:hidden fixed bottom-4 left-4 z-50 bg-white rounded-full shadow-lg p-2">
+            <SidebarTrigger />
+          </div>
         </div>
       </div>
     </SidebarProvider>

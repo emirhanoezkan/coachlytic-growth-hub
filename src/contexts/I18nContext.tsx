@@ -31,7 +31,7 @@ export const I18nProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setTranslations(newLocale === 'tr' ? trTR : enUS);
   }, []);
 
-  const t = useCallback((key: TranslationKey) => {
+  const t = useCallback((key: TranslationKey): string => {
     return translations[key] || key;
   }, [translations]);
 

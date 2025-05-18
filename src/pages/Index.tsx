@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { DashboardOverview } from "@/components/dashboard/DashboardOverview";
 import { ClientList } from "@/components/clients/ClientList";
 import { SessionCalendar } from "@/components/sessions/SessionCalendar";
@@ -10,6 +10,8 @@ import { SessionForm } from "@/components/sessions/SessionForm";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { CalendarCheck, Users } from "lucide-react";
 
 const Index = () => {
   const { t } = useI18n();
@@ -18,6 +20,13 @@ const Index = () => {
   const [isAddClientDialogOpen, setIsAddClientDialogOpen] = useState(false);
   const [isAddSessionDialogOpen, setIsAddSessionDialogOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [todaySessionsVisible, setTodaySessionsVisible] = useState(false);
+  
+  // Example sessions for demo purposes
+  const todaySessions = [
+    { id: 1, client: "Sarah Johnson", time: "10:00 AM", duration: "60 min", type: "Career Development" },
+    { id: 2, client: "Michael Chen", time: "2:30 PM", duration: "45 min", type: "Business Strategy" }
+  ];
 
   const handleAddClient = () => {
     setIsAddClientDialogOpen(true);
@@ -36,7 +45,7 @@ const Index = () => {
 
   const handleTimeFilterChange = (value: string) => {
     setTimeFilter(value as "day" | "week" | "month");
-    // Here we would update the dashboard data based on the new time filter
+    // Update the dashboard data based on the new time filter
     toast({
       description: `Dashboard view switched to ${value} view`,
     });
@@ -45,10 +54,27 @@ const Index = () => {
   const handleDateSelect = (date: Date | null) => {
     setSelectedDate(date);
     if (date) {
+      setTodaySessionsVisible(true);
       toast({
         description: `Selected ${new Intl.DateTimeFormat().format(date)}`,
       });
     }
+  };
+  
+  const handleSessionSubmit = () => {
+    toast({
+      title: "Success",
+      description: t("sessionScheduled"),
+    });
+    setIsAddSessionDialogOpen(false);
+  };
+  
+  const handleClientSubmit = () => {
+    toast({
+      title: "Success",
+      description: t("clientAdded"),
+    });
+    setIsAddClientDialogOpen(false);
   };
 
   return (
@@ -72,17 +98,79 @@ const Index = () => {
 
         <DashboardOverview timeFilter={timeFilter} />
         
-        <div className="pt-6">
-          <SessionCalendar onDateSelect={handleDateSelect} />
+        <div className="pt-6 grid grid-cols-1 lg:grid-cols-5 gap-6">
+          <div className="lg:col-span-3">
+            <SessionCalendar onDateSelect={handleDateSelect} />
+          </div>
+          
+          <div className="lg:col-span-2">
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <div>
+                  <CardTitle className="text-lg font-medium">{t('todaySessions')}</CardTitle>
+                  <CardDescription>{selectedDate ? new Intl.DateTimeFormat().format(selectedDate) : t('scheduleToday')}</CardDescription>
+                </div>
+                <CalendarCheck className="h-4 w-4 text-forest-500" />
+              </CardHeader>
+              <CardContent>
+                {todaySessionsVisible ? (
+                  <div className="space-y-4">
+                    {todaySessions.map((session) => (
+                      <div key={session.id} className="flex justify-between items-center border-b pb-2">
+                        <div>
+                          <p className="font-medium">{session.client}</p>
+                          <div className="flex items-center text-sm text-gray-500 space-x-1">
+                            <span>{session.time}</span>
+                            <span className="text-gray-400">•</span>
+                            <span>{session.duration}</span>
+                          </div>
+                        </div>
+                        <div>
+                          <Button variant="outline" size="sm">Details</Button>
+                        </div>
+                      </div>
+                    ))}
+                    <Button 
+                      className="w-full bg-forest-500 hover:bg-forest-600 mt-2" 
+                      onClick={handleScheduleSession}
+                    >
+                      {t('addSession')}
+                    </Button>
+                  </div>
+                ) : (
+                  <div className="text-center py-6">
+                    <p className="text-gray-500 mb-4">{t('selectDateMessage')}</p>
+                    <Button 
+                      variant="outline" 
+                      onClick={() => handleDateSelect(new Date())}
+                    >
+                      {t('viewToday')}
+                    </Button>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </div>
         </div>
         
         <div className="pt-6">
-          <ClientList 
-            onAddClient={handleAddClient}
-            onViewProfile={(id) => toast({ description: `Viewing client ${id} profile` })}
-            onScheduleSession={handleScheduleSession}
-            onAddNote={handleAddNote}
-          />
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <div>
+                <CardTitle className="text-xl font-medium">{t('clientDirectory')}</CardTitle>
+                <CardDescription>{t('manageClients')}</CardDescription>
+              </div>
+              <Users className="h-5 w-5 text-forest-500" />
+            </CardHeader>
+            <CardContent>
+              <ClientList 
+                onAddClient={handleAddClient}
+                onViewProfile={(id) => toast({ description: `Viewing client ${id} profile` })}
+                onScheduleSession={handleScheduleSession}
+                onAddNote={handleAddNote}
+              />
+            </CardContent>
+          </Card>
         </div>
       </div>
 
@@ -92,7 +180,7 @@ const Index = () => {
           <DialogHeader>
             <DialogTitle>{t('addClient')}</DialogTitle>
           </DialogHeader>
-          <ClientForm onSubmit={() => setIsAddClientDialogOpen(false)} />
+          <ClientForm onSubmit={handleClientSubmit} />
         </DialogContent>
       </Dialog>
 
@@ -100,10 +188,10 @@ const Index = () => {
       <Dialog open={isAddSessionDialogOpen} onOpenChange={setIsAddSessionDialogOpen}>
         <DialogContent className="sm:max-w-[500px]">
           <DialogHeader>
-            <DialogTitle>Schedule New Session</DialogTitle>
+            <DialogTitle>{t('scheduleSession')}</DialogTitle>
           </DialogHeader>
           <SessionForm 
-            onSubmit={() => setIsAddSessionDialogOpen(false)} 
+            onSubmit={handleSessionSubmit}
             initialData={selectedDate ? { date: selectedDate } : undefined} 
           />
         </DialogContent>

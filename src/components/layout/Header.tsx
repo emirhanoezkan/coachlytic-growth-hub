@@ -11,10 +11,9 @@ import {
   DropdownMenuTrigger,
   DropdownMenuCheckboxItem,
 } from "@/components/ui/dropdown-menu";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useI18n } from "@/contexts/I18nContext";
 import { useToast } from "@/hooks/use-toast";
-import { enUS } from "@/i18n/en-US"; // Import enUS for type safety
 
 interface HeaderProps {
   title?: string;
@@ -55,6 +54,7 @@ const sampleNotifications: NotificationType[] = [
 export const Header: React.FC<HeaderProps> = ({ title }) => {
   const { t, locale, changeLocale } = useI18n();
   const { toast } = useToast();
+  const navigate = useNavigate();
   const [notifications, setNotifications] = useState<NotificationType[]>(sampleNotifications);
   const [searchValue, setSearchValue] = useState("");
 
@@ -65,8 +65,10 @@ export const Header: React.FC<HeaderProps> = ({ title }) => {
     if (searchValue.trim()) {
       toast({
         title: t('search'),
-        description: `Searching for "${searchValue}"...`,
+        description: `${t('searching')}: "${searchValue}"`,
       });
+      // In a real app, this would trigger a global search across entities
+      console.log(`Searching for: ${searchValue}`);
     }
   };
 
@@ -74,14 +76,26 @@ export const Header: React.FC<HeaderProps> = ({ title }) => {
     setNotifications(notifications.map(notification => 
       notification.id === id ? { ...notification, read: true } : notification
     ));
+    
+    // In a real app, this would update the read status in the database
+    toast({
+      description: "Notification marked as read",
+    });
   };
 
   const markAllAsRead = () => {
     setNotifications(notifications.map(notification => ({ ...notification, read: true })));
     toast({
-      title: t('success'),
       description: "All notifications marked as read",
     });
+  };
+  
+  const handleLogout = () => {
+    toast({
+      title: t('logout'),
+      description: t('loggedOut'),
+    });
+    navigate('/landing');
   };
 
   return (
@@ -152,13 +166,13 @@ export const Header: React.FC<HeaderProps> = ({ title }) => {
                   onClick={markAllAsRead}
                   className="text-xs h-7"
                 >
-                  Mark all as read
+                  {t('markAllRead')}
                 </Button>
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
               {notifications.length === 0 ? (
                 <div className="py-4 px-3 text-center text-gray-500">
-                  No notifications
+                  {t('noNotifications')}
                 </div>
               ) : (
                 notifications.map(notification => (
@@ -194,8 +208,8 @@ export const Header: React.FC<HeaderProps> = ({ title }) => {
                 <Link to="/settings">{t('settings')}</Link>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem asChild>
-                <Link to="/landing">{t('logout')}</Link>
+              <DropdownMenuItem onClick={handleLogout}>
+                {t('logout')}
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

@@ -5,7 +5,7 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContaine
 import { useI18n } from "@/contexts/I18nContext";
 
 interface RevenueChartProps {
-  timeFilter?: string;
+  timeFilter?: 'day' | 'week' | 'month' | 'quarter';
 }
 
 export const RevenueChart: React.FC<RevenueChartProps> = ({ timeFilter = 'month' }) => {
@@ -14,6 +14,15 @@ export const RevenueChart: React.FC<RevenueChartProps> = ({ timeFilter = 'month'
   // Sample data based on timeFilter
   const getChartData = () => {
     switch(timeFilter) {
+      case 'day':
+        return [
+          { name: '8 AM', revenue: 50 },
+          { name: '10 AM', revenue: 120 },
+          { name: '12 PM', revenue: 80 },
+          { name: '2 PM', revenue: 180 },
+          { name: '4 PM', revenue: 150 },
+          { name: '6 PM', revenue: 100 },
+        ];
       case 'week':
         return [
           { name: 'Mon', revenue: 150 },

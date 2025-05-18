@@ -170,7 +170,7 @@ export const trTR = {
   enterpriseDesc: "Kurulmuş koçluk işletmeleri için",
   perMonth: "/ay kullanıcı başına",
   contactUs: "İletişime Geçin",
-  free: "Ücretsiz", // Added missing translation key
+  free: "Ücretsiz",
   
   // Misc
   success: "Başarılı",
@@ -180,4 +180,8 @@ export const trTR = {
   sessionScheduled: "Seans başarıyla planlandı.",
   invoiceCreated: "Fatura başarıyla oluşturuldu.",
   settingsSaved: "Ayarlar başarıyla kaydedildi.",
+  loggedOut: "Başarıyla çıkış yaptınız.",
+  searching: "Aranıyor",
+  noNotifications: "Bildirim yok",
+  markAllRead: "Tümünü okundu olarak işaretle",
 };

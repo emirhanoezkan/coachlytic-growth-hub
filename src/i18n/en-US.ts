@@ -170,7 +170,7 @@ export const enUS = {
   enterpriseDesc: "For established coaching businesses",
   perMonth: "/month per user",
   contactUs: "Contact Us",
-  free: "Free", // Added missing translation key
+  free: "Free",
   
   // Misc
   success: "Success",
@@ -180,4 +180,8 @@ export const enUS = {
   sessionScheduled: "Session has been successfully scheduled.",
   invoiceCreated: "Invoice has been successfully created.",
   settingsSaved: "Settings have been successfully saved.",
+  loggedOut: "You have been logged out successfully.",
+  searching: "Searching for",
+  noNotifications: "No notifications",
+  markAllRead: "Mark all as read",
 };
