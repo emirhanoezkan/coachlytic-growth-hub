@@ -19,6 +19,12 @@ const buttonVariants = cva(
           "bg-secondary text-secondary-foreground hover:bg-secondary/80 active:scale-[0.98]",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
+        // Added new energetic variant
+        energetic: 
+          "bg-gradient-to-r from-ocean-500 to-vivid-500 text-white hover:shadow-md hover:from-ocean-600 hover:to-vivid-600 active:scale-[0.98]",
+        // Added new subtle energetic variant
+        subtle: 
+          "bg-magenta-50 text-magenta-700 hover:bg-magenta-100 active:scale-[0.98]",
       },
       size: {
         default: "h-10 px-4 py-2",

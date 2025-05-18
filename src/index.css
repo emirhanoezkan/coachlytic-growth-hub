@@ -16,16 +16,19 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 140 33% 27%;
+    /* Updating to a more energetic blue color */
+    --primary: 200 93% 48%;
     --primary-foreground: 210 40% 98%;
 
-    --secondary: 267 32% 70%;
+    /* Updated to vibrant purple */
+    --secondary: 270 92% 67%;
     --secondary-foreground: 222.2 47.4% 11.2%;
 
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
 
-    --accent: 267 32% 70%;
+    /* Updated to vibrant purple */
+    --accent: 270 92% 67%;
     --accent-foreground: 222.2 47.4% 11.2%;
 
     --destructive: 0 84.2% 60.2%;
@@ -33,18 +36,19 @@
 
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 140 33% 27%;
+    --ring: 200 93% 48%;
 
     --radius: 0.5rem;
 
+    /* Sidebar now matches the more energetic theme */
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 140 33% 27%;
+    --sidebar-primary: 200 93% 48%;
     --sidebar-primary-foreground: 0 0% 98%;
     --sidebar-accent: 240 4.8% 95.9%;
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 140 33% 27%;
+    --sidebar-ring: 200 93% 48%;
   }
 
   .dark {
@@ -57,16 +61,19 @@
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 140 33% 55%;
+    /* Updated to bright blue in dark mode */
+    --primary: 199 89% 48%;
     --primary-foreground: 222.2 47.4% 11.2%;
 
-    --secondary: 267 32% 70%;
+    /* Updated to magenta pink for secondary in dark mode */
+    --secondary: 291 84% 61%;
     --secondary-foreground: 210 40% 98%;
 
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
 
-    --accent: 267 32% 50%;
+    /* Updated to magenta pink for accent in dark mode */
+    --accent: 291 84% 61%;
     --accent-foreground: 210 40% 98%;
 
     --destructive: 0 62.8% 30.6%;
@@ -74,16 +81,17 @@
 
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
-    --ring: 140 33% 55%;
+    --ring: 199 89% 48%;
     
+    /* Updated sidebar colors for dark mode */
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 140 33% 55%;
+    --sidebar-primary: 199 89% 48%;
     --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 240 3.7% 15.9%;
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 140 33% 55%;
+    --sidebar-ring: 199 89% 48%;
   }
 }
 
@@ -104,7 +112,7 @@
 @layer utilities {
   .custom-scrollbar {
     scrollbar-width: thin;
-    scrollbar-color: theme('colors.gray.300') theme('colors.gray.100');
+    scrollbar-color: theme('colors.ocean.300') theme('colors.gray.100');
   }
   
   .custom-scrollbar::-webkit-scrollbar {
@@ -118,12 +126,12 @@
   }
   
   .custom-scrollbar::-webkit-scrollbar-thumb {
-    background: theme('colors.gray.300');
+    background: theme('colors.ocean.300');
     border-radius: 3px;
   }
   
   .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: theme('colors.gray.400');
+    background: theme('colors.ocean.400');
   }
   
   .text-balance {
@@ -163,8 +171,9 @@
   }
 }
 
+/* Updated to use the new color palette */
 .progress-gradient {
-  background: linear-gradient(90deg, #2F5D3E 0%, #B39BC8 100%);
+  background: linear-gradient(90deg, #0EA5E9 0%, #D946EF 100%);
 }
 
 /* Card hover effects */
