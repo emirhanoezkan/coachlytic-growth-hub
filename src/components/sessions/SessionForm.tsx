@@ -1,4 +1,5 @@
-import React from "react";
+
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -25,7 +26,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { cn } from "@/lib/utils";
 import { CalendarIcon, Clock } from "lucide-react";
 import { format } from "date-fns";
-import { useAddSession, SessionFormData } from "@/services/sessionsService";
+import { useAddSession, useUpdateSession, SessionFormData, Session } from "@/services/sessionsService";
 import { useClients } from "@/services/clientsService";
 import { usePrograms } from "@/services/programsService";
 import { useTimeFormat } from "@/contexts/TimeFormatContext";
@@ -40,17 +41,27 @@ const formSchema = z.object({
   duration: z.coerce.number().min(15, "Duration must be at least 15 minutes"),
   location_type: z.string().min(1, "Location type is required"),
   notes: z.string().optional(),
+  status: z.string().optional(),
 });
 
+// Update the interface to include sessionToEdit and isEditing
 interface SessionFormProps {
   onSubmit: () => void;
   preselectedClientId?: string;
+  sessionToEdit?: Session & { clients: { name: string } };
+  isEditing?: boolean;
 }
 
-export const SessionForm: React.FC<SessionFormProps> = ({ onSubmit, preselectedClientId }) => {
+export const SessionForm: React.FC<SessionFormProps> = ({ 
+  onSubmit, 
+  preselectedClientId,
+  sessionToEdit,
+  isEditing = false
+}) => {
   const { data: clients = [] } = useClients();
   const { data: programs = [] } = usePrograms();
   const addSession = useAddSession();
+  const updateSession = useUpdateSession();
   const { timeFormat } = useTimeFormat();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -62,30 +73,76 @@ export const SessionForm: React.FC<SessionFormProps> = ({ onSubmit, preselectedC
       location_type: "online",
       duration: 60,
       notes: "",
+      status: "scheduled",
     },
   });
 
-  const handleSubmit = (values: z.infer<typeof formSchema>) => {
-    // Ensure client_id is always provided
-    const sessionData: SessionFormData = {
-      client_id: preselectedClientId || values.client_id,
-      title: values.title,
-      date: values.date.toISOString(),
-      duration: values.duration,
-      location_type: values.location_type,
-      notes: values.notes,
-    };
-    
-    // Only add program_id if it's not "none"
-    if (values.program_id && values.program_id !== "none") {
-      sessionData.program_id = values.program_id;
+  // Populate form with session data when editing
+  useEffect(() => {
+    if (sessionToEdit && isEditing) {
+      const sessionDate = new Date(sessionToEdit.date);
+      form.reset({
+        client_id: sessionToEdit.client_id,
+        program_id: sessionToEdit.program_id || "none",
+        title: sessionToEdit.title,
+        date: sessionDate,
+        duration: sessionToEdit.duration,
+        location_type: sessionToEdit.location_type,
+        notes: sessionToEdit.notes || "",
+        status: sessionToEdit.status,
+      });
     }
+  }, [sessionToEdit, isEditing, form]);
 
-    addSession.mutate(sessionData, {
-      onSuccess: () => {
-        onSubmit();
+  const handleSubmit = (values: z.infer<typeof formSchema>) => {
+    // If editing, update the session
+    if (isEditing && sessionToEdit) {
+      const sessionData: Partial<SessionFormData> = {
+        client_id: preselectedClientId || values.client_id,
+        title: values.title,
+        date: values.date.toISOString(),
+        duration: values.duration,
+        location_type: values.location_type,
+        notes: values.notes,
+        status: values.status,
+      };
+      
+      // Only add program_id if it's not "none"
+      if (values.program_id && values.program_id !== "none") {
+        sessionData.program_id = values.program_id;
       }
-    });
+
+      updateSession.mutate({
+        id: sessionToEdit.id,
+        sessionData
+      }, {
+        onSuccess: () => {
+          onSubmit();
+        }
+      });
+    } else {
+      // Add a new session
+      const sessionData: SessionFormData = {
+        client_id: preselectedClientId || values.client_id,
+        title: values.title,
+        date: values.date.toISOString(),
+        duration: values.duration,
+        location_type: values.location_type,
+        notes: values.notes,
+        status: values.status,
+      };
+      
+      // Only add program_id if it's not "none"
+      if (values.program_id && values.program_id !== "none") {
+        sessionData.program_id = values.program_id;
+      }
+
+      addSession.mutate(sessionData, {
+        onSuccess: () => {
+          onSubmit();
+        }
+      });
+    }
   };
 
   return (
@@ -278,6 +335,35 @@ export const SessionForm: React.FC<SessionFormProps> = ({ onSubmit, preselectedC
           )}
         />
 
+        {isEditing && (
+          <FormField
+            control={form.control}
+            name="status"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Status</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                  value={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select session status" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="scheduled">Scheduled</SelectItem>
+                    <SelectItem value="completed">Completed</SelectItem>
+                    <SelectItem value="cancelled">Cancelled</SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        )}
+
         <FormField
           control={form.control}
           name="notes"
@@ -299,10 +385,12 @@ export const SessionForm: React.FC<SessionFormProps> = ({ onSubmit, preselectedC
         <div className="flex justify-end gap-2">
           <Button 
             type="submit" 
-            disabled={addSession.isPending} 
+            disabled={addSession.isPending || updateSession.isPending} 
             className="bg-forest-500 hover:bg-forest-600"
           >
-            {addSession.isPending ? "Scheduling..." : "Schedule Session"}
+            {isEditing 
+              ? (updateSession.isPending ? "Updating..." : "Update Session")
+              : (addSession.isPending ? "Scheduling..." : "Schedule Session")}
           </Button>
         </div>
       </form>
