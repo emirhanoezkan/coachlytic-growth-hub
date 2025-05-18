@@ -1,97 +1,96 @@
-
-import React from 'react';
+import React from "react";
 import { StatsCard } from "@/components/ui/StatsCard";
-import { 
-  Card, 
-  CardContent, 
-  CardDescription, 
-  CardHeader, 
-  CardTitle 
-} from "@/components/ui/card";
-import { Users, Calendar, FileText, BarChart } from "lucide-react";
 import { ClientRetentionChart } from "@/components/analytics/ClientRetentionChart";
 import { RevenueChart } from "@/components/analytics/RevenueChart";
-import { ClientList } from "@/components/clients/ClientList";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ClientHealthSection } from "@/components/dashboard/ClientHealthSection";
 import { UpcomingSessionsSection } from "@/components/dashboard/UpcomingSessionsSection";
+import { Users, Wallet, ArrowUp, ArrowDown, User } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface DashboardOverviewProps {
   period: string;
 }
 
 export const DashboardOverview: React.FC<DashboardOverviewProps> = ({ period }) => {
-  // Data based on period
-  const statsData = {
-    day: {
-      clients: { value: "18", trend: 15, description: "2 new today" },
-      sessions: { value: "5", trend: 25, description: "1 more than yesterday" },
-      completion: { value: "82%", trend: 3, description: "Daily completion rate" },
-      revenue: { value: "$850", trend: 12, description: "$90 more than yesterday" }
+  const { t } = useLanguage();
+  
+  const stats = [
+    {
+      title: "Total Revenue",
+      value: "$45,000",
+      icon: Wallet,
+      change: "+12%",
+      changeType: "increase",
     },
-    week: {
-      clients: { value: "21", trend: 20, description: "4 new this week" },
-      sessions: { value: "12", trend: 18, description: "3 more than last week" },
-      completion: { value: "84%", trend: 4, description: "Weekly completion rate" },
-      revenue: { value: "$3,250", trend: 15, description: "$430 more than last week" }
+    {
+      title: "New Clients",
+      value: "235",
+      icon: Users,
+      change: "+9%",
+      changeType: "increase",
     },
-    month: {
-      clients: { value: "24", trend: 33, description: "From 18 clients last month" },
-      sessions: { value: "45", trend: 28, description: "12 more than last month" },
-      completion: { value: "86%", trend: 5, description: "Monthly completion rate" },
-      revenue: { value: "$4,280", trend: 23, description: "$820 more than last month" }
-    }
-  };
-
-  const data = statsData[period as keyof typeof statsData] || statsData.month;
+    {
+      title: "Client Retention",
+      value: "85%",
+      icon: User,
+      change: "-3%",
+      changeType: "decrease",
+    },
+    {
+      title: "Avg. Session Time",
+      value: "52 min",
+      icon: Users,
+      change: "+5%",
+      changeType: "increase",
+    },
+  ];
 
   return (
-    <div className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <StatsCard
-          title="Active Clients"
-          value={data.clients.value}
-          icon={<Users className="h-4 w-4" />}
-          description={data.clients.description}
-          trend={{ value: data.clients.trend, isPositive: true }}
-        />
-        <StatsCard
-          title="Sessions This Period"
-          value={data.sessions.value}
-          icon={<Calendar className="h-4 w-4" />}
-          description={data.sessions.description}
-          trend={{ value: data.sessions.trend, isPositive: true }}
-        />
-        <StatsCard
-          title="Program Completion"
-          value={data.completion.value}
-          icon={<FileText className="h-4 w-4" />}
-          description={data.completion.description}
-          trend={{ value: data.completion.trend, isPositive: true }}
-        />
-        <StatsCard
-          title={`${period === 'day' ? 'Daily' : period === 'week' ? 'Weekly' : 'Monthly'} Revenue`}
-          value={data.revenue.value}
-          icon={<BarChart className="h-4 w-4" />}
-          description={data.revenue.description}
-          trend={{ value: data.revenue.trend, isPositive: true }}
-        />
+    <div className="space-y-8">
+      {/* Stats Row */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {stats.map((stat) => (
+          <StatsCard
+            key={stat.title}
+            title={stat.title}
+            value={stat.value}
+            icon={stat.icon}
+            change={stat.change}
+            changeType={stat.changeType}
+          />
+        ))}
       </div>
 
-      <div className="pt-4">
-        <ClientList />
-      </div>
+      {/* Revenue and Retention Charts */}
+      <div className="grid gap-4 grid-cols-1 lg:grid-cols-2">
+        <Card>
+          <CardHeader>
+            <CardTitle>Revenue</CardTitle>
+            <CardDescription>Revenue generated this {period}</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <RevenueChart period={period} />
+          </CardContent>
+        </Card>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <RevenueChart period={period} />
-        <ClientRetentionChart period={period} />
+        <Card>
+          <CardHeader>
+            <CardTitle>Client Retention</CardTitle>
+            <CardDescription>Client retention rate this {period}</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <ClientRetentionChart period={period} />
+          </CardContent>
+        </Card>
       </div>
 
       {/* Client Dashboard Sections */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card>
           <CardHeader>
-            <CardTitle>Client Health</CardTitle>
-            <CardDescription>Current client status distribution</CardDescription>
+            <CardTitle>{t('dashboard.clientHealth')}</CardTitle>
+            <CardDescription>{t('dashboard.clientStatus')}</CardDescription>
           </CardHeader>
           <CardContent>
             <ClientHealthSection />
@@ -100,8 +99,8 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({ period }) 
         
         <Card>
           <CardHeader>
-            <CardTitle>Upcoming Sessions</CardTitle>
-            <CardDescription>Today's coaching appointments</CardDescription>
+            <CardTitle>{t('dashboard.upcomingSessions')}</CardTitle>
+            <CardDescription>{t('dashboard.todayAppointments')}</CardDescription>
           </CardHeader>
           <CardContent>
             <UpcomingSessionsSection />

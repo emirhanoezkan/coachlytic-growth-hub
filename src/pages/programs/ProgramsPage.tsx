@@ -8,10 +8,12 @@ import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { ProgramForm } from "@/components/programs/ProgramForm";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const ProgramsPage = () => {
   const [isAddProgramDialogOpen, setIsAddProgramDialogOpen] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { t } = useLanguage();
 
   return (
     <SidebarProvider open={sidebarOpen} setOpen={setSidebarOpen}>
@@ -25,8 +27,8 @@ const ProgramsPage = () => {
             <div className="max-w-7xl mx-auto space-y-6">
               <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                 <div>
-                  <h1 className="text-2xl font-display font-semibold text-gray-900">Coaching Programs</h1>
-                  <p className="text-gray-500 mt-1">Manage your coaching packages and programs</p>
+                  <h1 className="text-2xl font-display font-semibold text-gray-900">{t('programs.title')}</h1>
+                  <p className="text-gray-500 mt-1">{t('programs.subtitle')}</p>
                 </div>
                 <div>
                   <Button 
@@ -34,7 +36,7 @@ const ProgramsPage = () => {
                     className="bg-forest-500 hover:bg-forest-600"
                   >
                     <Plus className="h-4 w-4 mr-2" />
-                    Create Program
+                    {t('programs.create')}
                   </Button>
                 </div>
               </div>
@@ -46,7 +48,7 @@ const ProgramsPage = () => {
           <Dialog open={isAddProgramDialogOpen} onOpenChange={setIsAddProgramDialogOpen}>
             <DialogContent className="sm:max-w-[500px]">
               <DialogHeader>
-                <DialogTitle>Create New Program</DialogTitle>
+                <DialogTitle>{t('programs.new')}</DialogTitle>
               </DialogHeader>
               <ProgramForm onSubmit={() => setIsAddProgramDialogOpen(false)} />
             </DialogContent>

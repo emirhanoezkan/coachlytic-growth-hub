@@ -18,7 +18,6 @@ import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { User } from "lucide-react";
 
 const ProfilePage = () => {
   const { t } = useLanguage();
@@ -53,8 +52,8 @@ const ProfilePage = () => {
           <main className="flex-1 overflow-auto p-6 bg-slate-50">
             <div className="max-w-4xl mx-auto space-y-6">
               <div>
-                <h1 className="text-2xl font-display font-semibold text-gray-900">My Profile</h1>
-                <p className="text-gray-500 mt-1">Manage your account information</p>
+                <h1 className="text-2xl font-display font-semibold text-gray-900">{t('profile.title')}</h1>
+                <p className="text-gray-500 mt-1">{t('profile.subtitle')}</p>
               </div>
               
               <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
@@ -69,20 +68,20 @@ const ProfilePage = () => {
                       <h3 className="font-medium">{profile.firstName} {profile.lastName}</h3>
                       <p className="text-sm text-gray-500">{profile.email}</p>
                     </div>
-                    <Button variant="outline" className="w-full">Change Photo</Button>
+                    <Button variant="outline" className="w-full">{t('profile.changePhoto')}</Button>
                   </CardContent>
                 </Card>
                 
                 <Card className="md:col-span-3">
                   <CardHeader>
-                    <CardTitle>Personal Information</CardTitle>
-                    <CardDescription>Update your personal details</CardDescription>
+                    <CardTitle>{t('profile.personal')}</CardTitle>
+                    <CardDescription>{t('profile.update')}</CardDescription>
                   </CardHeader>
                   <CardContent>
                     <form onSubmit={handleSubmit} className="space-y-6">
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="space-y-2">
-                          <Label htmlFor="firstName">First name</Label>
+                          <Label htmlFor="firstName">{t('profile.firstName')}</Label>
                           <Input 
                             id="firstName"
                             value={profile.firstName}
@@ -90,7 +89,7 @@ const ProfilePage = () => {
                           />
                         </div>
                         <div className="space-y-2">
-                          <Label htmlFor="lastName">Last name</Label>
+                          <Label htmlFor="lastName">{t('profile.lastName')}</Label>
                           <Input 
                             id="lastName"
                             value={profile.lastName}
@@ -100,7 +99,7 @@ const ProfilePage = () => {
                       </div>
                       
                       <div className="space-y-2">
-                        <Label htmlFor="email">Email address</Label>
+                        <Label htmlFor="email">{t('profile.email')}</Label>
                         <Input 
                           id="email" 
                           type="email"
@@ -112,7 +111,7 @@ const ProfilePage = () => {
                       <Separator />
                       
                       <div className="space-y-2">
-                        <Label htmlFor="company">Company name</Label>
+                        <Label htmlFor="company">{t('profile.company')}</Label>
                         <Input 
                           id="company"
                           value={profile.company}
@@ -121,7 +120,7 @@ const ProfilePage = () => {
                       </div>
                       
                       <div className="space-y-2">
-                        <Label htmlFor="phone">Phone number</Label>
+                        <Label htmlFor="phone">{t('profile.phone')}</Label>
                         <Input 
                           id="phone"
                           value={profile.phone}
@@ -131,7 +130,7 @@ const ProfilePage = () => {
                       
                       <div className="flex justify-end">
                         <Button type="submit" className="bg-forest-500 hover:bg-forest-600">
-                          Save Changes
+                          {t('profile.save')}
                         </Button>
                       </div>
                     </form>

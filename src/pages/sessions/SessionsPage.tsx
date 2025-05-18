@@ -10,11 +10,13 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { SessionForm } from "@/components/sessions/SessionForm";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { SessionList } from "@/components/sessions/SessionList";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const SessionsPage = () => {
   const [isAddSessionDialogOpen, setIsAddSessionDialogOpen] = useState(false);
   const [view, setView] = useState("calendar");
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { t } = useLanguage();
 
   return (
     <SidebarProvider open={sidebarOpen} setOpen={setSidebarOpen}>
@@ -28,19 +30,19 @@ const SessionsPage = () => {
             <div className="max-w-7xl mx-auto space-y-6">
               <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                 <div>
-                  <h1 className="text-2xl font-display font-semibold text-gray-900">Session Management</h1>
-                  <p className="text-gray-500 mt-1">Schedule and manage your coaching sessions</p>
+                  <h1 className="text-2xl font-display font-semibold text-gray-900">{t('sessions.title')}</h1>
+                  <p className="text-gray-500 mt-1">{t('sessions.subtitle')}</p>
                 </div>
                 <div className="flex gap-3">
                   <Tabs value={view} onValueChange={setView} className="w-[200px]">
                     <TabsList>
                       <TabsTrigger value="calendar" className="flex items-center gap-1">
                         <CalendarDays className="h-4 w-4" />
-                        Calendar
+                        {t('sessions.calendar')}
                       </TabsTrigger>
                       <TabsTrigger value="list" className="flex items-center gap-1">
                         <List className="h-4 w-4" />
-                        List
+                        {t('sessions.list')}
                       </TabsTrigger>
                     </TabsList>
                   </Tabs>
@@ -49,7 +51,7 @@ const SessionsPage = () => {
                     className="bg-forest-500 hover:bg-forest-600"
                   >
                     <Plus className="h-4 w-4 mr-2" />
-                    Add Session
+                    {t('sessions.add')}
                   </Button>
                 </div>
               </div>
@@ -68,8 +70,8 @@ const SessionsPage = () => {
           <Dialog open={isAddSessionDialogOpen} onOpenChange={setIsAddSessionDialogOpen}>
             <DialogContent className="sm:max-w-[500px]">
               <DialogHeader>
-                <DialogTitle>Schedule New Session</DialogTitle>
-                <DialogDescription>Create a new coaching session with a client</DialogDescription>
+                <DialogTitle>{t('sessions.new')}</DialogTitle>
+                <DialogDescription>{t('sessions.createDesc')}</DialogDescription>
               </DialogHeader>
               <SessionForm onSubmit={() => setIsAddSessionDialogOpen(false)} />
             </DialogContent>

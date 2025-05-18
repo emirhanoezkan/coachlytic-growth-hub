@@ -6,10 +6,12 @@ import { Header } from "@/components/layout/Header";
 import { DashboardOverview } from "@/components/dashboard/DashboardOverview";
 import { SessionDateSelector } from "@/components/sessions/SessionDateSelector";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const Index = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [period, setPeriod] = useState("day");
+  const { t } = useLanguage();
   
   return (
     <SidebarProvider open={sidebarOpen} setOpen={setSidebarOpen}>
@@ -23,8 +25,8 @@ const Index = () => {
             <div className="max-w-7xl mx-auto space-y-8">
               <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                 <div>
-                  <h1 className="text-3xl font-display font-semibold text-gray-900">Welcome to Coachlytic</h1>
-                  <p className="text-gray-500 mt-1">Your coaching analytics dashboard</p>
+                  <h1 className="text-3xl font-display font-semibold text-gray-900">{t('dashboard.welcomeTitle')}</h1>
+                  <p className="text-gray-500 mt-1">{t('dashboard.welcomeSubtitle')}</p>
                 </div>
                 <div className="flex gap-3">
                   <Tabs value={period} onValueChange={setPeriod} className="w-[230px]">
