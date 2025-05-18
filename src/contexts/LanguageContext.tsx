@@ -1,3 +1,4 @@
+
 import React, { createContext, useContext, useState } from "react";
 
 type LanguageContextType = {
@@ -18,6 +19,7 @@ const translations: Record<string, Record<string, string>> = {
     "app.documents": "Documents",
     "app.profile": "Profile",
     "app.settings": "Settings",
+    "app.language": "Language",
     "auth.signin": "Sign In",
     "auth.signup": "Sign Up",
     "auth.email": "Email",
@@ -40,6 +42,7 @@ const translations: Record<string, Record<string, string>> = {
     "app.documents": "Documentos",
     "app.profile": "Perfil",
     "app.settings": "Configuración",
+    "app.language": "Idioma",
     "auth.signin": "Iniciar Sesión",
     "auth.signup": "Registrarse",
     "auth.email": "Correo electrónico",
@@ -62,6 +65,7 @@ const translations: Record<string, Record<string, string>> = {
     "app.documents": "Documents",
     "app.profile": "Profil",
     "app.settings": "Paramètres",
+    "app.language": "Langue",
     "auth.signin": "Connexion",
     "auth.signup": "S'inscrire",
     "auth.email": "Email",

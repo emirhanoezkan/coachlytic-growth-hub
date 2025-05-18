@@ -45,12 +45,12 @@ export const DocumentsList = () => {
       }
       
       // Create a temporary link and click it to trigger download
-      const link = document.createElement('a');
+      const link = window.document.createElement('a');
       link.href = downloadUrl;
       link.download = document.name.split('-').slice(1).join('-'); // Remove timestamp prefix
-      document.body.appendChild(link);
+      window.document.body.appendChild(link);
       link.click();
-      document.body.removeChild(link);
+      window.document.body.removeChild(link);
       
       toast({
         title: "Download started",

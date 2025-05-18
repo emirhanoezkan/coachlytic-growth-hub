@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { useLanguage, LanguageType } from '@/contexts/LanguageContext';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -11,11 +11,12 @@ import {
 import { Globe } from 'lucide-react';
 
 export const LanguageSelector: React.FC = () => {
-  const { language, changeLanguage, t } = useLanguage();
+  const { language, setLanguage, t } = useLanguage();
   
-  const languages: { code: LanguageType; name: string; flag: string }[] = [
+  const languages: { code: string; name: string; flag: string }[] = [
     { code: 'en', name: 'English', flag: '🇺🇸' },
-    { code: 'tr', name: 'Türkçe', flag: '🇹🇷' },
+    { code: 'es', name: 'Español', flag: '🇪🇸' },
+    { code: 'fr', name: 'Français', flag: '🇫🇷' },
   ];
 
   return (
@@ -31,7 +32,7 @@ export const LanguageSelector: React.FC = () => {
         {languages.map((lang) => (
           <DropdownMenuItem
             key={lang.code}
-            onClick={() => changeLanguage(lang.code)}
+            onClick={() => setLanguage(lang.code)}
             className={`flex items-center gap-2 ${language === lang.code ? 'font-bold' : ''}`}
           >
             <span>{lang.flag}</span>
