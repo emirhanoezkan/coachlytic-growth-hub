@@ -30,6 +30,8 @@ const translations: Record<string, Record<string, string>> = {
     "time.24h": "24-hour",
     "time.12h": "12-hour",
     "common.search": "Search",
+    "action.edit": "Edit",
+    "action.delete": "Delete",
   },
   es: {
     "app.name": "Coachlytic",
@@ -53,6 +55,8 @@ const translations: Record<string, Record<string, string>> = {
     "time.24h": "24 horas",
     "time.12h": "12 horas",
     "common.search": "Buscar",
+    "action.edit": "Editar",
+    "action.delete": "Eliminar",
   },
   fr: {
     "app.name": "Coachlytic",
@@ -76,6 +80,8 @@ const translations: Record<string, Record<string, string>> = {
     "time.24h": "24 heures",
     "time.12h": "12 heures",
     "common.search": "Rechercher",
+    "action.edit": "Modifier",
+    "action.delete": "Supprimer",
   },
 };
 

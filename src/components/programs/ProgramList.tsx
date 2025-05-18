@@ -125,7 +125,7 @@ export const ProgramList: React.FC = () => {
             <CardFooter className="flex justify-between">
               <Button variant="outline" size="sm" onClick={() => handleEdit(program)}>
                 <Edit className="h-4 w-4 mr-1" />
-                {t('action.edit')}
+                Edit
               </Button>
               <Button 
                 variant="outline" 
@@ -134,7 +134,7 @@ export const ProgramList: React.FC = () => {
                 onClick={() => handleDelete(program)}
               >
                 <Trash2 className="h-4 w-4 mr-1" />
-                {t('action.delete')}
+                Delete
               </Button>
             </CardFooter>
           </Card>
@@ -144,7 +144,7 @@ export const ProgramList: React.FC = () => {
       <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
         <DialogContent className="sm:max-w-[500px]">
           <DialogHeader>
-            <DialogTitle>{t('action.edit')} {selectedProgram?.name}</DialogTitle>
+            <DialogTitle>Edit {selectedProgram?.name}</DialogTitle>
           </DialogHeader>
           {selectedProgram && (
             <ProgramForm 
