@@ -2,6 +2,7 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
+import { useLanguage } from "@/contexts/LanguageContext";
 
 // Sample data for client retention chart for different periods
 const dailyData = [
@@ -32,6 +33,8 @@ interface ClientRetentionChartProps {
 }
 
 export const ClientRetentionChart: React.FC<ClientRetentionChartProps> = ({ period }) => {
+  const { t } = useLanguage();
+  
   // Select data based on the period
   const data = period === 'day' 
     ? dailyData 
@@ -39,36 +42,35 @@ export const ClientRetentionChart: React.FC<ClientRetentionChartProps> = ({ peri
       ? weeklyData 
       : monthlyData;
       
+  // Translate chart data labels
+  const translatedData = data.map(item => ({
+    ...item,
+    name: t(`chart.${item.name.toLowerCase().replace(' ', '_')}`)
+  }));
+      
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Client Retention</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className="h-[300px]">
-          <ResponsiveContainer width="100%" height="100%">
-            <PieChart>
-              <Pie
-                data={data}
-                cx="50%"
-                cy="50%"
-                innerRadius={60}
-                outerRadius={100}
-                fill="#8884d8"
-                paddingAngle={5}
-                dataKey="value"
-                label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-              >
-                {data.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                ))}
-              </Pie>
-              <Tooltip />
-              <Legend />
-            </PieChart>
-          </ResponsiveContainer>
-        </div>
-      </CardContent>
-    </Card>
+    <div className="h-[300px]">
+      <ResponsiveContainer width="100%" height="100%">
+        <PieChart>
+          <Pie
+            data={translatedData}
+            cx="50%"
+            cy="50%"
+            innerRadius={60}
+            outerRadius={100}
+            fill="#8884d8"
+            paddingAngle={5}
+            dataKey="value"
+            label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+          >
+            {translatedData.map((entry, index) => (
+              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+            ))}
+          </Pie>
+          <Tooltip />
+          <Legend />
+        </PieChart>
+      </ResponsiveContainer>
+    </div>
   );
 };

@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 
 // Sample data for revenue chart - later we can make this dynamic based on period
@@ -32,42 +32,94 @@ interface RevenueChartProps {
 }
 
 export const RevenueChart: React.FC<RevenueChartProps> = ({ period }) => {
+  const { t } = useLanguage();
+  
   // Select data based on the period
   const data = period === 'day' 
     ? dailyData 
     : period === 'week' 
       ? weeklyData 
       : monthlyData;
-      
+  
+  // Translate day names for daily data
+  const translateDayName = (day: string) => {
+    const dayMap: Record<string, string> = {
+      'Mon': 'day.mon',
+      'Tue': 'day.tue',
+      'Wed': 'day.wed',
+      'Thu': 'day.thu',
+      'Fri': 'day.fri',
+      'Sat': 'day.sat',
+      'Sun': 'day.sun',
+    };
+    
+    return dayMap[day] ? t(dayMap[day]) : day;
+  };
+  
+  // Translate month names
+  const translateMonthName = (month: string) => {
+    const monthMap: Record<string, string> = {
+      'Jan': 'month.jan',
+      'Feb': 'month.feb',
+      'Mar': 'month.mar',
+      'Apr': 'month.apr',
+      'May': 'month.may',
+      'Jun': 'month.jun',
+      'Jul': 'month.jul',
+      'Aug': 'month.aug',
+      'Sep': 'month.sep',
+      'Oct': 'month.oct',
+      'Nov': 'month.nov',
+      'Dec': 'month.dec',
+    };
+    
+    return monthMap[month] ? t(monthMap[month]) : month;
+  };
+  
+  // Translating names based on period
+  const translatedData = data.map(item => {
+    if (period === 'day') {
+      return { ...item, name: translateDayName(item.name) };
+    } else if (period === 'month') {
+      return { ...item, name: translateMonthName(item.name) };
+    } else {
+      // For weekly data, we translate "Week" part
+      return { ...item, name: item.name.replace('Week', t('time.week')) };
+    }
+  });
+  
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Revenue & Sessions</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className="h-[300px]">
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart
-              data={data}
-              margin={{
-                top: 5,
-                right: 30,
-                left: 20,
-                bottom: 5,
-              }}
-            >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <YAxis yAxisId="left" orientation="left" stroke="#8884d8" />
-              <YAxis yAxisId="right" orientation="right" stroke="#82ca9d" />
-              <Tooltip />
-              <Legend />
-              <Bar yAxisId="left" dataKey="revenue" name="Revenue ($)" fill="#2F5D3E" />
-              <Bar yAxisId="right" dataKey="sessions" name="Sessions" fill="#B39BC8" />
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
-      </CardContent>
-    </Card>
+    <div className="h-[300px]">
+      <ResponsiveContainer width="100%" height="100%">
+        <BarChart
+          data={translatedData}
+          margin={{
+            top: 5,
+            right: 30,
+            left: 20,
+            bottom: 5,
+          }}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="name" />
+          <YAxis yAxisId="left" orientation="left" stroke="#8884d8" />
+          <YAxis yAxisId="right" orientation="right" stroke="#82ca9d" />
+          <Tooltip />
+          <Legend />
+          <Bar 
+            yAxisId="left" 
+            dataKey="revenue" 
+            name={t('chart.revenue')} 
+            fill="#2F5D3E" 
+          />
+          <Bar 
+            yAxisId="right" 
+            dataKey="sessions" 
+            name={t('chart.sessions')} 
+            fill="#B39BC8" 
+          />
+        </BarChart>
+      </ResponsiveContainer>
+    </div>
   );
 };

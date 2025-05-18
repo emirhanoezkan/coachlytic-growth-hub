@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useState } from "react";
 
 type LanguageContextType = {
@@ -35,12 +34,70 @@ const translations: Record<string, Record<string, string>> = {
     "action.delete": "Delete",
     "action.save": "Save",
     "action.add": "Add",
+    
+    "time.24h": "24-hour",
+    "time.12h": "12-hour",
+    "time.day": "Day",
+    "time.week": "Week", 
+    "time.month": "Month",
+    
+    // Days
+    "day.mon": "Mon",
+    "day.tue": "Tue",
+    "day.wed": "Wed", 
+    "day.thu": "Thu",
+    "day.fri": "Fri",
+    "day.sat": "Sat",
+    "day.sun": "Sun",
+    
+    // Months
+    "month.jan": "Jan",
+    "month.feb": "Feb",
+    "month.mar": "Mar",
+    "month.apr": "Apr",
+    "month.may": "May",
+    "month.jun": "Jun",
+    "month.jul": "Jul",
+    "month.aug": "Aug",
+    "month.sep": "Sep",
+    "month.oct": "Oct",
+    "month.nov": "Nov",
+    "month.dec": "Dec",
+    
+    // Chart translations
+    "chart.active_clients": "Active Clients",
+    "chart.completed": "Completed",
+    "chart.inactive": "Inactive",
+    "chart.at-risk": "At-Risk",
+    
+    // Dashboard translations
+    "dashboard.totalRevenue": "Total Revenue",
+    "dashboard.newClients": "New Clients",
+    "dashboard.clientRetention": "Client Retention",
+    "dashboard.avgSessionTime": "Avg. Session Time",
+    "dashboard.revenue": "Revenue",
+    "dashboard.revenueDesc": "Revenue analysis for",
+    "dashboard.clientRetentionTitle": "Client Retention",
+    "dashboard.clientRetentionDesc": "Retention rate for",
     "dashboard.clientHealth": "Client Health",
     "dashboard.clientStatus": "Current client status distribution",
     "dashboard.upcomingSessions": "Upcoming Sessions",
     "dashboard.todayAppointments": "Today's coaching appointments",
     "dashboard.welcomeTitle": "Welcome to Coachlytic",
     "dashboard.welcomeSubtitle": "Your coaching analytics dashboard",
+    
+    // Client Health
+    "clientHealth.highPerformers": "High Performers",
+    "clientHealth.onTrack": "On Track",
+    "clientHealth.needsAttention": "Needs Attention",
+    "clientHealth.atRisk": "At Risk",
+    
+    // Session Types
+    "sessionType.career": "Career Coaching",
+    "sessionType.business": "Business Strategy",
+    "sessionType.life": "Life Coaching",
+    "sessionType.executive": "Executive Coaching",
+    
     "client.directory": "Client Directory",
     "client.manage": "Manage and track your coaching clients",
     "client.add": "Add Client",
@@ -108,12 +165,70 @@ const translations: Record<string, Record<string, string>> = {
     "action.delete": "Sil",
     "action.save": "Kaydet",
     "action.add": "Ekle",
+    
+    "time.24h": "24 saat",
+    "time.12h": "12 saat",
+    "time.day": "Gün",
+    "time.week": "Hafta",
+    "time.month": "Ay",
+    
+    // Days
+    "day.mon": "Pzt",
+    "day.tue": "Sal",
+    "day.wed": "Çar", 
+    "day.thu": "Per",
+    "day.fri": "Cum",
+    "day.sat": "Cmt",
+    "day.sun": "Paz",
+    
+    // Months
+    "month.jan": "Oca",
+    "month.feb": "Şub",
+    "month.mar": "Mar",
+    "month.apr": "Nis",
+    "month.may": "May",
+    "month.jun": "Haz",
+    "month.jul": "Tem",
+    "month.aug": "Ağu",
+    "month.sep": "Eyl",
+    "month.oct": "Eki",
+    "month.nov": "Kas",
+    "month.dec": "Ara",
+    
+    // Chart translations
+    "chart.active_clients": "Aktif Müşteriler",
+    "chart.completed": "Tamamlanmış",
+    "chart.inactive": "Pasif",
+    "chart.at-risk": "Risk Altında",
+    
+    // Dashboard translations
+    "dashboard.totalRevenue": "Toplam Gelir",
+    "dashboard.newClients": "Yeni Müşteriler",
+    "dashboard.clientRetention": "Müşteri Bağlılığı",
+    "dashboard.avgSessionTime": "Ort. Oturum Süresi",
+    "dashboard.revenue": "Gelir",
+    "dashboard.revenueDesc": "Gelir analizi:",
+    "dashboard.clientRetentionTitle": "Müşteri Bağlılığı",
+    "dashboard.clientRetentionDesc": "Bağlılık oranı:",
     "dashboard.clientHealth": "Müşteri Sağlığı",
     "dashboard.clientStatus": "Güncel müşteri durumu dağılımı",
     "dashboard.upcomingSessions": "Yaklaşan Oturumlar",
     "dashboard.todayAppointments": "Bugünkü koçluk randevuları",
     "dashboard.welcomeTitle": "Coachlytic'e Hoş Geldiniz",
     "dashboard.welcomeSubtitle": "Koçluk analitik paneliniz",
+    
+    // Client Health
+    "clientHealth.highPerformers": "Yüksek Performanslılar",
+    "clientHealth.onTrack": "Yolunda Gidenler",
+    "clientHealth.needsAttention": "İlgi Gerektirenler",
+    "clientHealth.atRisk": "Risk Altındakiler",
+    
+    // Session Types
+    "sessionType.career": "Kariyer Koçluğu",
+    "sessionType.business": "İş Stratejisi",
+    "sessionType.life": "Yaşam Koçluğu",
+    "sessionType.executive": "Yönetici Koçluğu",
+    
     "client.directory": "Müşteri Rehberi",
     "client.manage": "Koçluk müşterilerinizi yönetin ve takip edin",
     "client.add": "Müşteri Ekle",

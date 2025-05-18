@@ -31,9 +31,9 @@ const Index = () => {
                 <div className="flex gap-3">
                   <Tabs value={period} onValueChange={setPeriod} className="w-[230px]">
                     <TabsList className="grid w-full grid-cols-3">
-                      <TabsTrigger value="day">Day</TabsTrigger>
-                      <TabsTrigger value="week">Week</TabsTrigger>
-                      <TabsTrigger value="month">Month</TabsTrigger>
+                      <TabsTrigger value="day">{t('time.day')}</TabsTrigger>
+                      <TabsTrigger value="week">{t('time.week')}</TabsTrigger>
+                      <TabsTrigger value="month">{t('time.month')}</TabsTrigger>
                     </TabsList>
                   </Tabs>
                 </div>
