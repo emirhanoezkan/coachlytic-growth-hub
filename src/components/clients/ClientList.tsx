@@ -28,10 +28,12 @@ import { Badge } from "@/components/ui/badge";
 import { useClients, Client } from "@/services/clientsService";
 import { format } from 'date-fns';
 import { Link, useNavigate } from 'react-router-dom';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { SessionForm } from "@/components/sessions/SessionForm";
 import { ClientForm } from "@/components/clients/ClientForm";
 import { useToast } from "@/hooks/use-toast";
+import { Textarea } from "@/components/ui/textarea";
+import { useUpdateClient } from "@/services/clientsService";
 
 export const ClientList: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -41,6 +43,8 @@ export const ClientList: React.FC = () => {
   const [isAddSessionDialogOpen, setIsAddSessionDialogOpen] = useState(false);
   const [isAddNoteDialogOpen, setIsAddNoteDialogOpen] = useState(false);
   const [selectedClientId, setSelectedClientId] = useState<string | null>(null);
+  const [note, setNote] = useState("");
+  const updateClient = useUpdateClient();
   
   const filteredClients = clients.filter(client => 
     client.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -65,6 +69,42 @@ export const ClientList: React.FC = () => {
   const handleAddNote = (clientId: string) => {
     setSelectedClientId(clientId);
     setIsAddNoteDialogOpen(true);
+    setNote("");
+  };
+
+  const handleSaveNote = () => {
+    if (!selectedClientId || !note.trim()) {
+      toast({
+        variant: "destructive",
+        title: "Note cannot be empty",
+        description: "Please enter a note before saving."
+      });
+      return;
+    }
+
+    const client = clients.find(c => c.id === selectedClientId);
+    if (!client) return;
+
+    let updatedNotes = client.notes || "";
+    const dateStamp = format(new Date(), "MMM dd, yyyy HH:mm");
+    const newNote = `[${dateStamp}] ${note}\n\n`;
+    updatedNotes = newNote + updatedNotes;
+
+    updateClient.mutate({
+      id: selectedClientId,
+      clientData: {
+        notes: updatedNotes
+      }
+    }, {
+      onSuccess: () => {
+        setNote("");
+        setIsAddNoteDialogOpen(false);
+        toast({
+          title: "Note added",
+          description: "The client note has been added successfully."
+        });
+      }
+    });
   };
 
   const handleViewProfile = (clientId: string) => {
@@ -210,6 +250,32 @@ export const ClientList: React.FC = () => {
             onSubmit={() => setIsAddSessionDialogOpen(false)} 
             preselectedClientId={selectedClientId || undefined}
           />
+        </DialogContent>
+      </Dialog>
+      
+      {/* Add Note Dialog */}
+      <Dialog open={isAddNoteDialogOpen} onOpenChange={setIsAddNoteDialogOpen}>
+        <DialogContent className="sm:max-w-[500px]">
+          <DialogHeader>
+            <DialogTitle>Add Note</DialogTitle>
+            <DialogDescription>
+              Add a note about {clients.find(c => c.id === selectedClientId)?.name}. Notes help track client progress and important information.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <Textarea 
+              value={note} 
+              onChange={(e) => setNote(e.target.value)} 
+              placeholder="Write your note here..." 
+              className="min-h-[150px]"
+            />
+            <div className="flex justify-end gap-2">
+              <Button variant="outline" onClick={() => setIsAddNoteDialogOpen(false)}>Cancel</Button>
+              <Button onClick={handleSaveNote} className="bg-forest-500 hover:bg-forest-600">
+                Save Note
+              </Button>
+            </div>
+          </div>
         </DialogContent>
       </Dialog>
     </Card>
