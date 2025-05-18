@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { SidebarProvider } from "@/components/ui/sidebar-animated";
@@ -288,190 +287,192 @@ const ClientProfilePage = () => {
                     </Tabs>
                   </CardHeader>
                   <CardContent className="pt-6">
-                    <TabsContent value="overview" className="mt-0">
-                      <div className="space-y-6">
-                        <div>
-                          <h3 className="text-lg font-medium mb-2">Client Summary</h3>
-                          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            <div className="bg-gray-50 border rounded-lg p-4">
-                              <p className="text-sm text-gray-500">Total Sessions</p>
-                              <p className="text-2xl font-semibold">{client.sessions}</p>
-                            </div>
-                            <div className="bg-gray-50 border rounded-lg p-4">
-                              <p className="text-sm text-gray-500">Program Progress</p>
-                              <p className="text-2xl font-semibold">{client.progress}%</p>
-                            </div>
-                            <div className="bg-gray-50 border rounded-lg p-4">
-                              <p className="text-sm text-gray-500">Client Since</p>
-                              <p className="text-lg font-semibold">{formatDate(client.created_at)}</p>
+                    <Tabs value={activeTab} onValueChange={setActiveTab}>
+                      <TabsContent value="overview" className="mt-0">
+                        <div className="space-y-6">
+                          <div>
+                            <h3 className="text-lg font-medium mb-2">Client Summary</h3>
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                              <div className="bg-gray-50 border rounded-lg p-4">
+                                <p className="text-sm text-gray-500">Total Sessions</p>
+                                <p className="text-2xl font-semibold">{client.sessions}</p>
+                              </div>
+                              <div className="bg-gray-50 border rounded-lg p-4">
+                                <p className="text-sm text-gray-500">Program Progress</p>
+                                <p className="text-2xl font-semibold">{client.progress}%</p>
+                              </div>
+                              <div className="bg-gray-50 border rounded-lg p-4">
+                                <p className="text-sm text-gray-500">Client Since</p>
+                                <p className="text-lg font-semibold">{formatDate(client.created_at)}</p>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                        
-                        <div>
-                          <h3 className="text-lg font-medium mb-2">Upcoming Sessions</h3>
-                          {clientSessions.filter(s => new Date(s.date) >= new Date()).length > 0 ? (
-                            <div className="space-y-3">
-                              {clientSessions
-                                .filter(s => new Date(s.date) >= new Date())
-                                .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
-                                .slice(0, 3)
-                                .map((session) => (
-                                  <div key={session.id} className="bg-gray-50 border rounded-lg p-4">
-                                    <div className="flex justify-between">
-                                      <div>
-                                        <p className="font-medium">{session.title}</p>
-                                        <p className="text-sm text-gray-500">
-                                          {format(new Date(session.date), 'MMM dd, yyyy - HH:mm')} · {session.duration} min
-                                        </p>
+                          
+                          <div>
+                            <h3 className="text-lg font-medium mb-2">Upcoming Sessions</h3>
+                            {clientSessions.filter(s => new Date(s.date) >= new Date()).length > 0 ? (
+                              <div className="space-y-3">
+                                {clientSessions
+                                  .filter(s => new Date(s.date) >= new Date())
+                                  .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+                                  .slice(0, 3)
+                                  .map((session) => (
+                                    <div key={session.id} className="bg-gray-50 border rounded-lg p-4">
+                                      <div className="flex justify-between">
+                                        <div>
+                                          <p className="font-medium">{session.title}</p>
+                                          <p className="text-sm text-gray-500">
+                                            {format(new Date(session.date), 'MMM dd, yyyy - HH:mm')} · {session.duration} min
+                                          </p>
+                                        </div>
+                                        <Badge className={
+                                          session.status === "scheduled" ? "bg-lavender-100 text-lavender-800" :
+                                          session.status === "completed" ? "bg-forest-100 text-forest-800" :
+                                          "bg-red-100 text-red-800"
+                                        }>
+                                          {session.status.charAt(0).toUpperCase() + session.status.slice(1)}
+                                        </Badge>
                                       </div>
-                                      <Badge className={
-                                        session.status === "scheduled" ? "bg-lavender-100 text-lavender-800" :
-                                        session.status === "completed" ? "bg-forest-100 text-forest-800" :
-                                        "bg-red-100 text-red-800"
-                                      }>
-                                        {session.status.charAt(0).toUpperCase() + session.status.slice(1)}
-                                      </Badge>
                                     </div>
+                                  ))}
+                              </div>
+                            ) : (
+                              <p className="text-gray-500">No upcoming sessions scheduled</p>
+                            )}
+                          </div>
+                          
+                          <div>
+                            <h3 className="text-lg font-medium mb-2">Recent Notes</h3>
+                            {clientNotes.length > 0 ? (
+                              <div className="space-y-3">
+                                {clientNotes.slice(0, 3).map((note, index) => (
+                                  <div key={index} className="bg-gray-50 border rounded-lg p-4">
+                                    <p className="text-sm text-gray-500 mb-1">{note.date}</p>
+                                    <p className="whitespace-pre-wrap">{note.content}</p>
                                   </div>
                                 ))}
-                            </div>
-                          ) : (
-                            <p className="text-gray-500">No upcoming sessions scheduled</p>
-                          )}
-                        </div>
-                        
-                        <div>
-                          <h3 className="text-lg font-medium mb-2">Recent Notes</h3>
-                          {clientNotes.length > 0 ? (
-                            <div className="space-y-3">
-                              {clientNotes.slice(0, 3).map((note, index) => (
-                                <div key={index} className="bg-gray-50 border rounded-lg p-4">
-                                  <p className="text-sm text-gray-500 mb-1">{note.date}</p>
-                                  <p className="whitespace-pre-wrap">{note.content}</p>
-                                </div>
-                              ))}
-                              {clientNotes.length > 3 && (
-                                <Button 
-                                  variant="ghost" 
-                                  onClick={() => setActiveTab("notes")}
-                                  className="text-forest-600 hover:text-forest-700"
-                                >
-                                  View all notes
-                                </Button>
-                              )}
-                            </div>
-                          ) : (
-                            <p className="text-gray-500">No notes added yet</p>
-                          )}
-                        </div>
-                      </div>
-                    </TabsContent>
-                    
-                    <TabsContent value="sessions" className="mt-0">
-                      <div className="flex justify-between items-center mb-4">
-                        <h3 className="text-lg font-medium">Session History</h3>
-                        <Button 
-                          size="sm" 
-                          onClick={() => setIsAddSessionDialogOpen(true)} 
-                          className="bg-forest-500 hover:bg-forest-600"
-                        >
-                          <Plus className="h-4 w-4 mr-2" />
-                          Schedule Session
-                        </Button>
-                      </div>
-                      
-                      {clientSessions.length > 0 ? (
-                        <div className="space-y-3">
-                          {clientSessions
-                            .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-                            .map((session) => (
-                              <div key={session.id} className="bg-white border rounded-lg p-4 hover:bg-gray-50">
-                                <div className="flex justify-between">
-                                  <div>
-                                    <div className="flex items-center gap-2">
-                                      <h4 className="font-medium">{session.title}</h4>
-                                      <Badge className={
-                                        session.status === "scheduled" ? "bg-lavender-100 text-lavender-800" :
-                                        session.status === "completed" ? "bg-forest-100 text-forest-800" :
-                                        "bg-red-100 text-red-800"
-                                      }>
-                                        {session.status.charAt(0).toUpperCase() + session.status.slice(1)}
-                                      </Badge>
-                                    </div>
-                                    <p className="text-sm text-gray-500">
-                                      {format(new Date(session.date), 'MMM dd, yyyy - HH:mm')} · {session.duration} min · {session.location_type.charAt(0).toUpperCase() + session.location_type.slice(1)}
-                                    </p>
-                                  </div>
-                                  <div className="flex gap-1">
-                                    <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-                                      <Edit className="h-4 w-4" />
-                                    </Button>
-                                    <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-red-500 hover:text-red-700">
-                                      <Trash2 className="h-4 w-4" />
-                                    </Button>
-                                  </div>
-                                </div>
-                                {session.notes && (
-                                  <div className="mt-2 pt-2 border-t text-sm">
-                                    <p className="whitespace-pre-wrap">{session.notes}</p>
-                                  </div>
+                                {clientNotes.length > 3 && (
+                                  <Button 
+                                    variant="ghost" 
+                                    onClick={() => setActiveTab("notes")}
+                                    className="text-forest-600 hover:text-forest-700"
+                                  >
+                                    View all notes
+                                  </Button>
                                 )}
                               </div>
-                            ))}
+                            ) : (
+                              <p className="text-gray-500">No notes added yet</p>
+                            )}
+                          </div>
                         </div>
-                      ) : (
-                        <div className="text-center py-8">
-                          <p className="text-gray-500">No sessions found for this client</p>
-                          <Button 
-                            onClick={() => setIsAddSessionDialogOpen(true)} 
-                            className="mt-4 bg-forest-500 hover:bg-forest-600"
-                          >
-                            Schedule First Session
-                          </Button>
-                        </div>
-                      )}
-                    </TabsContent>
-                    
-                    <TabsContent value="notes" className="mt-0">
-                      <div className="flex justify-between items-center mb-4">
-                        <h3 className="text-lg font-medium">Client Notes</h3>
-                        <Button 
-                          size="sm" 
-                          onClick={() => setIsAddNoteDialogOpen(true)} 
-                          className="bg-forest-500 hover:bg-forest-600"
-                        >
-                          <Plus className="h-4 w-4 mr-2" />
-                          Add Note
-                        </Button>
-                      </div>
+                      </TabsContent>
                       
-                      {clientNotes.length > 0 ? (
-                        <div className="space-y-4">
-                          {clientNotes.map((note, index) => (
-                            <div key={index} className="bg-white border rounded-lg p-4 hover:bg-gray-50">
-                              <div className="flex justify-between items-start">
-                                <p className="text-sm text-gray-500 mb-1">{note.date}</p>
-                                <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-                                  <Edit className="h-4 w-4" />
-                                </Button>
-                              </div>
-                              <p className="whitespace-pre-wrap">{note.content}</p>
-                            </div>
-                          ))}
-                        </div>
-                      ) : (
-                        <div className="text-center py-8">
-                          <p className="text-gray-500">No notes added yet</p>
+                      <TabsContent value="sessions" className="mt-0">
+                        <div className="flex justify-between items-center mb-4">
+                          <h3 className="text-lg font-medium">Session History</h3>
                           <Button 
-                            onClick={() => setIsAddNoteDialogOpen(true)} 
-                            className="mt-4 bg-forest-500 hover:bg-forest-600"
+                            size="sm" 
+                            onClick={() => setIsAddSessionDialogOpen(true)} 
+                            className="bg-forest-500 hover:bg-forest-600"
                           >
-                            Add First Note
+                            <Plus className="h-4 w-4 mr-2" />
+                            Schedule Session
                           </Button>
                         </div>
-                      )}
-                    </TabsContent>
+                        
+                        {clientSessions.length > 0 ? (
+                          <div className="space-y-3">
+                            {clientSessions
+                              .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+                              .map((session) => (
+                                <div key={session.id} className="bg-white border rounded-lg p-4 hover:bg-gray-50">
+                                  <div className="flex justify-between">
+                                    <div>
+                                      <div className="flex items-center gap-2">
+                                        <h4 className="font-medium">{session.title}</h4>
+                                        <Badge className={
+                                          session.status === "scheduled" ? "bg-lavender-100 text-lavender-800" :
+                                          session.status === "completed" ? "bg-forest-100 text-forest-800" :
+                                          "bg-red-100 text-red-800"
+                                        }>
+                                          {session.status.charAt(0).toUpperCase() + session.status.slice(1)}
+                                        </Badge>
+                                      </div>
+                                      <p className="text-sm text-gray-500">
+                                        {format(new Date(session.date), 'MMM dd, yyyy - HH:mm')} · {session.duration} min · {session.location_type.charAt(0).toUpperCase() + session.location_type.slice(1)}
+                                      </p>
+                                    </div>
+                                    <div className="flex gap-1">
+                                      <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                                        <Edit className="h-4 w-4" />
+                                      </Button>
+                                      <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-red-500 hover:text-red-700">
+                                        <Trash2 className="h-4 w-4" />
+                                      </Button>
+                                    </div>
+                                  </div>
+                                  {session.notes && (
+                                    <div className="mt-2 pt-2 border-t text-sm">
+                                      <p className="whitespace-pre-wrap">{session.notes}</p>
+                                    </div>
+                                  )}
+                                </div>
+                              ))}
+                          </div>
+                        ) : (
+                          <div className="text-center py-8">
+                            <p className="text-gray-500">No sessions found for this client</p>
+                            <Button 
+                              onClick={() => setIsAddSessionDialogOpen(true)} 
+                              className="mt-4 bg-forest-500 hover:bg-forest-600"
+                            >
+                              Schedule First Session
+                            </Button>
+                          </div>
+                        )}
+                      </TabsContent>
+                      
+                      <TabsContent value="notes" className="mt-0">
+                        <div className="flex justify-between items-center mb-4">
+                          <h3 className="text-lg font-medium">Client Notes</h3>
+                          <Button 
+                            size="sm" 
+                            onClick={() => setIsAddNoteDialogOpen(true)} 
+                            className="bg-forest-500 hover:bg-forest-600"
+                          >
+                            <Plus className="h-4 w-4 mr-2" />
+                            Add Note
+                          </Button>
+                        </div>
+                        
+                        {clientNotes.length > 0 ? (
+                          <div className="space-y-4">
+                            {clientNotes.map((note, index) => (
+                              <div key={index} className="bg-white border rounded-lg p-4 hover:bg-gray-50">
+                                <div className="flex justify-between items-start">
+                                  <p className="text-sm text-gray-500 mb-1">{note.date}</p>
+                                  <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                                    <Edit className="h-4 w-4" />
+                                  </Button>
+                                </div>
+                                <p className="whitespace-pre-wrap">{note.content}</p>
+                              </div>
+                            ))}
+                          </div>
+                        ) : (
+                          <div className="text-center py-8">
+                            <p className="text-gray-500">No notes added yet</p>
+                            <Button 
+                              onClick={() => setIsAddNoteDialogOpen(true)} 
+                              className="mt-4 bg-forest-500 hover:bg-forest-600"
+                            >
+                              Add First Note
+                            </Button>
+                          </div>
+                        )}
+                      </TabsContent>
+                    </Tabs>
                   </CardContent>
                 </Card>
               </div>
