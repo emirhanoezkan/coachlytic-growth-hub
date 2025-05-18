@@ -31,7 +31,7 @@ export const LanguageSelector: React.FC = () => {
         {languages.map((lang) => (
           <DropdownMenuItem
             key={lang.code}
-            onClick={() => setLanguage(lang.code)}
+            onClick={() => setLanguage(lang.code as 'en' | 'tr')}
             className={`flex items-center gap-2 ${language === lang.code ? 'font-bold' : ''}`}
           >
             <span>{lang.flag}</span>
