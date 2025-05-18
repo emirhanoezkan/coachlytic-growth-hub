@@ -68,6 +68,8 @@ const translations: Record<string, Record<string, string>> = {
     "chart.completed": "Completed",
     "chart.inactive": "Inactive",
     "chart.at-risk": "At-Risk",
+    "chart.revenue": "Revenue",
+    "chart.sessions": "Sessions",
     
     // Dashboard translations
     "dashboard.totalRevenue": "Total Revenue",
@@ -97,10 +99,13 @@ const translations: Record<string, Record<string, string>> = {
     "sessionType.life": "Life Coaching",
     "sessionType.executive": "Executive Coaching",
     
+    // Client
     "client.directory": "Client Directory",
     "client.manage": "Manage and track your coaching clients",
     "client.add": "Add Client",
     "client.filter": "Filter",
+    
+    // Programs
     "programs.title": "Coaching Programs",
     "programs.subtitle": "Manage your coaching packages and programs",
     "programs.create": "Create Program",
@@ -112,6 +117,8 @@ const translations: Record<string, Record<string, string>> = {
     "programs.sessions": "Sessions",
     "programs.duration": "Duration",
     "programs.price": "Price",
+    
+    // Sessions
     "sessions.title": "Session Management",
     "sessions.subtitle": "Schedule and manage your coaching sessions",
     "sessions.calendar": "Calendar",
@@ -119,12 +126,16 @@ const translations: Record<string, Record<string, string>> = {
     "sessions.add": "Add Session",
     "sessions.new": "Schedule New Session",
     "sessions.createDesc": "Create a new coaching session with a client",
+    
+    // Documents
     "documents.title": "Document Management",
     "documents.subtitle": "Upload, manage, and share coaching documents",
     "documents.upload": "Upload Document",
     "documents.uploadDesc": "Upload coaching materials, client resources, or other documents",
     "documents.library": "Document Library",
     "documents.access": "Access and manage your uploaded documents",
+    
+    // Profile
     "profile.title": "My Profile",
     "profile.subtitle": "Manage your account information",
     "profile.personal": "Personal Information",
@@ -197,6 +208,8 @@ const translations: Record<string, Record<string, string>> = {
     "chart.completed": "Tamamlanmış",
     "chart.inactive": "Pasif",
     "chart.at-risk": "Risk Altında",
+    "chart.revenue": "Gelir",
+    "chart.sessions": "Oturumlar",
     
     // Dashboard translations
     "dashboard.totalRevenue": "Toplam Gelir",
@@ -226,10 +239,13 @@ const translations: Record<string, Record<string, string>> = {
     "sessionType.life": "Yaşam Koçluğu",
     "sessionType.executive": "Yönetici Koçluğu",
     
+    // Client
     "client.directory": "Müşteri Rehberi",
     "client.manage": "Koçluk müşterilerinizi yönetin ve takip edin",
     "client.add": "Müşteri Ekle",
     "client.filter": "Filtrele",
+    
+    // Programs
     "programs.title": "Koçluk Programları",
     "programs.subtitle": "Koçluk paketlerinizi ve programlarınızı yönetin",
     "programs.create": "Program Oluştur",
@@ -241,6 +257,8 @@ const translations: Record<string, Record<string, string>> = {
     "programs.sessions": "Oturumlar",
     "programs.duration": "Süre",
     "programs.price": "Fiyat",
+    
+    // Sessions
     "sessions.title": "Oturum Yönetimi",
     "sessions.subtitle": "Koçluk oturumlarınızı planlayın ve yönetin",
     "sessions.calendar": "Takvim",
@@ -248,12 +266,16 @@ const translations: Record<string, Record<string, string>> = {
     "sessions.add": "Oturum Ekle",
     "sessions.new": "Yeni Oturum Planla",
     "sessions.createDesc": "Bir müşteriyle yeni bir koçluk oturumu oluşturun",
+    
+    // Documents
     "documents.title": "Döküman Yönetimi",
     "documents.subtitle": "Koçluk dökümanlarını yükleyin, yönetin ve paylaşın",
     "documents.upload": "Döküman Yükle",
     "documents.uploadDesc": "Koçluk materyalleri, müşteri kaynakları veya diğer dökümanları yükleyin",
     "documents.library": "Döküman Kütüphanesi",
     "documents.access": "Yüklenen dökümanlarınıza erişin ve yönetin",
+    
+    // Profile
     "profile.title": "Profilim",
     "profile.subtitle": "Hesap bilgilerinizi yönetin",
     "profile.personal": "Kişisel Bilgiler",
