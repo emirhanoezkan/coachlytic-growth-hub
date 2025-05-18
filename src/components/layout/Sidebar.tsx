@@ -12,7 +12,7 @@ import {
   SidebarMenuButton,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { Users, Calendar, BarChart, FileText, Home } from "lucide-react";
+import { Users, Calendar, FileText, BarChart, CreditCard, Home } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface NavItemProps {
@@ -40,10 +40,9 @@ const NavItem: React.FC<NavItemProps> = ({ icon: Icon, label, href, isActive }) 
 
 export const Sidebar = () => {
   const location = useLocation();
-  const [expanded, setExpanded] = useState(true);
 
   return (
-    <ShadcnSidebar defaultExpanded={true} expandedSize="16rem" collapsedSize="4rem">
+    <ShadcnSidebar>
       <SidebarContent>
         <div className="flex items-center justify-between px-4 py-5">
           <div className="flex items-center">
@@ -98,7 +97,7 @@ export const Sidebar = () => {
           <SidebarGroupContent>
             <SidebarMenu>
               <NavItem 
-                icon={FileText} 
+                icon={CreditCard} 
                 label="Billing" 
                 href="/billing" 
                 isActive={location.pathname.startsWith('/billing')} 
