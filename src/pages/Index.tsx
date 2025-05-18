@@ -1,6 +1,6 @@
 
 import React, { useState } from "react";
-import { Sidebar as AnimatedSidebarWrapper, SidebarProvider } from "@/components/ui/sidebar-animated";
+import { SidebarProvider } from "@/components/ui/sidebar-animated";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { Header } from "@/components/layout/Header";
 import { DashboardOverview } from "@/components/dashboard/DashboardOverview";
@@ -9,10 +9,10 @@ import { SessionCalendar } from "@/components/sessions/SessionCalendar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const Index = () => {
-  const [open, setOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   
   return (
-    <SidebarProvider open={open} setOpen={setOpen}>
+    <SidebarProvider open={sidebarOpen} setOpen={setSidebarOpen}>
       <div className="min-h-screen flex w-full">
         <Sidebar />
         

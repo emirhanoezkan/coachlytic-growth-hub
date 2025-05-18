@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { SidebarProvider } from "@/components/ui/sidebar";
+import { SidebarProvider } from "@/components/ui/sidebar-animated";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { Header } from "@/components/layout/Header";
 import { ClientList } from "@/components/clients/ClientList";
@@ -11,9 +11,10 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 
 const ClientsPage = () => {
   const [isAddClientDialogOpen, setIsAddClientDialogOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <SidebarProvider>
+    <SidebarProvider open={sidebarOpen} setOpen={setSidebarOpen}>
       <div className="min-h-screen flex w-full">
         <Sidebar />
         

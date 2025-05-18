@@ -15,7 +15,6 @@ import SessionsPage from "./pages/sessions/SessionsPage";
 import ProgramsPage from "./pages/programs/ProgramsPage";
 import AnalyticsPage from "./pages/analytics/AnalyticsPage";
 import BillingPage from "./pages/billing/BillingPage";
-import { SidebarProvider } from "@/components/ui/sidebar-animated";
 
 const queryClient = new QueryClient();
 

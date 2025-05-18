@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useLocation } from "react-router-dom";
 import { 
@@ -10,15 +11,12 @@ import {
 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { 
-  Sidebar as AnimatedSidebar, 
   SidebarBody, 
   SidebarLink,
-  useSidebar
 } from "@/components/ui/sidebar-animated";
 import { motion } from "framer-motion";
 
 export function Sidebar() {
-  const { open, setOpen } = useSidebar();
   const { t } = useLanguage();
   const { pathname } = useLocation();
   
@@ -73,21 +71,19 @@ export function Sidebar() {
   );
 
   return (
-    <AnimatedSidebar open={open} setOpen={setOpen}>
-      <SidebarBody className="justify-between gap-10 border-r border-neutral-200 dark:border-neutral-700">
-        <div className="flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
-          {open ? <Logo /> : <LogoIcon />}
-          <div className="mt-8 flex flex-col gap-2">
-            {routes.map((link, idx) => (
-              <SidebarLink 
-                key={idx} 
-                link={link} 
-                className={pathname === link.href ? "bg-neutral-200 dark:bg-neutral-700 rounded-md px-2" : "px-2"}
-              />
-            ))}
-          </div>
+    <SidebarBody className="justify-between gap-10 border-r border-neutral-200 dark:border-neutral-700">
+      <div className="flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
+        <Logo />
+        <div className="mt-8 flex flex-col gap-2">
+          {routes.map((link, idx) => (
+            <SidebarLink 
+              key={idx} 
+              link={link} 
+              className={pathname === link.href ? "bg-neutral-200 dark:bg-neutral-700 rounded-md px-2" : "px-2"}
+            />
+          ))}
         </div>
-      </SidebarBody>
-    </AnimatedSidebar>
+      </div>
+    </SidebarBody>
   );
 }
