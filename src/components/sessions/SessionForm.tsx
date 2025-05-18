@@ -1,6 +1,6 @@
 
 import React from "react";
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Input } from "@/components/ui/input";
@@ -65,9 +65,20 @@ export const SessionForm: React.FC<SessionFormProps> = ({ onSubmit, preselectedC
   });
 
   const handleSubmit = (values: z.infer<typeof formSchema>) => {
+    // Ensure client_id is always provided
     const sessionData: SessionFormData = {
-      ...values
+      client_id: preselectedClientId || values.client_id,
+      title: values.title,
+      date: values.date.toISOString(),
+      duration: values.duration,
+      location_type: values.location_type,
+      notes: values.notes,
     };
+    
+    // Only add program_id if it's not an empty string
+    if (values.program_id && values.program_id !== "") {
+      sessionData.program_id = values.program_id;
+    }
 
     addSession.mutate(sessionData, {
       onSuccess: () => {

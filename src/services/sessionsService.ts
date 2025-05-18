@@ -19,8 +19,8 @@ export interface Session {
 }
 
 export type SessionFormData = {
-  client_id: string;
-  program_id?: string;
+  client_id: string; // Required field
+  program_id?: string; // Optional field
   title: string;
   date: string;
   duration: number;
