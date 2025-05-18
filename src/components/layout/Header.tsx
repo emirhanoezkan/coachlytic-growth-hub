@@ -11,7 +11,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { useSidebar } from "@/components/ui/sidebar";
 import { Input } from "@/components/ui/input";
 import { LanguageSelector } from "./LanguageSelector";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -21,14 +20,13 @@ interface HeaderProps {
 }
 
 export const Header = ({ title }: HeaderProps) => {
-  const { state } = useSidebar();
   const { t } = useLanguage();
 
   return (
     <header className="sticky top-0 z-30 flex h-16 items-center justify-between border-b bg-background px-4">
       <div className="flex items-center gap-2">
         {title && (
-          <h1 className="hidden text-xl font-semibold md:block">{t(title.toLowerCase() + '.title') || title}</h1>
+          <h1 className="text-xl font-semibold">{t(title.toLowerCase() + '.title') || title}</h1>
         )}
       </div>
       <div className="flex items-center gap-2">

@@ -1,19 +1,21 @@
-
 import React from 'react';
-import { Link, useLocation } from "react-router-dom";
-import { cn } from "@/lib/utils";
-import { buttonVariants } from "@/components/ui/button";
-import { useSidebar } from "@/components/ui/sidebar";
+import { useLocation } from "react-router-dom";
 import { 
   AreaChart, 
   Users, 
   CalendarDays, 
   Layers, 
   CreditCard, 
-  Menu, 
   Home 
 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { 
+  Sidebar as AnimatedSidebar, 
+  SidebarBody, 
+  SidebarLink,
+  useSidebar
+} from "@/components/ui/sidebar-animated";
+import { motion } from "framer-motion";
 
 export function Sidebar() {
   const { open, setOpen } = useSidebar();
@@ -22,121 +24,70 @@ export function Sidebar() {
   
   const routes = [
     {
-      title: t('app.dashboard'),
-      path: "/",
-      icon: <Home className="h-4 w-4 mr-2" />,
+      label: t('app.dashboard'),
+      href: "/",
+      icon: <Home className="h-5 w-5 text-neutral-700 dark:text-neutral-200 flex-shrink-0" />,
     },
     {
-      title: t('app.clients'),
-      path: "/clients",
-      icon: <Users className="h-4 w-4 mr-2" />,
+      label: t('app.clients'),
+      href: "/clients",
+      icon: <Users className="h-5 w-5 text-neutral-700 dark:text-neutral-200 flex-shrink-0" />,
     },
     {
-      title: t('app.sessions'),
-      path: "/sessions",
-      icon: <CalendarDays className="h-4 w-4 mr-2" />,
+      label: t('app.sessions'),
+      href: "/sessions",
+      icon: <CalendarDays className="h-5 w-5 text-neutral-700 dark:text-neutral-200 flex-shrink-0" />,
     },
     {
-      title: t('app.programs'),
-      path: "/programs",
-      icon: <Layers className="h-4 w-4 mr-2" />,
+      label: t('app.programs'),
+      href: "/programs",
+      icon: <Layers className="h-5 w-5 text-neutral-700 dark:text-neutral-200 flex-shrink-0" />,
     },
     {
-      title: t('app.analytics'),
-      path: "/analytics",
-      icon: <AreaChart className="h-4 w-4 mr-2" />,
+      label: t('app.analytics'),
+      href: "/analytics",
+      icon: <AreaChart className="h-5 w-5 text-neutral-700 dark:text-neutral-200 flex-shrink-0" />,
     },
     {
-      title: t('app.billing'),
-      path: "/billing",
-      icon: <CreditCard className="h-4 w-4 mr-2" />,
+      label: t('app.billing'),
+      href: "/billing",
+      icon: <CreditCard className="h-5 w-5 text-neutral-700 dark:text-neutral-200 flex-shrink-0" />,
     },
   ];
 
+  const LogoIcon = () => (
+    <div className="h-5 w-6 bg-forest-500 dark:bg-lavender-400 rounded-br-lg rounded-tr-sm rounded-tl-lg rounded-bl-sm flex-shrink-0" />
+  );
+
+  const Logo = () => (
+    <div className="font-display flex space-x-2 items-center text-sm py-1 relative z-20">
+      <LogoIcon />
+      <motion.span
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className="font-medium text-forest-600 dark:text-white whitespace-pre"
+      >
+        {t('app.name')}
+      </motion.span>
+    </div>
+  );
+
   return (
-    <>
-      <div 
-        className={cn(
-          "fixed top-0 z-40 h-16 items-center border-b bg-background px-4 md:hidden",
-          open ? "left-0 w-16" : "left-0 right-0"
-        )}
-      >
-        <button 
-          onClick={() => setOpen(!open)} 
-          className="inline-flex h-10 w-10 items-center justify-center"
-        >
-          <Menu className="h-4 w-4" />
-          <span className="sr-only">Toggle menu</span>
-        </button>
-      </div>
-      <div
-        className={cn(
-          "fixed z-30 h-full border-r bg-background transition-all duration-300",
-          open ? "w-16" : "w-56",
-          "md:pt-0"
-        )}
-        style={{ paddingTop: "4rem" }}
-      >
-        <div className="flex h-16 items-center justify-center border-b px-4">
-          <div 
-            className={cn(
-              "font-display text-xl font-semibold transition-opacity",
-              open ? "opacity-0" : "opacity-100"
-            )}
-          >
-            {t('app.name')}
-          </div>
-          <button 
-            onClick={() => setOpen(!open)} 
-            className="absolute right-4 top-5 inline-flex h-8 w-8 items-center justify-center md:hidden"
-          >
-            <Menu className="h-4 w-4" />
-            <span className="sr-only">Toggle menu</span>
-          </button>
-        </div>
-        <div className="py-4">
-          <nav className="grid gap-1 px-2">
-            {routes.map((route, i) => (
-              <Link
-                key={i}
-                to={route.path}
-                className={cn(
-                  buttonVariants({ variant: "ghost" }),
-                  "justify-start px-4 py-2",
-                  pathname === route.path && "bg-muted hover:bg-muted",
-                  open && "justify-center px-0"
-                )}
-              >
-                {route.icon}
-                <span
-                  className={cn("transition-opacity", open && "opacity-0")}
-                >
-                  {route.title}
-                </span>
-              </Link>
+    <AnimatedSidebar open={open} setOpen={setOpen}>
+      <SidebarBody className="justify-between gap-10 border-r border-neutral-200 dark:border-neutral-700">
+        <div className="flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
+          {open ? <Logo /> : <LogoIcon />}
+          <div className="mt-8 flex flex-col gap-2">
+            {routes.map((link, idx) => (
+              <SidebarLink 
+                key={idx} 
+                link={link} 
+                className={pathname === link.href ? "bg-neutral-200 dark:bg-neutral-700 rounded-md px-2" : "px-2"}
+              />
             ))}
-          </nav>
+          </div>
         </div>
-        <div className="absolute bottom-4 left-0 right-0 mx-auto px-2">
-          <button
-            onClick={() => setOpen(!open)}
-            className={cn(
-              buttonVariants({ variant: "ghost" }),
-              "h-8 w-full justify-center",
-              open ? "px-0" : "px-4"
-            )}
-          >
-            <Menu
-              className={cn("h-4 w-4 transition-transform", open && "rotate-90")}
-            />
-            <span
-              className={cn("ml-2 transition-opacity", open && "opacity-0")}
-            >
-              {open ? "Expand" : "Collapse"}
-            </span>
-          </button>
-        </div>
-      </div>
-    </>
+      </SidebarBody>
+    </AnimatedSidebar>
   );
 }
