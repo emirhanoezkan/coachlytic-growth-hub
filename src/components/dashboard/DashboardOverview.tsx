@@ -12,6 +12,7 @@ import { Users, Calendar, FileText, BarChart } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { ClientRetentionChart } from "@/components/analytics/ClientRetentionChart";
 import { RevenueChart } from "@/components/analytics/RevenueChart";
+import { ClientList } from "@/components/clients/ClientList";
 
 interface DashboardOverviewProps {
   period: string;
@@ -73,6 +74,10 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({ period }) 
           description={data.revenue.description}
           trend={{ value: data.revenue.trend, isPositive: true }}
         />
+      </div>
+
+      <div className="pt-4">
+        <ClientList />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

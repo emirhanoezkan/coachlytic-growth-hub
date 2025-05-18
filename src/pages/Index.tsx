@@ -4,7 +4,6 @@ import { SidebarProvider } from "@/components/ui/sidebar-animated";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { Header } from "@/components/layout/Header";
 import { DashboardOverview } from "@/components/dashboard/DashboardOverview";
-import { ClientList } from "@/components/clients/ClientList";
 import { SessionCalendar } from "@/components/sessions/SessionCalendar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
@@ -39,10 +38,6 @@ const Index = () => {
               </div>
 
               <DashboardOverview period={period} />
-              
-              <div className="pt-6">
-                <ClientList />
-              </div>
               
               <div className="pt-6">
                 <SessionCalendar />
