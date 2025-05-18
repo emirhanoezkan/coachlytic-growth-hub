@@ -39,7 +39,7 @@ const Index = () => {
 
               <DashboardOverview period={period} />
               
-              <div className="pt-6">
+              <div className="w-full">
                 <SessionDateSelector />
               </div>
             </div>

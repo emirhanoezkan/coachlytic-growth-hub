@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Calendar } from "@/components/ui/calendar";
@@ -119,121 +118,123 @@ export const SessionDateSelector: React.FC = () => {
   };
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
-      <Card className="lg:col-span-2 overflow-hidden border-border/40 shadow-sm">
-        <CardHeader className="bg-muted/30 pb-3">
-          <CardTitle className="text-xl text-center text-gray-800">Session Calendar</CardTitle>
-        </CardHeader>
-        <CardContent className="p-4 flex justify-center">
-          <div className="w-full max-w-sm">
-            <Calendar 
-              mode="single"
-              selected={selectedDate}
-              onSelect={setSelectedDate}
-              className="w-full border-none shadow-none"
-              components={{
-                DayContent: ({ date }) => renderDayContent(date)
-              }}
-            />
-          </div>
-        </CardContent>
-      </Card>
+    <div className="w-full space-y-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 max-w-full">
+        <Card className="lg:col-span-2 overflow-hidden border-border/40 shadow-sm">
+          <CardHeader className="bg-muted/30 pb-3 flex items-center">
+            <CardTitle className="text-xl text-gray-800">Sessions Calendar</CardTitle>
+          </CardHeader>
+          <CardContent className="p-4 flex justify-center">
+            <div className="w-full max-w-xs">
+              <Calendar 
+                mode="single"
+                selected={selectedDate}
+                onSelect={setSelectedDate}
+                className="w-full border-none shadow-none"
+                components={{
+                  DayContent: ({ date }) => renderDayContent(date)
+                }}
+              />
+            </div>
+          </CardContent>
+        </Card>
 
-      <Card className="border-border/40 shadow-sm">
-        <CardHeader className="bg-muted/30 pb-2">
-          <div className="flex items-center justify-between">
-            <CardTitle className="text-lg">
-              {selectedDate ? format(selectedDate, 'MMMM d, yyyy') : "No date selected"}
-            </CardTitle>
-            
-            {sessionsForSelectedDate.length > 0 && (
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <div className="flex items-center gap-1 text-xs text-lavender-600 bg-lavender-50 px-2 py-1 rounded-full">
-                      <Info className="h-3 w-3" />
-                      <span>{sessionsForSelectedDate.length} {sessionsForSelectedDate.length === 1 ? 'session' : 'sessions'}</span>
-                    </div>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>You have {sessionsForSelectedDate.length} {sessionsForSelectedDate.length === 1 ? 'session' : 'sessions'} scheduled on this date</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            )}
-          </div>
-        </CardHeader>
-        <CardContent className="p-4">
-          <div className="space-y-3 max-h-[400px] overflow-y-auto pr-1 custom-scrollbar">
-            {sessionsForSelectedDate.length > 0 ? (
-              sessionsForSelectedDate.map((session, idx) => {
-                const sessionDate = new Date(session.date);
-                return (
-                  <div 
-                    key={idx} 
-                    className="border border-border/50 rounded-lg p-3 hover:bg-muted/30 transition-colors group"
-                  >
-                    <div className="flex justify-between items-center">
-                      <div className="flex items-center gap-2">
-                        <div className="bg-forest-100 p-1.5 rounded-full">
-                          <Clock className="h-3.5 w-3.5 text-forest-600" />
+        <Card className="border-border/40 shadow-sm">
+          <CardHeader className="bg-muted/30 pb-2">
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-base md:text-lg">
+                {selectedDate ? format(selectedDate, 'MMM d, yyyy') : "No date selected"}
+              </CardTitle>
+              
+              {sessionsForSelectedDate.length > 0 && (
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <div className="flex items-center gap-1 text-xs text-lavender-600 bg-lavender-50 px-2.5 py-1 rounded-full font-medium">
+                        <Info className="h-3 w-3" />
+                        <span>{sessionsForSelectedDate.length} {sessionsForSelectedDate.length === 1 ? 'session' : 'sessions'}</span>
+                      </div>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p className="text-sm">You have {sessionsForSelectedDate.length} {sessionsForSelectedDate.length === 1 ? 'session' : 'sessions'} scheduled on this date</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              )}
+            </div>
+          </CardHeader>
+          <CardContent className="p-4">
+            <div className="space-y-3 max-h-[350px] overflow-y-auto pr-1 custom-scrollbar">
+              {sessionsForSelectedDate.length > 0 ? (
+                sessionsForSelectedDate.map((session, idx) => {
+                  const sessionDate = new Date(session.date);
+                  return (
+                    <div 
+                      key={idx} 
+                      className="border border-border/50 rounded-lg p-3 hover:bg-muted/30 transition-colors group"
+                    >
+                      <div className="flex justify-between items-center">
+                        <div className="flex items-center gap-2">
+                          <div className="bg-forest-100 p-1.5 rounded-full">
+                            <Clock className="h-3.5 w-3.5 text-forest-600" />
+                          </div>
+                          <p className="font-medium text-sm">{formatTime(sessionDate)}</p>
                         </div>
-                        <p className="font-medium text-sm">{formatTime(sessionDate)}</p>
+                        <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                          <Button 
+                            variant="ghost" 
+                            size="sm" 
+                            className="h-7 w-7 p-0 rounded-full"
+                            onClick={() => handleEditSession(session.id)}
+                          >
+                            <Edit className="h-3.5 w-3.5" />
+                          </Button>
+                          <Button 
+                            variant="ghost" 
+                            size="sm" 
+                            className="h-7 w-7 p-0 text-red-500 hover:text-red-700 rounded-full"
+                            onClick={() => handleDeleteSession(session.id)}
+                          >
+                            <Trash2 className="h-3.5 w-3.5" />
+                          </Button>
+                        </div>
                       </div>
-                      <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <Button 
-                          variant="ghost" 
-                          size="sm" 
-                          className="h-7 w-7 p-0 rounded-full"
-                          onClick={() => handleEditSession(session.id)}
-                        >
-                          <Edit className="h-3.5 w-3.5" />
-                        </Button>
-                        <Button 
-                          variant="ghost" 
-                          size="sm" 
-                          className="h-7 w-7 p-0 text-red-500 hover:text-red-700 rounded-full"
-                          onClick={() => handleDeleteSession(session.id)}
-                        >
-                          <Trash2 className="h-3.5 w-3.5" />
-                        </Button>
-                      </div>
+                      <Badge className="mt-2 bg-lavender-100 text-lavender-800 hover:bg-lavender-200 font-normal">
+                        {session.duration} min
+                      </Badge>
+                      <p className="text-sm mt-2 font-medium">{session.clients?.name || "Client"}</p>
+                      <p className="text-xs text-muted-foreground mt-0.5">{session.title}</p>
+                      {session.status && (
+                        <Badge className="mt-2 mr-2 bg-forest-100 text-forest-800 hover:bg-forest-200 font-normal">
+                          {session.status.charAt(0).toUpperCase() + session.status.slice(1)}
+                        </Badge>
+                      )}
+                      {session.location_type && (
+                        <Badge className="mt-2 bg-stone-100 text-stone-800 hover:bg-stone-200 font-normal">
+                          {session.location_type}
+                        </Badge>
+                      )}
+                      {session.notes && (
+                        <p className="text-xs mt-2 p-2 bg-muted/30 rounded-md text-muted-foreground">
+                          {session.notes}
+                        </p>
+                      )}
                     </div>
-                    <Badge className="mt-2 bg-lavender-100 text-lavender-800 hover:bg-lavender-200 font-normal">
-                      {session.duration} min
-                    </Badge>
-                    <p className="text-sm mt-2 font-medium">{session.clients?.name || "Client"}</p>
-                    <p className="text-xs text-muted-foreground mt-0.5">{session.title}</p>
-                    {session.status && (
-                      <Badge className="mt-2 mr-2 bg-forest-100 text-forest-800 hover:bg-forest-200 font-normal">
-                        {session.status.charAt(0).toUpperCase() + session.status.slice(1)}
-                      </Badge>
-                    )}
-                    {session.location_type && (
-                      <Badge className="mt-2 bg-stone-100 text-stone-800 hover:bg-stone-200 font-normal">
-                        {session.location_type}
-                      </Badge>
-                    )}
-                    {session.notes && (
-                      <p className="text-xs mt-2 p-2 bg-muted/30 rounded-md text-muted-foreground">
-                        {session.notes}
-                      </p>
-                    )}
+                  );
+                })
+              ) : (
+                <div className="flex flex-col items-center justify-center py-6 text-center">
+                  <div className="rounded-full bg-muted p-3 mb-3">
+                    <CalendarIcon className="h-5 w-5 text-muted-foreground" />
                   </div>
-                );
-              })
-            ) : (
-              <div className="flex flex-col items-center justify-center py-6 text-center">
-                <div className="rounded-full bg-muted p-3 mb-3">
-                  <CalendarIcon className="h-5 w-5 text-muted-foreground" />
+                  <p className="text-muted-foreground">No sessions on this date</p>
+                  <p className="text-xs text-muted-foreground mt-1">Select another date or add a new session</p>
                 </div>
-                <p className="text-muted-foreground">No sessions on this date</p>
-                <p className="text-xs text-muted-foreground mt-1">Select another date or add a new session</p>
-              </div>
-            )}
-          </div>
-        </CardContent>
-      </Card>
+              )}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
 
       {/* Edit Session Dialog */}
       <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>

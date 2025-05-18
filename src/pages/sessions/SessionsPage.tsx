@@ -28,7 +28,7 @@ const SessionsPage = () => {
             <div className="max-w-7xl mx-auto space-y-6">
               <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                 <div>
-                  <h1 className="text-2xl font-display font-semibold text-gray-900">Session Calendar</h1>
+                  <h1 className="text-2xl font-display font-semibold text-gray-900">Session Management</h1>
                   <p className="text-gray-500 mt-1">Schedule and manage your coaching sessions</p>
                 </div>
                 <div className="flex gap-3">
@@ -54,11 +54,11 @@ const SessionsPage = () => {
                 </div>
               </div>
               
-              <Tabs value={view}>
-                <TabsContent value="calendar">
+              <Tabs value={view} className="w-full">
+                <TabsContent value="calendar" className="w-full mt-0">
                   <SessionDateSelector />
                 </TabsContent>
-                <TabsContent value="list">
+                <TabsContent value="list" className="w-full mt-0">
                   <SessionList />
                 </TabsContent>
               </Tabs>
