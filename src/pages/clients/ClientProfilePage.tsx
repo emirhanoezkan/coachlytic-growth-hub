@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { SidebarProvider } from "@/components/ui/sidebar-animated";
@@ -33,8 +34,19 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { Input } from "@/components/ui/input";
 import { useClient, useUpdateClient } from "@/services/clientsService";
 import { SessionForm } from "@/components/sessions/SessionForm";
-import { useSessions } from '@/services/sessionsService';
+import { useSessions, useUpdateSession, useDeleteSession } from '@/services/sessionsService';
 import { useLanguage } from "@/contexts/LanguageContext";
+import { 
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import { useTimeFormat } from "@/contexts/TimeFormatContext";
 
 const ClientProfilePage = () => {
   const { id } = useParams<{ id: string }>();
@@ -44,12 +56,22 @@ const ClientProfilePage = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("overview");
   const [isAddNoteDialogOpen, setIsAddNoteDialogOpen] = useState(false);
+  const [isEditNoteDialogOpen, setIsEditNoteDialogOpen] = useState(false);
+  const [isDeleteNoteDialogOpen, setIsDeleteNoteDialogOpen] = useState(false);
   const [isAddSessionDialogOpen, setIsAddSessionDialogOpen] = useState(false);
+  const [isEditSessionDialogOpen, setIsEditSessionDialogOpen] = useState(false);
+  const [isDeleteSessionDialogOpen, setIsDeleteSessionDialogOpen] = useState(false);
   const [note, setNote] = useState("");
+  const [editingNoteIndex, setEditingNoteIndex] = useState<number | null>(null);
+  const [editingSessionId, setEditingSessionId] = useState<string | null>(null);
+  const [deletingSessionId, setDeletingSessionId] = useState<string | null>(null);
   
   const { data: client, isLoading, error } = useClient(id || "");
   const { data: sessions = [] } = useSessions();
   const updateClient = useUpdateClient();
+  const updateSession = useUpdateSession();
+  const deleteSession = useDeleteSession();
+  const { formatTime } = useTimeFormat();
 
   // Filter sessions for this client
   const clientSessions = sessions.filter(
@@ -126,6 +148,94 @@ const ClientProfilePage = () => {
     });
   };
 
+  const handleEditNote = () => {
+    if (!note.trim() || editingNoteIndex === null) {
+      toast({
+        variant: "destructive",
+        title: "Note cannot be empty",
+        description: "Please enter a note before saving."
+      });
+      return;
+    }
+
+    // Parse client notes
+    const parsedNotes = parseNotes(client.notes);
+    
+    // Update the specific note
+    const dateStamp = parsedNotes[editingNoteIndex].date;
+    parsedNotes[editingNoteIndex] = {
+      date: dateStamp,
+      content: note
+    };
+    
+    // Reconstruct the notes string
+    const updatedNotes = parsedNotes.map(n => `[${n.date}] ${n.content}\n\n`).join('');
+
+    updateClient.mutate({
+      id: client.id,
+      clientData: {
+        notes: updatedNotes
+      }
+    }, {
+      onSuccess: () => {
+        setNote("");
+        setIsEditNoteDialogOpen(false);
+        setEditingNoteIndex(null);
+        toast({
+          title: "Note updated",
+          description: "The client note has been updated successfully."
+        });
+      }
+    });
+  };
+
+  const handleDeleteNote = () => {
+    if (editingNoteIndex === null) return;
+    
+    // Parse client notes
+    const parsedNotes = parseNotes(client.notes);
+    
+    // Remove the specific note
+    parsedNotes.splice(editingNoteIndex, 1);
+    
+    // Reconstruct the notes string
+    const updatedNotes = parsedNotes.map(n => `[${n.date}] ${n.content}\n\n`).join('');
+
+    updateClient.mutate({
+      id: client.id,
+      clientData: {
+        notes: updatedNotes
+      }
+    }, {
+      onSuccess: () => {
+        setIsDeleteNoteDialogOpen(false);
+        setEditingNoteIndex(null);
+        toast({
+          title: "Note deleted",
+          description: "The client note has been deleted successfully."
+        });
+      }
+    });
+  };
+
+  const handleEditSession = (sessionId: string) => {
+    setEditingSessionId(sessionId);
+    setIsEditSessionDialogOpen(true);
+  };
+
+  const handleDeleteSession = (sessionId: string) => {
+    setDeletingSessionId(sessionId);
+    setIsDeleteSessionDialogOpen(true);
+  };
+
+  const confirmDeleteSession = async () => {
+    if (deletingSessionId) {
+      await deleteSession.mutateAsync(deletingSessionId);
+      setIsDeleteSessionDialogOpen(false);
+      setDeletingSessionId(null);
+    }
+  };
+
   const formatDate = (dateString?: string | null) => {
     if (!dateString) return "-";
     try {
@@ -154,6 +264,9 @@ const ClientProfilePage = () => {
   };
   
   const clientNotes = parseNotes(client.notes);
+  
+  // Get the session being edited
+  const sessionToEdit = sessions.find(s => s.id === editingSessionId);
 
   return (
     <SidebarProvider open={sidebarOpen} setOpen={setSidebarOpen}>
@@ -400,14 +513,24 @@ const ClientProfilePage = () => {
                                         </Badge>
                                       </div>
                                       <p className="text-sm text-gray-500">
-                                        {format(new Date(session.date), 'MMM dd, yyyy - HH:mm')} · {session.duration} min · {session.location_type.charAt(0).toUpperCase() + session.location_type.slice(1)}
+                                        {format(new Date(session.date), 'MMM dd, yyyy')} - {formatTime(new Date(session.date))} · {session.duration} min · {session.location_type.charAt(0).toUpperCase() + session.location_type.slice(1)}
                                       </p>
                                     </div>
                                     <div className="flex gap-1">
-                                      <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                                      <Button 
+                                        variant="ghost" 
+                                        size="sm" 
+                                        className="h-8 w-8 p-0"
+                                        onClick={() => handleEditSession(session.id)}
+                                      >
                                         <Edit className="h-4 w-4" />
                                       </Button>
-                                      <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-red-500 hover:text-red-700">
+                                      <Button 
+                                        variant="ghost" 
+                                        size="sm" 
+                                        className="h-8 w-8 p-0 text-red-500 hover:text-red-700"
+                                        onClick={() => handleDeleteSession(session.id)}
+                                      >
                                         <Trash2 className="h-4 w-4" />
                                       </Button>
                                     </div>
@@ -452,9 +575,31 @@ const ClientProfilePage = () => {
                               <div key={index} className="bg-white border rounded-lg p-4 hover:bg-gray-50">
                                 <div className="flex justify-between items-start">
                                   <p className="text-sm text-gray-500 mb-1">{note.date}</p>
-                                  <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-                                    <Edit className="h-4 w-4" />
-                                  </Button>
+                                  <div className="flex gap-1">
+                                    <Button 
+                                      variant="ghost" 
+                                      size="sm" 
+                                      className="h-8 w-8 p-0"
+                                      onClick={() => {
+                                        setEditingNoteIndex(index);
+                                        setNote(note.content);
+                                        setIsEditNoteDialogOpen(true);
+                                      }}
+                                    >
+                                      <Edit className="h-4 w-4" />
+                                    </Button>
+                                    <Button 
+                                      variant="ghost" 
+                                      size="sm" 
+                                      className="h-8 w-8 p-0 text-red-500 hover:text-red-700"
+                                      onClick={() => {
+                                        setEditingNoteIndex(index);
+                                        setIsDeleteNoteDialogOpen(true);
+                                      }}
+                                    >
+                                      <Trash2 className="h-4 w-4" />
+                                    </Button>
+                                  </div>
                                 </div>
                                 <p className="whitespace-pre-wrap">{note.content}</p>
                               </div>
@@ -481,6 +626,7 @@ const ClientProfilePage = () => {
         </div>
       </div>
       
+      {/* Add Note Dialog */}
       <Dialog open={isAddNoteDialogOpen} onOpenChange={setIsAddNoteDialogOpen}>
         <DialogContent className="sm:max-w-[500px]">
           <DialogHeader>
@@ -506,6 +652,54 @@ const ClientProfilePage = () => {
         </DialogContent>
       </Dialog>
 
+      {/* Edit Note Dialog */}
+      <Dialog open={isEditNoteDialogOpen} onOpenChange={setIsEditNoteDialogOpen}>
+        <DialogContent className="sm:max-w-[500px]">
+          <DialogHeader>
+            <DialogTitle>Edit Note</DialogTitle>
+            <DialogDescription>
+              Edit your note about {client.name}.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <Textarea 
+              value={note} 
+              onChange={(e) => setNote(e.target.value)} 
+              placeholder="Edit your note here..." 
+              className="min-h-[150px]"
+            />
+            <div className="flex justify-end gap-2">
+              <Button variant="outline" onClick={() => setIsEditNoteDialogOpen(false)}>Cancel</Button>
+              <Button onClick={handleEditNote} className="bg-forest-500 hover:bg-forest-600">
+                Update Note
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Delete Note Confirmation */}
+      <AlertDialog open={isDeleteNoteDialogOpen} onOpenChange={setIsDeleteNoteDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This will permanently delete this note and cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={() => setEditingNoteIndex(null)}>Cancel</AlertDialogCancel>
+            <AlertDialogAction 
+              onClick={handleDeleteNote}
+              className="bg-red-500 hover:bg-red-600"
+            >
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      {/* Add Session Dialog */}
       <Dialog open={isAddSessionDialogOpen} onOpenChange={setIsAddSessionDialogOpen}>
         <DialogContent className="sm:max-w-[500px]">
           <DialogHeader>
@@ -520,6 +714,49 @@ const ClientProfilePage = () => {
           />
         </DialogContent>
       </Dialog>
+      
+      {/* Edit Session Dialog */}
+      <Dialog open={isEditSessionDialogOpen} onOpenChange={setIsEditSessionDialogOpen}>
+        <DialogContent className="sm:max-w-[500px]">
+          <DialogHeader>
+            <DialogTitle>Edit Session</DialogTitle>
+            <DialogDescription>
+              Edit session details for {client.name}.
+            </DialogDescription>
+          </DialogHeader>
+          {sessionToEdit && (
+            <SessionForm 
+              onSubmit={() => {
+                setIsEditSessionDialogOpen(false);
+                setEditingSessionId(null);
+              }} 
+              sessionToEdit={sessionToEdit}
+              isEditing={true}
+            />
+          )}
+        </DialogContent>
+      </Dialog>
+      
+      {/* Delete Session Confirmation */}
+      <AlertDialog open={isDeleteSessionDialogOpen} onOpenChange={setIsDeleteSessionDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This will permanently delete this session and cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={() => setDeletingSessionId(null)}>Cancel</AlertDialogCancel>
+            <AlertDialogAction 
+              onClick={confirmDeleteSession}
+              className="bg-red-500 hover:bg-red-600"
+            >
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </SidebarProvider>
   );
 };

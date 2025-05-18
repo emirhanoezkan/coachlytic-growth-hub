@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Table,
   TableBody,
@@ -17,107 +17,179 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { MoreHorizontal } from "lucide-react";
-
-// Sample data for sessions
-const sessions = [
-  {
-    id: 1,
-    client: "Sarah Johnson",
-    type: "Career Coaching",
-    date: "May 19, 2025",
-    time: "10:00 AM",
-    duration: "45 min",
-    status: "Upcoming"
-  },
-  {
-    id: 2,
-    client: "Michael Chen",
-    type: "Business Strategy",
-    date: "May 20, 2025",
-    time: "11:30 AM",
-    duration: "60 min",
-    status: "Upcoming"
-  },
-  {
-    id: 3,
-    client: "Emma Davis",
-    type: "Life Coaching",
-    date: "May 18, 2025",
-    time: "2:00 PM",
-    duration: "45 min",
-    status: "Completed"
-  },
-  {
-    id: 4,
-    client: "Robert Wilson",
-    type: "Executive Coaching",
-    date: "May 15, 2025",
-    time: "3:30 PM",
-    duration: "60 min",
-    status: "Cancelled"
-  },
-  {
-    id: 5,
-    client: "Jennifer Lopez",
-    type: "Career Development",
-    date: "May 22, 2025",
-    time: "9:00 AM",
-    duration: "45 min",
-    status: "Upcoming"
-  }
-];
+import { useDeleteSession, useSessions } from "@/services/sessionsService";
+import { 
+  Dialog, 
+  DialogContent, 
+  DialogDescription, 
+  DialogHeader, 
+  DialogTitle 
+} from "@/components/ui/dialog";
+import { SessionForm } from "@/components/sessions/SessionForm";
+import { format } from "date-fns";
+import { useTimeFormat } from "@/contexts/TimeFormatContext";
+import { 
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 export const SessionList: React.FC = () => {
+  const { data: sessions = [], isLoading } = useSessions();
+  const deleteSession = useDeleteSession();
+  const { formatTime } = useTimeFormat();
+  
+  const [editSessionId, setEditSessionId] = useState<string | null>(null);
+  const [deleteSessionId, setDeleteSessionId] = useState<string | null>(null);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  
+  const sessionToEdit = sessions.find(s => s.id === editSessionId);
+  
+  const handleViewDetails = (sessionId: string) => {
+    // In a real application, this might navigate to a session details page
+    console.log("View details for session:", sessionId);
+  };
+  
+  const handleEditSession = (sessionId: string) => {
+    setEditSessionId(sessionId);
+    setIsEditDialogOpen(true);
+  };
+  
+  const handleDeleteSession = (sessionId: string) => {
+    setDeleteSessionId(sessionId);
+    setIsDeleteDialogOpen(true);
+  };
+  
+  const confirmDeleteSession = async () => {
+    if (deleteSessionId) {
+      await deleteSession.mutateAsync(deleteSessionId);
+      setIsDeleteDialogOpen(false);
+      setDeleteSessionId(null);
+    }
+  };
+  
+  if (isLoading) {
+    return (
+      <div className="rounded-md border overflow-hidden bg-white p-8 text-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-forest-500 mx-auto"></div>
+        <p className="mt-4 text-gray-500">Loading sessions...</p>
+      </div>
+    );
+  }
+
   return (
-    <div className="rounded-md border overflow-hidden bg-white">
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Client</TableHead>
-            <TableHead>Session Type</TableHead>
-            <TableHead>Date</TableHead>
-            <TableHead>Time</TableHead>
-            <TableHead>Duration</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead></TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {sessions.map((session) => (
-            <TableRow key={session.id}>
-              <TableCell className="font-medium">{session.client}</TableCell>
-              <TableCell>{session.type}</TableCell>
-              <TableCell>{session.date}</TableCell>
-              <TableCell>{session.time}</TableCell>
-              <TableCell>{session.duration}</TableCell>
-              <TableCell>
-                <Badge className={
-                  session.status === "Upcoming" ? "bg-lavender-100 text-lavender-800 hover:bg-lavender-200" :
-                  session.status === "Completed" ? "bg-forest-100 text-forest-800 hover:bg-forest-200" :
-                  "bg-red-100 text-red-800 hover:bg-red-200"
-                }>
-                  {session.status}
-                </Badge>
-              </TableCell>
-              <TableCell>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-                      <MoreHorizontal className="h-4 w-4" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <DropdownMenuItem>View Details</DropdownMenuItem>
-                    <DropdownMenuItem>Edit Session</DropdownMenuItem>
-                    <DropdownMenuItem>Cancel Session</DropdownMenuItem>
-                    <DropdownMenuItem>Add Notes</DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </TableCell>
+    <>
+      <div className="rounded-md border overflow-hidden bg-white">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Client</TableHead>
+              <TableHead>Session Type</TableHead>
+              <TableHead>Date</TableHead>
+              <TableHead>Time</TableHead>
+              <TableHead>Duration</TableHead>
+              <TableHead>Status</TableHead>
+              <TableHead></TableHead>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </div>
+          </TableHeader>
+          <TableBody>
+            {sessions.length > 0 ? sessions.map((session) => {
+              const sessionDate = new Date(session.date);
+              return (
+                <TableRow key={session.id}>
+                  <TableCell className="font-medium">{session.clients?.name || "Unknown Client"}</TableCell>
+                  <TableCell>{session.title}</TableCell>
+                  <TableCell>{format(sessionDate, 'MMM dd, yyyy')}</TableCell>
+                  <TableCell>{formatTime(sessionDate)}</TableCell>
+                  <TableCell>{session.duration} min</TableCell>
+                  <TableCell>
+                    <Badge className={
+                      session.status === "scheduled" ? "bg-lavender-100 text-lavender-800 hover:bg-lavender-200" :
+                      session.status === "completed" ? "bg-forest-100 text-forest-800 hover:bg-forest-200" :
+                      "bg-red-100 text-red-800 hover:bg-red-200"
+                    }>
+                      {session.status.charAt(0).toUpperCase() + session.status.slice(1)}
+                    </Badge>
+                  </TableCell>
+                  <TableCell>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                          <MoreHorizontal className="h-4 w-4" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        <DropdownMenuItem onClick={() => handleViewDetails(session.id)}>View Details</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => handleEditSession(session.id)}>Edit Session</DropdownMenuItem>
+                        <DropdownMenuItem 
+                          className="text-red-500 focus:text-red-500" 
+                          onClick={() => handleDeleteSession(session.id)}
+                        >
+                          Cancel Session
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => handleEditSession(session.id)}>Add Notes</DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </TableCell>
+                </TableRow>
+              );
+            }) : (
+              <TableRow>
+                <TableCell colSpan={7} className="text-center py-6 text-gray-500">
+                  No sessions found
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </div>
+      
+      {/* Edit Session Dialog */}
+      <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+        <DialogContent className="sm:max-w-[500px]">
+          <DialogHeader>
+            <DialogTitle>Edit Session</DialogTitle>
+            <DialogDescription>Make changes to the session details</DialogDescription>
+          </DialogHeader>
+          {sessionToEdit && (
+            <SessionForm 
+              onSubmit={() => {
+                setIsEditDialogOpen(false);
+                setEditSessionId(null);
+              }} 
+              sessionToEdit={sessionToEdit}
+              isEditing={true}
+            />
+          )}
+        </DialogContent>
+      </Dialog>
+      
+      {/* Delete Confirmation Dialog */}
+      <AlertDialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This will permanently delete this session and cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={() => setDeleteSessionId(null)}>Cancel</AlertDialogCancel>
+            <AlertDialogAction 
+              onClick={confirmDeleteSession}
+              className="bg-red-500 hover:bg-red-600"
+            >
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </>
   );
 };
