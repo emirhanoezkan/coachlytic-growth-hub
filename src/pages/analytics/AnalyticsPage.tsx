@@ -11,10 +11,10 @@ import { useToast } from "@/hooks/use-toast";
 const AnalyticsPage = () => {
   const { t } = useI18n();
   const { toast } = useToast();
-  const [timeFilter, setTimeFilter] = useState("month");
+  const [timeFilter, setTimeFilter] = useState<'day' | 'week' | 'month' | 'quarter'>('month');
 
   const handleTimeFilterChange = (value: string) => {
-    setTimeFilter(value);
+    setTimeFilter(value as 'day' | 'week' | 'month' | 'quarter');
     toast({
       description: `Analytics view switched to ${value} view`,
     });

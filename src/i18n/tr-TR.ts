@@ -38,6 +38,8 @@ export const trTR = {
   atRisk: "Risk Altında",
   upcomingSessions: "Yaklaşan Seanslar",
   scheduleToday: "Bugünkü programınız",
+  selectDateMessage: "Seansları görmek için bir tarih seçin",
+  viewToday: "Bugünü Görüntüle",
   
   // Clients
   clientDirectory: "Danışan Dizini",

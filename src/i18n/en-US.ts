@@ -38,6 +38,8 @@ export const enUS = {
   atRisk: "At Risk",
   upcomingSessions: "Upcoming Sessions",
   scheduleToday: "Your schedule for today",
+  selectDateMessage: "Select a date to see sessions",
+  viewToday: "View Today",
   
   // Clients
   clientDirectory: "Client Directory",
