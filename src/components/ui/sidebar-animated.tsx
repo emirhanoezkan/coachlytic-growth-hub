@@ -68,7 +68,7 @@ export const Sidebar = ({
   );
 };
 
-export const SidebarBody = (props: React.ComponentProps<typeof motion.div>) => {
+export const SidebarBody = (props: React.HTMLAttributes<HTMLDivElement>) => {
   return (
     <>
       <DesktopSidebar {...props} />
@@ -81,7 +81,7 @@ export const DesktopSidebar = ({
   className,
   children,
   ...props
-}: React.ComponentProps<typeof motion.div>) => {
+}: React.HTMLAttributes<HTMLDivElement>) => {
   const { open, setOpen, animate } = useSidebar();
   return (
     <motion.div
@@ -95,9 +95,7 @@ export const DesktopSidebar = ({
       onMouseEnter={() => setOpen(true)}
       onMouseLeave={() => setOpen(false)}
       {...props}
-    >
-      {children}
-    </motion.div>
+    />
   );
 };
 
@@ -105,7 +103,7 @@ export const MobileSidebar = ({
   className,
   children,
   ...props
-}: React.ComponentProps<"div">) => {
+}: React.HTMLAttributes<HTMLDivElement>) => {
   const { open, setOpen } = useSidebar();
   return (
     <>
@@ -170,19 +168,13 @@ export const SidebarLink = ({
       {...props}
     >
       {link.icon}
-      {/* Fix: Use a different approach to animation that avoids type conflicts */}
+      {/* Conditionally render the span based on the open state */}
       {animate ? (
-        <motion.span
-          animate={{
-            opacity: open ? 1 : 0,
-          }}
-          style={{
-            display: open ? "inline-block" : "none",
-          }}
-          className="text-neutral-700 dark:text-neutral-200 text-sm group-hover/sidebar:translate-x-1 transition duration-150 whitespace-pre inline-block !p-0 !m-0"
-        >
-          {link.label}
-        </motion.span>
+        open ? (
+          <span className="text-neutral-700 dark:text-neutral-200 text-sm group-hover/sidebar:translate-x-1 transition duration-150 whitespace-pre inline-block !p-0 !m-0">
+            {link.label}
+          </span>
+        ) : null
       ) : (
         <span className="text-neutral-700 dark:text-neutral-200 text-sm group-hover/sidebar:translate-x-1 transition duration-150 whitespace-pre inline-block !p-0 !m-0">
           {link.label}
