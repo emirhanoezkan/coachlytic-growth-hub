@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Calendar } from "@/components/ui/calendar";
@@ -104,10 +103,10 @@ export const SessionDateSelector: React.FC = () => {
           <span>{day.getDate()}</span>
           <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 flex gap-0.5">
             {Array.from({ length: Math.min(matchingDate.count, 3) }).map((_, i) => (
-              <div key={i} className="h-1 w-1 rounded-full bg-forest-500" />
+              <div key={i} className="h-1 w-1 rounded-full bg-ocean-500" />
             ))}
             {matchingDate.count > 3 && (
-              <div className="h-1 w-1 rounded-full bg-forest-500 opacity-70" />
+              <div className="h-1 w-1 rounded-full bg-ocean-500 opacity-70" />
             )}
           </div>
         </div>
@@ -154,8 +153,8 @@ export const SessionDateSelector: React.FC = () => {
                   >
                     <div className="flex justify-between items-center">
                       <div className="flex items-center gap-2">
-                        <div className="bg-forest-100 p-1.5 rounded-full">
-                          <Clock className="h-3.5 w-3.5 text-forest-600" />
+                        <div className="bg-ocean-100 p-1.5 rounded-full">
+                          <Clock className="h-3.5 w-3.5 text-ocean-600" />
                         </div>
                         <p className="font-medium text-sm">{formatTime(sessionDate)}</p>
                       </div>
@@ -178,7 +177,7 @@ export const SessionDateSelector: React.FC = () => {
                         </Button>
                       </div>
                     </div>
-                    <Badge className="mt-2 bg-lavender-100 text-lavender-800 hover:bg-lavender-200 font-normal">
+                    <Badge className="mt-2 bg-vivid-100 text-vivid-800 hover:bg-vivid-200 font-normal">
                       {session.duration} min
                     </Badge>
                     <p className="text-sm mt-2 font-medium">{session.clients?.name || "Client"}</p>

@@ -51,8 +51,8 @@ export const SessionCalendar = () => {
             modifiersStyles={{
               hasSessions: {
                 fontWeight: 'bold',
-                backgroundColor: '#EBF2ED',
-                color: '#2F5D3E',
+                backgroundColor: '#E0F5FE',
+                color: '#0EA5E9',
                 position: 'relative',
               }
             }}
@@ -69,7 +69,7 @@ export const SessionCalendar = () => {
                     <span>{props.date.getDate()}</span>
                     {session && (
                       <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2">
-                        <div className="bg-forest-500 w-5 h-5 rounded-full flex items-center justify-center">
+                        <div className="bg-ocean-500 w-5 h-5 rounded-full flex items-center justify-center">
                           <span className="text-[10px] text-white font-bold">{session.count}</span>
                         </div>
                       </div>
@@ -90,14 +90,14 @@ export const SessionCalendar = () => {
           <div className="space-y-4">
             {todaySessions.map((session, index) => (
               <div key={index} className="flex items-start p-3 rounded-lg border border-gray-200">
-                <div className="bg-lavender-100 text-lavender-600 px-3 py-2 rounded-md text-center min-w-16">
+                <div className="bg-vivid-100 text-vivid-600 px-3 py-2 rounded-md text-center min-w-16">
                   <div className="text-xs font-semibold">MAY</div>
                   <div className="text-lg font-bold">18</div>
                 </div>
                 <div className="ml-3 flex-1">
                   <div className="flex items-center justify-between">
                     <div className="text-sm font-medium text-gray-900">{session.time}</div>
-                    <Badge className="bg-forest-100 text-forest-800 hover:bg-forest-200">
+                    <Badge className="bg-ocean-100 text-ocean-700 hover:bg-ocean-200">
                       {session.duration}
                     </Badge>
                   </div>

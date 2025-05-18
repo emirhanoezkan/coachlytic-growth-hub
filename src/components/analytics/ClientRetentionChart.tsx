@@ -25,7 +25,8 @@ const monthlyData = [
   { name: 'At-Risk', value: 2 },
 ];
 
-const COLORS = ['#2F5D3E', '#B39BC8', '#A3A3A3', '#FF6B6B'];
+// Updated colors to match our energetic palette
+const COLORS = ['#0EA5E9', '#8B5CF6', '#94A3B8', '#FF6B6B'];
 
 interface ClientRetentionChartProps {
   period: string;
