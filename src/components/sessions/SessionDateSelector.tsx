@@ -122,16 +122,18 @@ export const SessionDateSelector: React.FC = () => {
         <CardHeader className="bg-muted/30">
           <CardTitle>Session Calendar</CardTitle>
         </CardHeader>
-        <CardContent className="p-4">
-          <Calendar 
-            mode="single"
-            selected={selectedDate}
-            onSelect={setSelectedDate}
-            className="rounded-md border shadow-sm mx-auto"
-            components={{
-              DayContent: ({ date }) => renderDayContent(date)
-            }}
-          />
+        <CardContent className="p-4 flex justify-center">
+          <div className="w-full max-w-md">
+            <Calendar 
+              mode="single"
+              selected={selectedDate}
+              onSelect={setSelectedDate}
+              className="w-full border-none shadow-none"
+              components={{
+                DayContent: ({ date }) => renderDayContent(date)
+              }}
+            />
+          </div>
         </CardContent>
       </Card>
 
