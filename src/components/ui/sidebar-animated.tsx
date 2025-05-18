@@ -170,15 +170,24 @@ export const SidebarLink = ({
       {...props}
     >
       {link.icon}
-      <motion.span
-        animate={{
-          display: animate ? (open ? "inline-block" : "none") : "inline-block",
-          opacity: animate ? (open ? 1 : 0) : 1,
-        }}
-        className="text-neutral-700 dark:text-neutral-200 text-sm group-hover/sidebar:translate-x-1 transition duration-150 whitespace-pre inline-block !p-0 !m-0"
-      >
-        {link.label}
-      </motion.span>
+      {/* Fix: Use a different approach to animation that avoids type conflicts */}
+      {animate ? (
+        <motion.span
+          animate={{
+            opacity: open ? 1 : 0,
+          }}
+          style={{
+            display: open ? "inline-block" : "none",
+          }}
+          className="text-neutral-700 dark:text-neutral-200 text-sm group-hover/sidebar:translate-x-1 transition duration-150 whitespace-pre inline-block !p-0 !m-0"
+        >
+          {link.label}
+        </motion.span>
+      ) : (
+        <span className="text-neutral-700 dark:text-neutral-200 text-sm group-hover/sidebar:translate-x-1 transition duration-150 whitespace-pre inline-block !p-0 !m-0">
+          {link.label}
+        </span>
+      )}
     </Link>
   );
 };
