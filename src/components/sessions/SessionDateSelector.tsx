@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Calendar } from "@/components/ui/calendar";
@@ -7,7 +6,7 @@ import { useSessions, useUpdateSession, useDeleteSession } from "@/services/sess
 import { format } from "date-fns";
 import { useTimeFormat } from "@/contexts/TimeFormatContext";
 import { Button } from "@/components/ui/button";
-import { Edit, Trash2, Clock } from "lucide-react";
+import { Edit, Trash2, Clock, Calendar as CalendarIcon } from "lucide-react";
 import { 
   Dialog, 
   DialogContent, 
@@ -188,10 +187,11 @@ export const SessionDateSelector: React.FC = () => {
               })
             ) : (
               <div className="flex flex-col items-center justify-center py-6 text-center">
-                <div className="rounded-full bg-muted/50 p-3 mb-2">
-                  <Calendar className="h-6 w-6 text-muted-foreground" />
+                <div className="rounded-full bg-muted p-3 mb-3">
+                  <CalendarIcon className="h-5 w-5 text-muted-foreground" />
                 </div>
-                <p className="text-muted-foreground">No sessions scheduled for this date</p>
+                <p className="text-muted-foreground">No sessions on this date</p>
+                <p className="text-xs text-muted-foreground mt-1">Select another date or add a new session</p>
               </div>
             )}
           </div>
