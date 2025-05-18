@@ -13,42 +13,48 @@ import {
   SelectValue 
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
+import { useAddClient, ClientFormData } from "@/services/clientsService";
+import { useForm } from "react-hook-form";
 
 interface ClientFormProps {
   onSubmit: () => void;
-  initialData?: {
-    name?: string;
-    email?: string;
-    phone?: string;
-    program?: string;
-    notes?: string;
-  };
+  initialData?: ClientFormData;
 }
 
 export const ClientForm: React.FC<ClientFormProps> = ({ onSubmit, initialData }) => {
   const { toast } = useToast();
+  const { mutate: addClient, isPending } = useAddClient();
   
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Form validation and submission would happen here
-    // For now, just show a success toast
-    toast({
-      title: "Success",
-      description: "Client has been successfully added.",
+  const { register, handleSubmit, setValue, watch } = useForm<ClientFormData>({
+    defaultValues: initialData || {
+      name: '',
+      email: '',
+      phone: '',
+      program: '',
+      notes: ''
+    }
+  });
+  
+  // For the select component which isn't directly compatible with react-hook-form
+  const selectedProgram = watch('program');
+  
+  const onFormSubmit = (data: ClientFormData) => {
+    addClient(data, {
+      onSuccess: () => {
+        onSubmit();
+      }
     });
-    onSubmit();
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit(onFormSubmit)} className="space-y-4">
       <div className="grid grid-cols-1 gap-4">
         <div className="space-y-2">
           <Label htmlFor="name">Full Name</Label>
           <Input 
             id="name" 
             placeholder="John Doe" 
-            defaultValue={initialData?.name || ''} 
-            required 
+            {...register('name', { required: true })}
           />
         </div>
 
@@ -58,8 +64,7 @@ export const ClientForm: React.FC<ClientFormProps> = ({ onSubmit, initialData })
             id="email" 
             type="email" 
             placeholder="client@example.com" 
-            defaultValue={initialData?.email || ''} 
-            required 
+            {...register('email')}
           />
         </div>
 
@@ -69,22 +74,25 @@ export const ClientForm: React.FC<ClientFormProps> = ({ onSubmit, initialData })
             id="phone" 
             type="tel" 
             placeholder="+1 (555) 123-4567" 
-            defaultValue={initialData?.phone || ''} 
+            {...register('phone')}
           />
         </div>
 
         <div className="space-y-2">
           <Label htmlFor="program">Assigned Program</Label>
-          <Select defaultValue={initialData?.program || ''}>
+          <Select 
+            value={selectedProgram} 
+            onValueChange={(value) => setValue('program', value)}
+          >
             <SelectTrigger id="program">
               <SelectValue placeholder="Select a program" />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
-                <SelectItem value="career">Career Development</SelectItem>
-                <SelectItem value="business">Business Strategy</SelectItem>
-                <SelectItem value="life">Life Coaching</SelectItem>
-                <SelectItem value="executive">Executive Coaching</SelectItem>
+                <SelectItem value="Career Development">Career Development</SelectItem>
+                <SelectItem value="Business Strategy">Business Strategy</SelectItem>
+                <SelectItem value="Life Coaching">Life Coaching</SelectItem>
+                <SelectItem value="Executive Coaching">Executive Coaching</SelectItem>
               </SelectGroup>
             </SelectContent>
           </Select>
@@ -96,14 +104,20 @@ export const ClientForm: React.FC<ClientFormProps> = ({ onSubmit, initialData })
             id="notes" 
             placeholder="Add any relevant information about this client" 
             className="min-h-[100px]"
-            defaultValue={initialData?.notes || ''}
+            {...register('notes')}
           />
         </div>
       </div>
 
       <div className="flex justify-end gap-3 pt-4">
         <Button type="button" variant="outline" onClick={onSubmit}>Cancel</Button>
-        <Button type="submit" className="bg-forest-500 hover:bg-forest-600">Save Client</Button>
+        <Button 
+          type="submit" 
+          className="bg-forest-500 hover:bg-forest-600"
+          disabled={isPending}
+        >
+          {isPending ? "Saving..." : "Save Client"}
+        </Button>
       </div>
     </form>
   );
