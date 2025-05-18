@@ -75,7 +75,6 @@ export const enUS = {
   coachingPrograms: "Coaching Programs",
   managePrograms: "Manage your coaching packages and programs",
   createProgram: "Create Program",
-  sessions: "Sessions",
   price: "Price",
   edit: "Edit",
   delete: "Delete",
@@ -171,6 +170,7 @@ export const enUS = {
   enterpriseDesc: "For established coaching businesses",
   perMonth: "/month per user",
   contactUs: "Contact Us",
+  free: "Free", // Added missing translation key
   
   // Misc
   success: "Success",

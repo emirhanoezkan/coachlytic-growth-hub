@@ -4,11 +4,11 @@ import { enUS } from '../i18n/en-US';
 import { trTR } from '../i18n/tr-TR';
 
 type Locale = 'en' | 'tr';
-type Translations = typeof enUS;
+type TranslationKey = keyof typeof enUS;
 
 interface I18nContextType {
   locale: Locale;
-  t: (key: keyof typeof enUS) => string;
+  t: (key: TranslationKey) => string;
   changeLocale: (locale: Locale) => void;
 }
 
@@ -23,7 +23,7 @@ export const useI18n = () => useContext(I18nContext);
 export const I18nProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const savedLocale = localStorage.getItem('locale') as Locale;
   const [locale, setLocale] = useState<Locale>(savedLocale || 'en');
-  const [translations, setTranslations] = useState<Translations>(locale === 'tr' ? trTR : enUS);
+  const [translations, setTranslations] = useState<typeof enUS>(locale === 'tr' ? trTR : enUS);
 
   const changeLocale = useCallback((newLocale: Locale) => {
     setLocale(newLocale);
@@ -31,7 +31,7 @@ export const I18nProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setTranslations(newLocale === 'tr' ? trTR : enUS);
   }, []);
 
-  const t = useCallback((key: keyof typeof enUS) => {
+  const t = useCallback((key: TranslationKey) => {
     return translations[key] || key;
   }, [translations]);
 

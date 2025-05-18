@@ -14,6 +14,7 @@ import {
 import { Link } from 'react-router-dom';
 import { useI18n } from "@/contexts/I18nContext";
 import { useToast } from "@/hooks/use-toast";
+import { enUS } from "@/i18n/en-US"; // Import enUS for type safety
 
 interface HeaderProps {
   title?: string;
@@ -87,7 +88,7 @@ export const Header: React.FC<HeaderProps> = ({ title }) => {
     <header className="bg-white border-b px-6 py-3">
       <div className="flex items-center justify-between">
         <div>
-          {title && <h1 className="text-2xl font-display font-semibold text-gray-800">{t(title as keyof typeof enUS) || title}</h1>}
+          {title && <h1 className="text-2xl font-display font-semibold text-gray-800">{title}</h1>}
         </div>
         
         <div className="flex items-center gap-4">

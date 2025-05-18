@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { DashboardOverview } from "@/components/dashboard/DashboardOverview";
 import { ClientList } from "@/components/clients/ClientList";
@@ -102,7 +101,7 @@ const Index = () => {
           <DialogHeader>
             <DialogTitle>Schedule New Session</DialogTitle>
           </DialogHeader>
-          <SessionForm onSubmit={() => setIsAddSessionDialogOpen(false)} initialDate={selectedDate} />
+          <SessionForm onSubmit={() => setIsAddSessionDialogOpen(false)} initialData={selectedDate || undefined} />
         </DialogContent>
       </Dialog>
     </div>

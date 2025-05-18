@@ -75,7 +75,6 @@ export const trTR = {
   coachingPrograms: "Koçluk Programları",
   managePrograms: "Koçluk paketlerinizi ve programlarınızı yönetin",
   createProgram: "Program Oluştur",
-  sessions: "Seanslar",
   price: "Ücret",
   edit: "Düzenle",
   delete: "Sil",
@@ -171,6 +170,7 @@ export const trTR = {
   enterpriseDesc: "Kurulmuş koçluk işletmeleri için",
   perMonth: "/ay kullanıcı başına",
   contactUs: "İletişime Geçin",
+  free: "Ücretsiz", // Added missing translation key
   
   // Misc
   success: "Başarılı",
