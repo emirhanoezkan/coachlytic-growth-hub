@@ -1,3 +1,4 @@
+
 import React from "react";
 import { StatsCard } from "@/components/ui/StatsCard";
 import { ClientRetentionChart } from "@/components/analytics/ClientRetentionChart";
@@ -7,38 +8,47 @@ import { ClientHealthSection } from "@/components/dashboard/ClientHealthSection"
 import { UpcomingSessionsSection } from "@/components/dashboard/UpcomingSessionsSection";
 import { Users, Wallet, ArrowUp, ArrowDown, User } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { LucideIcon } from "lucide-react";
 
 interface DashboardOverviewProps {
   period: string;
 }
 
+interface StatItem {
+  title: string;
+  value: string;
+  icon: LucideIcon;
+  change: string;
+  changeType: "increase" | "decrease";
+}
+
 export const DashboardOverview: React.FC<DashboardOverviewProps> = ({ period }) => {
   const { t } = useLanguage();
   
-  const stats = [
+  const stats: StatItem[] = [
     {
-      title: "Total Revenue",
+      title: t('dashboard.totalRevenue'),
       value: "$45,000",
       icon: Wallet,
       change: "+12%",
       changeType: "increase",
     },
     {
-      title: "New Clients",
+      title: t('dashboard.newClients'),
       value: "235",
       icon: Users,
       change: "+9%",
       changeType: "increase",
     },
     {
-      title: "Client Retention",
+      title: t('dashboard.clientRetention'),
       value: "85%",
       icon: User,
       change: "-3%",
       changeType: "decrease",
     },
     {
-      title: "Avg. Session Time",
+      title: t('dashboard.avgSessionTime'),
       value: "52 min",
       icon: Users,
       change: "+5%",
@@ -55,7 +65,7 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({ period }) 
             key={stat.title}
             title={stat.title}
             value={stat.value}
-            icon={stat.icon}
+            icon={<stat.icon className="h-4 w-4" />}
             change={stat.change}
             changeType={stat.changeType}
           />
@@ -66,8 +76,8 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({ period }) 
       <div className="grid gap-4 grid-cols-1 lg:grid-cols-2">
         <Card>
           <CardHeader>
-            <CardTitle>Revenue</CardTitle>
-            <CardDescription>Revenue generated this {period}</CardDescription>
+            <CardTitle>{t('dashboard.revenue')}</CardTitle>
+            <CardDescription>{t('dashboard.revenueDesc', { period })}</CardDescription>
           </CardHeader>
           <CardContent>
             <RevenueChart period={period} />
@@ -76,8 +86,8 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({ period }) 
 
         <Card>
           <CardHeader>
-            <CardTitle>Client Retention</CardTitle>
-            <CardDescription>Client retention rate this {period}</CardDescription>
+            <CardTitle>{t('dashboard.clientRetentionTitle')}</CardTitle>
+            <CardDescription>{t('dashboard.clientRetentionDesc', { period })}</CardDescription>
           </CardHeader>
           <CardContent>
             <ClientRetentionChart period={period} />
@@ -110,3 +120,4 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({ period }) 
     </div>
   );
 };
+

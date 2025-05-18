@@ -13,10 +13,8 @@ interface StatsCardProps {
   value: string | number;
   icon?: ReactNode;
   description?: string;
-  trend?: {
-    value: number;
-    isPositive: boolean;
-  };
+  change?: string;
+  changeType?: "increase" | "decrease";
   className?: string;
 }
 
@@ -25,7 +23,8 @@ export const StatsCard: React.FC<StatsCardProps> = ({
   value,
   icon,
   description,
-  trend,
+  change,
+  changeType,
   className
 }) => {
   return (
@@ -36,14 +35,14 @@ export const StatsCard: React.FC<StatsCardProps> = ({
       </CardHeader>
       <CardContent>
         <div className="text-2xl font-bold">{value}</div>
-        {(description || trend) && (
+        {(description || change) && (
           <div className="mt-2 flex items-center text-xs">
-            {trend && (
+            {change && changeType && (
               <span className={cn(
                 "mr-2 font-medium",
-                trend.isPositive ? "text-forest-500" : "text-red-500"
+                changeType === "increase" ? "text-forest-500" : "text-red-500"
               )}>
-                {trend.isPositive ? '↑' : '↓'} {Math.abs(trend.value)}%
+                {changeType === "increase" ? '↑' : '↓'} {change.replace(/[+-]/, '')}
               </span>
             )}
             {description && (
