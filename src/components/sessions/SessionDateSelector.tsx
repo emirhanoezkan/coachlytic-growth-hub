@@ -7,7 +7,7 @@ import { useSessions, useUpdateSession, useDeleteSession } from "@/services/sess
 import { format } from "date-fns";
 import { useTimeFormat } from "@/contexts/TimeFormatContext";
 import { Button } from "@/components/ui/button";
-import { Edit, Trash2 } from "lucide-react";
+import { Edit, Trash2, Dot } from "lucide-react";
 import { 
   Dialog, 
   DialogContent, 
@@ -90,6 +90,24 @@ export const SessionDateSelector: React.FC = () => {
     }
   };
 
+  // Function to render session dots in the calendar
+  const renderSessionDot = (date: Date): JSX.Element | null => {
+    const dateStr = format(date, 'yyyy-MM-dd');
+    const dayData = datesWithSessions[dateStr];
+
+    if (dayData) {
+      return (
+        <div className="absolute bottom-1 left-1/2 transform -translate-x-1/2 flex space-x-1">
+          <Dot className="h-5 w-5 text-forest-500" />
+          {dayData.count > 1 && (
+            <span className="text-[10px] font-medium text-forest-700">{dayData.count}</span>
+          )}
+        </div>
+      );
+    }
+    return null;
+  };
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
       <Card className="lg:col-span-2">
@@ -100,40 +118,20 @@ export const SessionDateSelector: React.FC = () => {
           <Calendar 
             mode="single"
             selected={selectedDate}
-            onSelect={setSelectedDate}
-            className="rounded-md border pointer-events-auto"
-            modifiers={{
-              hasSessions: sessionDates.map(session => session.date),
-            }}
-            modifiersStyles={{
-              hasSessions: {
-                fontWeight: 'bold',
-                backgroundColor: '#EBF2ED',
-                color: '#2F5D3E',
-                position: 'relative',
-              }
-            }}
+            onSelect={setDate => setSelectedDate(setDate)}
+            className="rounded-md border"
             components={{
-              DayContent: (props) => {
-                const matchingDate = sessionDates.find(s => 
-                  s.date.getDate() === props.date.getDate() && 
-                  s.date.getMonth() === props.date.getMonth() &&
-                  s.date.getFullYear() === props.date.getFullYear()
-                );
-                
-                return (
-                  <div className="relative">
-                    <span>{props.date.getDate()}</span>
-                    {matchingDate && (
-                      <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2">
-                        <div className="bg-forest-500 w-5 h-5 rounded-full flex items-center justify-center">
-                          <span className="text-[10px] text-white font-bold">{matchingDate.count}</span>
-                        </div>
-                      </div>
-                    )}
+              DayContent: ({ date, ...props }) => (
+                <div className="relative h-full w-full p-1">
+                  <div className="flex justify-center items-center h-full">
+                    {date.getDate()}
                   </div>
-                );
-              }
+                  {renderSessionDot(date)}
+                </div>
+              )
+            }}
+            classNames={{
+              day_button: "rounded-full",
             }}
           />
         </CardContent>
