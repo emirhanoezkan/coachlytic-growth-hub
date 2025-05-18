@@ -119,7 +119,7 @@ export const SessionDateSelector: React.FC = () => {
             mode="single"
             selected={selectedDate}
             onSelect={setDate => setSelectedDate(setDate)}
-            className="rounded-md border"
+            className="rounded-md border pointer-events-auto"
             components={{
               DayContent: ({ date, ...props }) => (
                 <div className="relative h-full w-full p-1">
@@ -129,9 +129,6 @@ export const SessionDateSelector: React.FC = () => {
                   {renderSessionDot(date)}
                 </div>
               )
-            }}
-            classNames={{
-              day_button: "rounded-full",
             }}
           />
         </CardContent>
