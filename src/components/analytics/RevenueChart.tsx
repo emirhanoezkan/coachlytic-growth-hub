@@ -58,12 +58,12 @@ export const RevenueChart: React.FC<RevenueChartProps> = ({ period }) => {
             >
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="name" />
-              <YAxis yAxisId="left" orientation="left" stroke="#0EA5E9" />
-              <YAxis yAxisId="right" orientation="right" stroke="#8B5CF6" />
+              <YAxis yAxisId="left" orientation="left" stroke="#8884d8" />
+              <YAxis yAxisId="right" orientation="right" stroke="#82ca9d" />
               <Tooltip />
               <Legend />
-              <Bar yAxisId="left" dataKey="revenue" name="Revenue ($)" fill="#0EA5E9" />
-              <Bar yAxisId="right" dataKey="sessions" name="Sessions" fill="#D946EF" />
+              <Bar yAxisId="left" dataKey="revenue" name="Revenue ($)" fill="#2F5D3E" />
+              <Bar yAxisId="right" dataKey="sessions" name="Sessions" fill="#B39BC8" />
             </BarChart>
           </ResponsiveContainer>
         </div>
