@@ -13,9 +13,12 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { LanguageSelector } from "./LanguageSelector";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { Link } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
 
 export const Header = () => {
   const { t } = useLanguage();
+  const { signOut } = useAuth();
 
   return (
     <header className="sticky top-0 z-30 flex h-14 items-center justify-end border-b bg-background px-4">
@@ -55,16 +58,20 @@ export const Header = () => {
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>My Account</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <User className="mr-2 h-4 w-4" />
-              <span>Profile</span>
+            <DropdownMenuItem asChild>
+              <Link to="/profile" className="cursor-pointer flex w-full">
+                <User className="mr-2 h-4 w-4" />
+                <span>Profile</span>
+              </Link>
             </DropdownMenuItem>
-            <DropdownMenuItem>
-              <Settings className="mr-2 h-4 w-4" />
-              <span>{t('app.settings')}</span>
+            <DropdownMenuItem asChild>
+              <Link to="/settings" className="cursor-pointer flex w-full">
+                <Settings className="mr-2 h-4 w-4" />
+                <span>{t('app.settings')}</span>
+              </Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={() => signOut && signOut()} className="cursor-pointer">
               <span>{t('app.logout')}</span>
             </DropdownMenuItem>
           </DropdownMenuContent>

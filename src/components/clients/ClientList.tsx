@@ -27,10 +27,20 @@ import { Search, Plus, MoreHorizontal } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { useClients, Client } from "@/services/clientsService";
 import { format } from 'date-fns';
+import { Link, useNavigate } from 'react-router-dom';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { SessionForm } from "@/components/sessions/SessionForm";
+import { ClientForm } from "@/components/clients/ClientForm";
+import { useToast } from "@/hooks/use-toast";
 
 export const ClientList: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const { data: clients = [], isLoading, error } = useClients();
+  const navigate = useNavigate();
+  const { toast } = useToast();
+  const [isAddSessionDialogOpen, setIsAddSessionDialogOpen] = useState(false);
+  const [isAddNoteDialogOpen, setIsAddNoteDialogOpen] = useState(false);
+  const [selectedClientId, setSelectedClientId] = useState<string | null>(null);
   
   const filteredClients = clients.filter(client => 
     client.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -45,6 +55,20 @@ export const ClientList: React.FC = () => {
     } catch (e) {
       return dateString;
     }
+  };
+
+  const handleScheduleSession = (clientId: string) => {
+    setSelectedClientId(clientId);
+    setIsAddSessionDialogOpen(true);
+  };
+
+  const handleAddNote = (clientId: string) => {
+    setSelectedClientId(clientId);
+    setIsAddNoteDialogOpen(true);
+  };
+
+  const handleViewProfile = (clientId: string) => {
+    navigate(`/clients/${clientId}`);
   };
 
   if (isLoading) {
@@ -117,7 +141,9 @@ export const ClientList: React.FC = () => {
                   <TableRow key={client.id}>
                     <TableCell>
                       <div>
-                        <div className="font-medium">{client.name}</div>
+                        <div className="font-medium cursor-pointer hover:underline" onClick={() => handleViewProfile(client.id)}>
+                          {client.name}
+                        </div>
                         <div className="text-sm text-gray-500">{client.email}</div>
                       </div>
                     </TableCell>
@@ -154,9 +180,15 @@ export const ClientList: React.FC = () => {
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                          <DropdownMenuItem>View Profile</DropdownMenuItem>
-                          <DropdownMenuItem>Schedule Session</DropdownMenuItem>
-                          <DropdownMenuItem>Add Notes</DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => handleViewProfile(client.id)}>
+                            View Profile
+                          </DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => handleScheduleSession(client.id)}>
+                            Schedule Session
+                          </DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => handleAddNote(client.id)}>
+                            Add Notes
+                          </DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </TableCell>
@@ -167,6 +199,19 @@ export const ClientList: React.FC = () => {
           </div>
         )}
       </CardContent>
+
+      {/* Schedule Session Dialog */}
+      <Dialog open={isAddSessionDialogOpen} onOpenChange={setIsAddSessionDialogOpen}>
+        <DialogContent className="sm:max-w-[500px]">
+          <DialogHeader>
+            <DialogTitle>Schedule New Session</DialogTitle>
+          </DialogHeader>
+          <SessionForm 
+            onSubmit={() => setIsAddSessionDialogOpen(false)} 
+            preselectedClientId={selectedClientId || undefined}
+          />
+        </DialogContent>
+      </Dialog>
     </Card>
   );
 };

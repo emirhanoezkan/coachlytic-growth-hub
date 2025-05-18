@@ -1,86 +1,75 @@
 
-import React, { useState } from 'react';
-import { Button } from "@/components/ui/button";
+import React from "react";
+import { useForm, Controller } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
 import { CalendarIcon, Clock } from "lucide-react";
 import { format } from "date-fns";
-import { cn } from "@/lib/utils";
-import { 
-  Select, 
-  SelectContent, 
-  SelectGroup, 
-  SelectItem, 
-  SelectTrigger, 
-  SelectValue 
-} from "@/components/ui/select";
-import { useToast } from "@/hooks/use-toast";
-import { useLanguage } from "@/contexts/LanguageContext";
-import { useForm, Controller } from "react-hook-form";
 import { useAddSession, SessionFormData } from "@/services/sessionsService";
+import { useClients } from "@/services/clientsService";
+import { usePrograms } from "@/services/programsService";
+
+const formSchema = z.object({
+  client_id: z.string().min(1, "Client is required"),
+  program_id: z.string().optional(),
+  title: z.string().min(1, "Title is required"),
+  date: z.date({
+    required_error: "Date is required",
+  }),
+  duration: z.coerce.number().min(15, "Duration must be at least 15 minutes"),
+  location_type: z.string().min(1, "Location type is required"),
+  notes: z.string().optional(),
+});
 
 interface SessionFormProps {
   onSubmit: () => void;
-  initialData?: {
-    client_id?: string;
-    program_id?: string;
-    title?: string;
-    date?: Date;
-    time?: string;
-    duration?: string;
-    location_type?: string;
-    notes?: string;
-  };
+  preselectedClientId?: string;
 }
 
-export const SessionForm: React.FC<SessionFormProps> = ({ onSubmit, initialData }) => {
-  const { t } = useLanguage();
-  const { toast } = useToast();
-  const [date, setDate] = useState<Date | undefined>(initialData?.date || undefined);
-  const { mutate: addSession, isPending } = useAddSession();
-  
-  const { register, handleSubmit, control, setValue } = useForm({
+export const SessionForm: React.FC<SessionFormProps> = ({ onSubmit, preselectedClientId }) => {
+  const { data: clients = [] } = useClients();
+  const { data: programs = [] } = usePrograms();
+  const addSession = useAddSession();
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
     defaultValues: {
-      client_id: initialData?.client_id || '',
-      program_id: initialData?.program_id || '',
-      title: initialData?.title || 'Coaching Session',
-      time: initialData?.time || '09:00',
-      duration: initialData?.duration || '60',
-      location_type: initialData?.location_type || 'online',
-      notes: initialData?.notes || '',
-    }
+      client_id: preselectedClientId || "",
+      program_id: "",
+      title: "",
+      location_type: "online",
+      duration: 60,
+      notes: "",
+    },
   });
-  
-  const onFormSubmit = (data: any) => {
-    if (!date) {
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: "Please select a session date",
-      });
-      return;
-    }
-    
-    // Combine date and time
-    const [hours, minutes] = data.time.split(':').map(Number);
-    const sessionDate = new Date(date);
-    sessionDate.setHours(hours, minutes, 0, 0);
-    
-    // Create session data
+
+  const handleSubmit = (values: z.infer<typeof formSchema>) => {
     const sessionData: SessionFormData = {
-      client_id: data.client_id,
-      program_id: data.program_id || undefined,
-      title: data.title,
-      date: sessionDate.toISOString(),
-      duration: parseInt(data.duration),
-      location_type: data.location_type,
-      notes: data.notes,
+      ...values
     };
-    
-    addSession(sessionData, {
+
+    addSession.mutate(sessionData, {
       onSuccess: () => {
         onSubmit();
       }
@@ -88,158 +77,216 @@ export const SessionForm: React.FC<SessionFormProps> = ({ onSubmit, initialData 
   };
 
   return (
-    <form onSubmit={handleSubmit(onFormSubmit)} className="space-y-4">
-      <div className="grid grid-cols-1 gap-4">
-        <div className="space-y-2">
-          <Label htmlFor="client_id">{t('sessions.client')}</Label>
-          <Controller
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
+        {!preselectedClientId && (
+          <FormField
+            control={form.control}
             name="client_id"
-            control={control}
-            rules={{ required: true }}
             render={({ field }) => (
-              <Select 
-                value={field.value} 
-                onValueChange={field.onChange}
-              >
-                <SelectTrigger id="client_id">
-                  <SelectValue placeholder={t('sessions.client')} />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectItem value="client1">Sarah Johnson</SelectItem>
-                    <SelectItem value="client2">Michael Chen</SelectItem>
-                    <SelectItem value="client3">Emma Davis</SelectItem>
-                    <SelectItem value="client4">Robert Wilson</SelectItem>
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-            )}
-          />
-        </div>
-
-        <div className="space-y-2">
-          <Label htmlFor="title">Session Title</Label>
-          <Input 
-            id="title" 
-            {...register('title', { required: true })}
-          />
-        </div>
-
-        <div className="space-y-2">
-          <Label htmlFor="date">{t('sessions.date')}</Label>
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button
-                id="date"
-                variant="outline"
-                className={cn(
-                  "w-full justify-start text-left font-normal",
-                  !date && "text-muted-foreground"
-                )}
-              >
-                <CalendarIcon className="mr-2 h-4 w-4" />
-                {date ? format(date, "PPP") : <span>Select a date</span>}
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-auto p-0">
-              <Calendar
-                mode="single"
-                selected={date}
-                onSelect={setDate}
-                initialFocus
-              />
-            </PopoverContent>
-          </Popover>
-        </div>
-
-        <div className="grid grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <Label htmlFor="time">{t('sessions.time')}</Label>
-            <div className="relative">
-              <Clock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-500" />
-              <Input 
-                id="time" 
-                type="time" 
-                className="pl-9"
-                {...register('time', { required: true })}
-              />
-            </div>
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="duration">{t('sessions.duration')}</Label>
-            <Controller
-              name="duration"
-              control={control}
-              render={({ field }) => (
-                <Select 
-                  value={field.value} 
+              <FormItem>
+                <FormLabel>Client</FormLabel>
+                <Select
                   onValueChange={field.onChange}
+                  defaultValue={field.value}
+                  value={field.value}
                 >
-                  <SelectTrigger id="duration">
-                    <SelectValue placeholder={t('sessions.duration')} />
-                  </SelectTrigger>
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a client" />
+                    </SelectTrigger>
+                  </FormControl>
                   <SelectContent>
-                    <SelectGroup>
-                      <SelectItem value="30">30 minutes</SelectItem>
-                      <SelectItem value="45">45 minutes</SelectItem>
-                      <SelectItem value="60">60 minutes</SelectItem>
-                      <SelectItem value="90">90 minutes</SelectItem>
-                    </SelectGroup>
+                    {clients.map((client) => (
+                      <SelectItem key={client.id} value={client.id}>
+                        {client.name}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
-              )}
-            />
-          </div>
-        </div>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        )}
 
-        <div className="space-y-2">
-          <Label htmlFor="location_type">{t('sessions.location')}</Label>
-          <Controller
-            name="location_type"
-            control={control}
-            render={({ field }) => (
-              <Select 
-                value={field.value} 
+        <FormField
+          control={form.control}
+          name="program_id"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Program (Optional)</FormLabel>
+              <Select
                 onValueChange={field.onChange}
+                defaultValue={field.value}
+                value={field.value}
               >
-                <SelectTrigger id="location_type">
-                  <SelectValue placeholder={t('sessions.location')} />
-                </SelectTrigger>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select a program" />
+                  </SelectTrigger>
+                </FormControl>
                 <SelectContent>
-                  <SelectGroup>
-                    <SelectItem value="online">{t('sessions.online')}</SelectItem>
-                    <SelectItem value="in_person">{t('sessions.inperson')}</SelectItem>
-                  </SelectGroup>
+                  <SelectItem value="">None</SelectItem>
+                  {programs.map((program) => (
+                    <SelectItem key={program.id} value={program.id}>
+                      {program.name}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="title"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Session Title</FormLabel>
+              <FormControl>
+                <Input placeholder="Session title" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <FormField
+            control={form.control}
+            name="date"
+            render={({ field }) => (
+              <FormItem className="flex flex-col">
+                <FormLabel>Date & Time</FormLabel>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <FormControl>
+                      <Button
+                        variant="outline"
+                        className={cn(
+                          "pl-3 text-left font-normal",
+                          !field.value && "text-muted-foreground"
+                        )}
+                      >
+                        {field.value ? (
+                          format(field.value, "PPP HH:mm")
+                        ) : (
+                          <span>Pick a date</span>
+                        )}
+                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                      </Button>
+                    </FormControl>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="single"
+                      selected={field.value}
+                      onSelect={(date) => {
+                        if (date) {
+                          const currentValue = field.value || new Date();
+                          date.setHours(currentValue.getHours());
+                          date.setMinutes(currentValue.getMinutes());
+                          field.onChange(date);
+                        }
+                      }}
+                    />
+                    <div className="p-3 border-t border-border">
+                      <div className="flex items-center justify-center">
+                        <Clock className="h-4 w-4 mr-2 opacity-50" />
+                        <Input
+                          type="time"
+                          onChange={(e) => {
+                            const [hours, minutes] = e.target.value.split(":").map(Number);
+                            const date = field.value || new Date();
+                            date.setHours(hours);
+                            date.setMinutes(minutes);
+                            field.onChange(new Date(date));
+                          }}
+                          value={field.value ? format(field.value, "HH:mm") : ""}
+                          className="w-full"
+                        />
+                      </div>
+                    </div>
+                  </PopoverContent>
+                </Popover>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="duration"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Duration (minutes)</FormLabel>
+                <FormControl>
+                  <Input type="number" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
             )}
           />
         </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="notes">{t('sessions.notes')}</Label>
-          <Textarea 
-            id="notes" 
-            placeholder="Add notes about this session" 
-            className="min-h-[100px]"
-            {...register('notes')}
-          />
-        </div>
-      </div>
+        <FormField
+          control={form.control}
+          name="location_type"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Session Type</FormLabel>
+              <Select
+                onValueChange={field.onChange}
+                defaultValue={field.value}
+                value={field.value}
+              >
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select session type" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="online">Online</SelectItem>
+                  <SelectItem value="in-person">In-Person</SelectItem>
+                  <SelectItem value="phone">Phone</SelectItem>
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-      <div className="flex justify-end gap-3 pt-4">
-        <Button type="button" variant="outline" onClick={onSubmit}>
-          {t('action.cancel')}
-        </Button>
-        <Button 
-          type="submit" 
-          className="bg-forest-500 hover:bg-forest-600"
-          disabled={isPending}
-        >
-          {isPending ? "Saving..." : t('action.save')}
-        </Button>
-      </div>
-    </form>
+        <FormField
+          control={form.control}
+          name="notes"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Notes (Optional)</FormLabel>
+              <FormControl>
+                <Textarea
+                  placeholder="Add any notes about the session"
+                  className="resize-none"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <div className="flex justify-end gap-2">
+          <Button 
+            type="submit" 
+            disabled={addSession.isPending} 
+            className="bg-forest-500 hover:bg-forest-600"
+          >
+            {addSession.isPending ? "Scheduling..." : "Schedule Session"}
+          </Button>
+        </div>
+      </form>
+    </Form>
   );
 };
