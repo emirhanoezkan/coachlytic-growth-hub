@@ -18,56 +18,115 @@ import {
   SelectValue 
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { useForm, Controller } from "react-hook-form";
+import { useAddSession, SessionFormData } from "@/services/sessionsService";
 
 interface SessionFormProps {
   onSubmit: () => void;
   initialData?: {
-    client?: string;
+    client_id?: string;
+    program_id?: string;
+    title?: string;
     date?: Date;
     time?: string;
     duration?: string;
-    type?: string;
+    location_type?: string;
     notes?: string;
   };
 }
 
 export const SessionForm: React.FC<SessionFormProps> = ({ onSubmit, initialData }) => {
+  const { t } = useLanguage();
   const { toast } = useToast();
   const [date, setDate] = useState<Date | undefined>(initialData?.date || undefined);
+  const { mutate: addSession, isPending } = useAddSession();
   
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Form validation and submission would happen here
-    // For now, just show a success toast
-    toast({
-      title: "Success",
-      description: "Session has been successfully scheduled.",
+  const { register, handleSubmit, control, setValue } = useForm({
+    defaultValues: {
+      client_id: initialData?.client_id || '',
+      program_id: initialData?.program_id || '',
+      title: initialData?.title || 'Coaching Session',
+      time: initialData?.time || '09:00',
+      duration: initialData?.duration || '60',
+      location_type: initialData?.location_type || 'online',
+      notes: initialData?.notes || '',
+    }
+  });
+  
+  const onFormSubmit = (data: any) => {
+    if (!date) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Please select a session date",
+      });
+      return;
+    }
+    
+    // Combine date and time
+    const [hours, minutes] = data.time.split(':').map(Number);
+    const sessionDate = new Date(date);
+    sessionDate.setHours(hours, minutes, 0, 0);
+    
+    // Create session data
+    const sessionData: SessionFormData = {
+      client_id: data.client_id,
+      program_id: data.program_id || undefined,
+      title: data.title,
+      date: sessionDate.toISOString(),
+      duration: parseInt(data.duration),
+      location_type: data.location_type,
+      notes: data.notes,
+    };
+    
+    addSession(sessionData, {
+      onSuccess: () => {
+        onSubmit();
+      }
     });
-    onSubmit();
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit(onFormSubmit)} className="space-y-4">
       <div className="grid grid-cols-1 gap-4">
         <div className="space-y-2">
-          <Label htmlFor="client">Select Client</Label>
-          <Select defaultValue={initialData?.client || ''}>
-            <SelectTrigger id="client">
-              <SelectValue placeholder="Select a client" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectItem value="client1">Sarah Johnson</SelectItem>
-                <SelectItem value="client2">Michael Chen</SelectItem>
-                <SelectItem value="client3">Emma Davis</SelectItem>
-                <SelectItem value="client4">Robert Wilson</SelectItem>
-              </SelectGroup>
-            </SelectContent>
-          </Select>
+          <Label htmlFor="client_id">{t('sessions.client')}</Label>
+          <Controller
+            name="client_id"
+            control={control}
+            rules={{ required: true }}
+            render={({ field }) => (
+              <Select 
+                value={field.value} 
+                onValueChange={field.onChange}
+              >
+                <SelectTrigger id="client_id">
+                  <SelectValue placeholder={t('sessions.client')} />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectItem value="client1">Sarah Johnson</SelectItem>
+                    <SelectItem value="client2">Michael Chen</SelectItem>
+                    <SelectItem value="client3">Emma Davis</SelectItem>
+                    <SelectItem value="client4">Robert Wilson</SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            )}
+          />
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="date">Session Date</Label>
+          <Label htmlFor="title">Session Title</Label>
+          <Input 
+            id="title" 
+            {...register('title', { required: true })}
+          />
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="date">{t('sessions.date')}</Label>
           <Popover>
             <PopoverTrigger asChild>
               <Button
@@ -95,67 +154,91 @@ export const SessionForm: React.FC<SessionFormProps> = ({ onSubmit, initialData 
 
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
-            <Label htmlFor="time">Start Time</Label>
+            <Label htmlFor="time">{t('sessions.time')}</Label>
             <div className="relative">
               <Clock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-500" />
               <Input 
                 id="time" 
                 type="time" 
                 className="pl-9"
-                defaultValue={initialData?.time || '09:00'}
+                {...register('time', { required: true })}
               />
             </div>
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="duration">Duration</Label>
-            <Select defaultValue={initialData?.duration || '60'}>
-              <SelectTrigger id="duration">
-                <SelectValue placeholder="Select duration" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectItem value="30">30 minutes</SelectItem>
-                  <SelectItem value="45">45 minutes</SelectItem>
-                  <SelectItem value="60">60 minutes</SelectItem>
-                  <SelectItem value="90">90 minutes</SelectItem>
-                </SelectGroup>
-              </SelectContent>
-            </Select>
+            <Label htmlFor="duration">{t('sessions.duration')}</Label>
+            <Controller
+              name="duration"
+              control={control}
+              render={({ field }) => (
+                <Select 
+                  value={field.value} 
+                  onValueChange={field.onChange}
+                >
+                  <SelectTrigger id="duration">
+                    <SelectValue placeholder={t('sessions.duration')} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectItem value="30">30 minutes</SelectItem>
+                      <SelectItem value="45">45 minutes</SelectItem>
+                      <SelectItem value="60">60 minutes</SelectItem>
+                      <SelectItem value="90">90 minutes</SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              )}
+            />
           </div>
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="type">Session Type</Label>
-          <Select defaultValue={initialData?.type || ''}>
-            <SelectTrigger id="type">
-              <SelectValue placeholder="Select session type" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectItem value="intro">Introductory Meeting</SelectItem>
-                <SelectItem value="regular">Regular Session</SelectItem>
-                <SelectItem value="review">Progress Review</SelectItem>
-                <SelectItem value="goal">Goal Setting</SelectItem>
-              </SelectGroup>
-            </SelectContent>
-          </Select>
+          <Label htmlFor="location_type">{t('sessions.location')}</Label>
+          <Controller
+            name="location_type"
+            control={control}
+            render={({ field }) => (
+              <Select 
+                value={field.value} 
+                onValueChange={field.onChange}
+              >
+                <SelectTrigger id="location_type">
+                  <SelectValue placeholder={t('sessions.location')} />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectItem value="online">{t('sessions.online')}</SelectItem>
+                    <SelectItem value="in_person">{t('sessions.inperson')}</SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            )}
+          />
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="notes">Session Notes</Label>
+          <Label htmlFor="notes">{t('sessions.notes')}</Label>
           <Textarea 
             id="notes" 
             placeholder="Add notes about this session" 
             className="min-h-[100px]"
-            defaultValue={initialData?.notes || ''}
+            {...register('notes')}
           />
         </div>
       </div>
 
       <div className="flex justify-end gap-3 pt-4">
-        <Button type="button" variant="outline" onClick={onSubmit}>Cancel</Button>
-        <Button type="submit" className="bg-forest-500 hover:bg-forest-600">Schedule Session</Button>
+        <Button type="button" variant="outline" onClick={onSubmit}>
+          {t('action.cancel')}
+        </Button>
+        <Button 
+          type="submit" 
+          className="bg-forest-500 hover:bg-forest-600"
+          disabled={isPending}
+        >
+          {isPending ? "Saving..." : t('action.save')}
+        </Button>
       </div>
     </form>
   );

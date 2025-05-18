@@ -15,6 +15,7 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { useAddClient, ClientFormData } from "@/services/clientsService";
 import { useForm } from "react-hook-form";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface ClientFormProps {
   onSubmit: () => void;
@@ -22,6 +23,7 @@ interface ClientFormProps {
 }
 
 export const ClientForm: React.FC<ClientFormProps> = ({ onSubmit, initialData }) => {
+  const { t } = useLanguage();
   const { toast } = useToast();
   const { mutate: addClient, isPending } = useAddClient();
   
@@ -50,7 +52,7 @@ export const ClientForm: React.FC<ClientFormProps> = ({ onSubmit, initialData })
     <form onSubmit={handleSubmit(onFormSubmit)} className="space-y-4">
       <div className="grid grid-cols-1 gap-4">
         <div className="space-y-2">
-          <Label htmlFor="name">Full Name</Label>
+          <Label htmlFor="name">{t('clients.name')}</Label>
           <Input 
             id="name" 
             placeholder="John Doe" 
@@ -59,7 +61,7 @@ export const ClientForm: React.FC<ClientFormProps> = ({ onSubmit, initialData })
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="email">Email</Label>
+          <Label htmlFor="email">{t('clients.email')}</Label>
           <Input 
             id="email" 
             type="email" 
@@ -69,7 +71,7 @@ export const ClientForm: React.FC<ClientFormProps> = ({ onSubmit, initialData })
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="phone">Phone</Label>
+          <Label htmlFor="phone">{t('clients.phone')}</Label>
           <Input 
             id="phone" 
             type="tel" 
@@ -79,13 +81,13 @@ export const ClientForm: React.FC<ClientFormProps> = ({ onSubmit, initialData })
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="program">Assigned Program</Label>
+          <Label htmlFor="program">{t('clients.program')}</Label>
           <Select 
             value={selectedProgram} 
             onValueChange={(value) => setValue('program', value)}
           >
             <SelectTrigger id="program">
-              <SelectValue placeholder="Select a program" />
+              <SelectValue placeholder={`${t('clients.program')}...`} />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
@@ -99,7 +101,7 @@ export const ClientForm: React.FC<ClientFormProps> = ({ onSubmit, initialData })
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="notes">Notes</Label>
+          <Label htmlFor="notes">{t('clients.notes')}</Label>
           <Textarea 
             id="notes" 
             placeholder="Add any relevant information about this client" 
@@ -110,13 +112,15 @@ export const ClientForm: React.FC<ClientFormProps> = ({ onSubmit, initialData })
       </div>
 
       <div className="flex justify-end gap-3 pt-4">
-        <Button type="button" variant="outline" onClick={onSubmit}>Cancel</Button>
+        <Button type="button" variant="outline" onClick={onSubmit}>
+          {t('action.cancel')}
+        </Button>
         <Button 
           type="submit" 
           className="bg-forest-500 hover:bg-forest-600"
           disabled={isPending}
         >
-          {isPending ? "Saving..." : "Save Client"}
+          {isPending ? "Saving..." : t('action.save')}
         </Button>
       </div>
     </form>
