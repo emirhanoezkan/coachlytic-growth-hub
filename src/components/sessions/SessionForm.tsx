@@ -75,8 +75,8 @@ export const SessionForm: React.FC<SessionFormProps> = ({ onSubmit, preselectedC
       notes: values.notes,
     };
     
-    // Only add program_id if it's not an empty string
-    if (values.program_id && values.program_id !== "") {
+    // Only add program_id if it's not "none"
+    if (values.program_id && values.program_id !== "none") {
       sessionData.program_id = values.program_id;
     }
 
@@ -138,7 +138,7 @@ export const SessionForm: React.FC<SessionFormProps> = ({ onSubmit, preselectedC
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value="">None</SelectItem>
+                  <SelectItem value="none">None</SelectItem>
                   {programs.map((program) => (
                     <SelectItem key={program.id} value={program.id}>
                       {program.name}
