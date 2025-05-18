@@ -124,6 +124,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         // Continue even if this fails
       }
       
+      // 1. Sign up the user
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
@@ -132,10 +133,36 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             first_name: firstName,
             last_name: lastName,
           },
+          // Disable email confirmation requirement
+          emailRedirectTo: window.location.origin,
         },
       });
 
       if (error) throw error;
+
+      // 2. If signup successful, automatically sign in
+      if (data.user) {
+        try {
+          const { error: signInError } = await supabase.auth.signInWithPassword({
+            email,
+            password,
+          });
+          
+          if (signInError) throw signInError;
+          
+          toast({
+            title: "Account created",
+            description: "Your account has been created and you are now logged in.",
+          });
+          
+          // Navigate to home page
+          window.location.href = "/";
+          return;
+        } catch (signInError: any) {
+          console.error("Auto-login failed:", signInError);
+          // Continue to show the regular signup success message
+        }
+      }
 
       toast({
         title: "Account created",
