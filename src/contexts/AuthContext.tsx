@@ -21,6 +21,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [profile, setProfile] = useState<any | null>(null);
   const [loading, setLoading] = useState(true);
+  const [initialized, setInitialized] = useState(false);
 
   useEffect(() => {
     // Set up auth state listener first
@@ -42,6 +43,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     // Then check for existing session
     const initializeAuth = async () => {
       try {
+        // Clear any potential stale auth state
+        if (!initialized) {
+          cleanupAuthState();
+          setInitialized(true);
+        }
+        
         const { data: { session: currentSession } } = await supabase.auth.getSession();
         console.log("Initial session check:", currentSession?.user?.email || "No session");
         setSession(currentSession);
@@ -62,7 +69,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     return () => {
       subscription.unsubscribe();
     };
-  }, []);
+  }, [initialized]);
 
   const fetchUserProfile = async (userId: string) => {
     try {
@@ -102,8 +109,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       if (error) throw error;
       console.log("Sign in successful");
       
-      // Force a page reload for a clean state
-      window.location.href = "/";
+      // Do NOT force a page reload, let the auth state change event handle redirection
+      // This helps prevent infinite loading loops
     } catch (error: any) {
       console.error("Sign in error:", error.message);
       toast({
@@ -164,8 +171,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             description: "Your account has been created and you are now logged in.",
           });
           
-          // Navigate to home page
-          window.location.href = "/";
+          // Let onAuthStateChange handle the navigation
           return;
         } catch (signInError: any) {
           console.error("Auto-login failed:", signInError);
@@ -207,7 +213,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setSession(null);
       setProfile(null);
       
-      // Force a page reload for a clean state
+      // Navigate to auth page without forcing a full page reload
       window.location.href = "/auth";
     } catch (error: any) {
       console.error("Sign out error:", error.message);

@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "@/hooks/use-toast";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export function SignUpForm() {
   const [firstName, setFirstName] = useState("");
@@ -14,6 +15,7 @@ export function SignUpForm() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { signUp } = useAuth();
+  const { t } = useLanguage();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -21,8 +23,8 @@ export function SignUpForm() {
     if (!firstName || !lastName || !email || !password) {
       toast({
         variant: "destructive",
-        title: "Error",
-        description: "Please fill in all required fields",
+        title: t('auth.error'),
+        description: t('auth.fill_all_fields'),
       });
       return;
     }
@@ -30,8 +32,8 @@ export function SignUpForm() {
     if (password !== confirmPassword) {
       toast({
         variant: "destructive",
-        title: "Error",
-        description: "Passwords do not match",
+        title: t('auth.error'),
+        description: t('auth.passwords_dont_match'),
       });
       return;
     }
@@ -39,8 +41,8 @@ export function SignUpForm() {
     if (password.length < 6) {
       toast({
         variant: "destructive",
-        title: "Error",
-        description: "Password must be at least 6 characters",
+        title: t('auth.error'),
+        description: t('auth.password_length'),
       });
       return;
     }
@@ -48,6 +50,7 @@ export function SignUpForm() {
     try {
       setIsLoading(true);
       await signUp(email, password, firstName, lastName);
+      // Auth state change will handle redirection
     } catch (error) {
       // Error is already handled in the auth context
       console.error("Signup error:", error);
@@ -59,15 +62,15 @@ export function SignUpForm() {
   return (
     <div className="space-y-4">
       <div className="space-y-2 text-center">
-        <h1 className="text-2xl font-semibold tracking-tight">Create an account</h1>
+        <h1 className="text-2xl font-semibold tracking-tight">{t('auth.create_account')}</h1>
         <p className="text-sm text-muted-foreground">
-          Enter your information to create your Coachlytic account
+          {t('auth.enter_information')}
         </p>
       </div>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
-            <Label htmlFor="firstName">First Name</Label>
+            <Label htmlFor="firstName">{t('auth.first_name')}</Label>
             <Input
               id="firstName"
               placeholder="John"
@@ -78,7 +81,7 @@ export function SignUpForm() {
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="lastName">Last Name</Label>
+            <Label htmlFor="lastName">{t('auth.last_name')}</Label>
             <Input
               id="lastName"
               placeholder="Doe"
@@ -90,7 +93,7 @@ export function SignUpForm() {
           </div>
         </div>
         <div className="space-y-2">
-          <Label htmlFor="email">Email</Label>
+          <Label htmlFor="email">{t('auth.email')}</Label>
           <Input
             id="email"
             type="email"
@@ -102,7 +105,7 @@ export function SignUpForm() {
           />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="password">Password</Label>
+          <Label htmlFor="password">{t('auth.password')}</Label>
           <Input
             id="password"
             type="password"
@@ -113,7 +116,7 @@ export function SignUpForm() {
           />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="confirmPassword">Confirm Password</Label>
+          <Label htmlFor="confirmPassword">{t('auth.confirm_password')}</Label>
           <Input
             id="confirmPassword"
             type="password"
@@ -124,7 +127,7 @@ export function SignUpForm() {
           />
         </div>
         <Button type="submit" className="w-full" disabled={isLoading}>
-          {isLoading ? "Creating account..." : "Create Account"}
+          {isLoading ? t('auth.creating_account') : t('auth.create_account_button')}
         </Button>
       </form>
     </div>
