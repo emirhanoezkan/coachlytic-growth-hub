@@ -25,6 +25,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     // Set up auth state listener first
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, currentSession) => {
+      console.log("Auth state changed:", event, currentSession?.user?.email);
       setSession(currentSession);
       setUser(currentSession?.user ?? null);
       
@@ -42,6 +43,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const initializeAuth = async () => {
       try {
         const { data: { session: currentSession } } = await supabase.auth.getSession();
+        console.log("Initial session check:", currentSession?.user?.email || "No session");
         setSession(currentSession);
         setUser(currentSession?.user ?? null);
 
@@ -88,18 +90,22 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         await supabase.auth.signOut({ scope: "global" });
       } catch (err) {
         // Continue even if this fails
+        console.log("Pre-signIn signOut error (non-critical):", err);
       }
       
+      console.log("Attempting sign in for:", email);
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
 
       if (error) throw error;
+      console.log("Sign in successful");
       
       // Force a page reload for a clean state
       window.location.href = "/";
     } catch (error: any) {
+      console.error("Sign in error:", error.message);
       toast({
         variant: "destructive",
         title: "Sign in failed",
@@ -122,8 +128,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         await supabase.auth.signOut({ scope: "global" });
       } catch (err) {
         // Continue even if this fails
+        console.log("Pre-signUp signOut error (non-critical):", err);
       }
       
+      console.log("Attempting sign up for:", email);
       // 1. Sign up the user
       const { data, error } = await supabase.auth.signUp({
         email,
@@ -139,6 +147,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       });
 
       if (error) throw error;
+      console.log("Sign up successful");
 
       // 2. If signup successful, automatically sign in
       if (data.user) {
@@ -169,6 +178,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         description: "Please check your email to confirm your account.",
       });
     } catch (error: any) {
+      console.error("Sign up error:", error.message);
       toast({
         variant: "destructive",
         title: "Sign up failed",
@@ -183,15 +193,24 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const signOut = async () => {
     try {
       setLoading(true);
+      console.log("Attempting sign out");
+      
       // Clean up auth state
       cleanupAuthState();
       
       // Sign out
       await supabase.auth.signOut({ scope: "global" });
+      console.log("Sign out successful");
+      
+      // Clear user state
+      setUser(null);
+      setSession(null);
+      setProfile(null);
       
       // Force a page reload for a clean state
       window.location.href = "/auth";
     } catch (error: any) {
+      console.error("Sign out error:", error.message);
       toast({
         variant: "destructive",
         title: "Sign out failed",
@@ -203,9 +222,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const cleanupAuthState = () => {
+    console.log("Cleaning up auth state");
     // Remove all Supabase auth keys from localStorage
     Object.keys(localStorage).forEach((key) => {
       if (key.startsWith('supabase.auth.') || key.includes('sb-')) {
+        console.log("Removing localStorage key:", key);
         localStorage.removeItem(key);
       }
     });
@@ -213,6 +234,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     // Remove from sessionStorage if in use
     Object.keys(sessionStorage || {}).forEach((key) => {
       if (key.startsWith('supabase.auth.') || key.includes('sb-')) {
+        console.log("Removing sessionStorage key:", key);
         sessionStorage.removeItem(key);
       }
     });
