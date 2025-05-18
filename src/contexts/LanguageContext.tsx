@@ -1,3 +1,4 @@
+
 import React, { createContext, useContext, useState } from "react";
 
 type LanguageContextType = {
@@ -27,8 +28,6 @@ const translations: Record<string, Record<string, string>> = {
     "auth.name": "Name",
     "form.submit": "Submit",
     "form.cancel": "Cancel",
-    "time.24h": "24-hour",
-    "time.12h": "12-hour",
     "common.search": "Search",
     "action.edit": "Edit",
     "action.delete": "Delete",
@@ -158,8 +157,6 @@ const translations: Record<string, Record<string, string>> = {
     "auth.name": "Ad",
     "form.submit": "Gönder",
     "form.cancel": "İptal",
-    "time.24h": "24 saat",
-    "time.12h": "12 saat",
     "common.search": "Ara",
     "action.edit": "Düzenle",
     "action.delete": "Sil",
