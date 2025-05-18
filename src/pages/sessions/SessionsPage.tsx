@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { SidebarProvider } from "@/components/ui/sidebar";
+import { SidebarProvider } from "@/components/ui/sidebar-animated";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { Header } from "@/components/layout/Header";
 import { SessionCalendar } from "@/components/sessions/SessionCalendar";
@@ -14,9 +14,10 @@ import { SessionList } from "@/components/sessions/SessionList";
 const SessionsPage = () => {
   const [isAddSessionDialogOpen, setIsAddSessionDialogOpen] = useState(false);
   const [view, setView] = useState("calendar");
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <SidebarProvider>
+    <SidebarProvider open={sidebarOpen} setOpen={setSidebarOpen}>
       <div className="min-h-screen flex w-full">
         <Sidebar />
         

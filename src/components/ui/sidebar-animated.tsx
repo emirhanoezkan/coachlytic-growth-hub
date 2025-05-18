@@ -171,7 +171,6 @@ export const SidebarLink = ({
       {...props}
     >
       {link.icon}
-      {/* Conditionally render the span based on the open state */}
       {animate ? (
         open ? (
           <span className="text-neutral-700 dark:text-neutral-200 text-sm group-hover/sidebar:translate-x-1 transition duration-150 whitespace-pre inline-block !p-0 !m-0">
