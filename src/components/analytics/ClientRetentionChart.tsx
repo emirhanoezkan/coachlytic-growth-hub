@@ -6,24 +6,24 @@ import { useLanguage } from "@/contexts/LanguageContext";
 
 // Sample data for client retention chart for different periods
 const dailyData = [
-  { name: 'Active Clients', value: 12 },
-  { name: 'Completed', value: 3 },
-  { name: 'Inactive', value: 2 },
-  { name: 'At-Risk', value: 1 },
+  { name: 'active_clients', value: 12 },
+  { name: 'completed', value: 3 },
+  { name: 'inactive', value: 2 },
+  { name: 'at_risk', value: 1 },
 ];
 
 const weeklyData = [
-  { name: 'Active Clients', value: 15 },
-  { name: 'Completed', value: 4 },
-  { name: 'Inactive', value: 3 },
-  { name: 'At-Risk', value: 2 },
+  { name: 'active_clients', value: 15 },
+  { name: 'completed', value: 4 },
+  { name: 'inactive', value: 3 },
+  { name: 'at_risk', value: 2 },
 ];
 
 const monthlyData = [
-  { name: 'Active Clients', value: 18 },
-  { name: 'Completed', value: 5 },
-  { name: 'Inactive', value: 3 },
-  { name: 'At-Risk', value: 2 },
+  { name: 'active_clients', value: 18 },
+  { name: 'completed', value: 5 },
+  { name: 'inactive', value: 3 },
+  { name: 'at_risk', value: 2 },
 ];
 
 const COLORS = ['#2F5D3E', '#B39BC8', '#A3A3A3', '#FF6B6B'];
@@ -45,7 +45,7 @@ export const ClientRetentionChart: React.FC<ClientRetentionChartProps> = ({ peri
   // Translate chart data labels
   const translatedData = data.map(item => ({
     ...item,
-    name: t(`chart.${item.name.toLowerCase().replace(' ', '_')}`)
+    name: t(`chart.${item.name}`)
   }));
       
   return (

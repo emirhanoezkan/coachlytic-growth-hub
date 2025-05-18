@@ -47,7 +47,9 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       "app.billing": "Billing",
       "app.settings": "Settings",
       "app.logout": "Logout",
-      "app.language": "English",
+      "app.language": "Language",
+      "language.english": "English",
+      "language.turkish": "Türkçe",
       
       // Time related translations
       "time.day": "Day",
@@ -57,13 +59,37 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       "time.tomorrow": "Tomorrow",
       "time.min": "min",
       
+      // Day names
+      "day.mon": "Monday",
+      "day.tue": "Tuesday",
+      "day.wed": "Wednesday",
+      "day.thu": "Thursday",
+      "day.fri": "Friday",
+      "day.sat": "Saturday",
+      "day.sun": "Sunday",
+      
+      // Month names
+      "month.jan": "January",
+      "month.feb": "February",
+      "month.mar": "March",
+      "month.apr": "April",
+      "month.may": "May",
+      "month.jun": "June",
+      "month.jul": "July",
+      "month.aug": "August",
+      "month.sep": "September",
+      "month.oct": "October",
+      "month.nov": "November",
+      "month.dec": "December",
+      
       // Chart translations
       "chart.clients": "Clients",
       "chart.completed": "Completed",
       "chart.inactive": "Inactive",
-      "chart.at-risk": "At-Risk",
+      "chart.at_risk": "At-Risk",
       "chart.revenue": "Revenue",
       "chart.sessions": "Sessions",
+      "chart.active_clients": "Active Clients",
       
       // Dashboard translations
       "dashboard.totalRevenue": "Total Revenue",
@@ -83,6 +109,12 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       "dashboard.noUpcomingSessions": "No upcoming sessions scheduled",
       "dashboard.errorLoading": "Error loading sessions",
       "dashboard.unnamed": "Unnamed client",
+      
+      // Client health categories
+      "clientHealth.highPerformers": "High Performers",
+      "clientHealth.onTrack": "On Track",
+      "clientHealth.needsAttention": "Needs Attention",
+      "clientHealth.atRisk": "At Risk",
       
       // Client translations
       "client.directory": "Client Directory",
@@ -152,7 +184,9 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       "app.billing": "Faturalama",
       "app.settings": "Ayarlar",
       "app.logout": "Çıkış Yap",
-      "app.language": "Türkçe",
+      "app.language": "Dil",
+      "language.english": "İngilizce",
+      "language.turkish": "Türkçe",
       
       // Time related translations
       "time.day": "Gün",
@@ -162,13 +196,37 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       "time.tomorrow": "Yarın",
       "time.min": "dk",
       
+      // Day names
+      "day.mon": "Pazartesi",
+      "day.tue": "Salı",
+      "day.wed": "Çarşamba",
+      "day.thu": "Perşembe",
+      "day.fri": "Cuma",
+      "day.sat": "Cumartesi",
+      "day.sun": "Pazar",
+      
+      // Month names
+      "month.jan": "Ocak",
+      "month.feb": "Şubat",
+      "month.mar": "Mart",
+      "month.apr": "Nisan",
+      "month.may": "Mayıs",
+      "month.jun": "Haziran",
+      "month.jul": "Temmuz",
+      "month.aug": "Ağustos",
+      "month.sep": "Eylül",
+      "month.oct": "Ekim",
+      "month.nov": "Kasım",
+      "month.dec": "Aralık",
+      
       // Chart translations
       "chart.clients": "Müşteriler",
       "chart.completed": "Tamamlanmış",
       "chart.inactive": "Pasif",
-      "chart.at-risk": "Risk Altında",
+      "chart.at_risk": "Risk Altında",
       "chart.revenue": "Gelir",
       "chart.sessions": "Oturumlar",
+      "chart.active_clients": "Aktif Müşteriler",
       
       // Dashboard translations
       "dashboard.totalRevenue": "Toplam Gelir",
@@ -188,6 +246,12 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       "dashboard.noUpcomingSessions": "Planlanmış yaklaşan oturum yok",
       "dashboard.errorLoading": "Oturumlar yüklenirken hata oluştu",
       "dashboard.unnamed": "İsimsiz müşteri",
+      
+      // Client health categories
+      "clientHealth.highPerformers": "Yüksek Performanslı",
+      "clientHealth.onTrack": "Yolunda",
+      "clientHealth.needsAttention": "Dikkat Gerekli",
+      "clientHealth.atRisk": "Risk Altında",
       
       // Client translations
       "client.directory": "Müşteri Rehberi",
