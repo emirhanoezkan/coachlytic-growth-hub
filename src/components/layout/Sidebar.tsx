@@ -7,7 +7,8 @@ import {
   CalendarDays, 
   Layers, 
   CreditCard, 
-  Home 
+  Home,
+  FileText
 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { 
@@ -40,6 +41,11 @@ export function Sidebar() {
       label: t('app.programs'),
       href: "/programs",
       icon: <Layers className="h-5 w-5 text-neutral-700 dark:text-neutral-200 flex-shrink-0" />,
+    },
+    {
+      label: t('app.documents'),
+      href: "/documents",
+      icon: <FileText className="h-5 w-5 text-neutral-700 dark:text-neutral-200 flex-shrink-0" />,
     },
     {
       label: t('app.analytics'),

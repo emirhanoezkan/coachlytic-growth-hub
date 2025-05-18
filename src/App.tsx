@@ -15,6 +15,7 @@ import ClientsPage from "./pages/clients/ClientsPage";
 import ClientProfilePage from "./pages/clients/ClientProfilePage";
 import SessionsPage from "./pages/sessions/SessionsPage";
 import ProgramsPage from "./pages/programs/ProgramsPage";
+import DocumentsPage from "./pages/documents/DocumentsPage";
 import AnalyticsPage from "./pages/analytics/AnalyticsPage";
 import BillingPage from "./pages/billing/BillingPage";
 import ProfilePage from "./pages/user/ProfilePage";
@@ -41,6 +42,7 @@ const App = () => (
                   <Route path="/clients/:id" element={<ClientProfilePage />} />
                   <Route path="/sessions" element={<SessionsPage />} />
                   <Route path="/programs" element={<ProgramsPage />} />
+                  <Route path="/documents" element={<DocumentsPage />} />
                   <Route path="/analytics" element={<AnalyticsPage />} />
                   <Route path="/billing" element={<BillingPage />} />
                   <Route path="/profile" element={<ProfilePage />} />
