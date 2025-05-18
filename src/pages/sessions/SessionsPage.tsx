@@ -3,37 +3,18 @@ import React, { useState } from 'react';
 import { SidebarProvider } from "@/components/ui/sidebar-animated";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { Header } from "@/components/layout/Header";
-import { SessionCalendar } from "@/components/sessions/SessionCalendar";
+import { SessionDateSelector } from "@/components/sessions/SessionDateSelector";
 import { Button } from "@/components/ui/button";
 import { Plus, CalendarDays, List } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { SessionForm } from "@/components/sessions/SessionForm";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { SessionList } from "@/components/sessions/SessionList";
-import { Card, CardContent } from "@/components/ui/card";
-import { Calendar } from "@/components/ui/calendar";
 
 const SessionsPage = () => {
   const [isAddSessionDialogOpen, setIsAddSessionDialogOpen] = useState(false);
   const [view, setView] = useState("calendar");
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
-
-  // Sample data for sessions on the selected date
-  const sessionsForSelectedDate = [
-    {
-      time: "10:00 AM",
-      client: "Sarah Johnson",
-      type: "Career Coaching",
-      duration: "45 min"
-    },
-    {
-      time: "2:00 PM",
-      client: "Emma Davis",
-      type: "Life Coaching",
-      duration: "45 min"
-    }
-  ];
 
   return (
     <SidebarProvider open={sidebarOpen} setOpen={setSidebarOpen}>
@@ -73,54 +54,14 @@ const SessionsPage = () => {
                 </div>
               </div>
               
-              {view === "calendar" ? (
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                  <div className="lg:col-span-2">
-                    <SessionCalendar />
-                  </div>
-                  <Card>
-                    <CardContent className="pt-6">
-                      <h3 className="text-lg font-semibold mb-4">Select Date</h3>
-                      <Calendar
-                        mode="single"
-                        selected={selectedDate}
-                        onSelect={setSelectedDate}
-                        className="rounded-md border shadow-sm mb-6"
-                      />
-                      
-                      {selectedDate && (
-                        <div>
-                          <h4 className="text-md font-medium mb-3">
-                            Sessions on {selectedDate.toLocaleDateString('en-US', {
-                              month: 'long',
-                              day: 'numeric',
-                              year: 'numeric'
-                            })}
-                          </h4>
-                          <div className="space-y-3">
-                            {sessionsForSelectedDate.length > 0 ? (
-                              sessionsForSelectedDate.map((session, idx) => (
-                                <div key={idx} className="border border-gray-200 rounded-lg p-3 hover:bg-gray-50">
-                                  <div className="flex justify-between">
-                                    <p className="font-medium">{session.time}</p>
-                                    <p className="text-sm text-gray-500">{session.duration}</p>
-                                  </div>
-                                  <p className="text-sm mt-1">{session.client}</p>
-                                  <p className="text-xs text-gray-500">{session.type}</p>
-                                </div>
-                              ))
-                            ) : (
-                              <p className="text-gray-500 text-sm py-3">No sessions scheduled for this date</p>
-                            )}
-                          </div>
-                        </div>
-                      )}
-                    </CardContent>
-                  </Card>
-                </div>
-              ) : (
-                <SessionList />
-              )}
+              <Tabs value={view}>
+                <TabsContent value="calendar">
+                  <SessionDateSelector />
+                </TabsContent>
+                <TabsContent value="list">
+                  <SessionList />
+                </TabsContent>
+              </Tabs>
             </div>
           </main>
           
@@ -128,6 +69,7 @@ const SessionsPage = () => {
             <DialogContent className="sm:max-w-[500px]">
               <DialogHeader>
                 <DialogTitle>Schedule New Session</DialogTitle>
+                <DialogDescription>Create a new coaching session with a client</DialogDescription>
               </DialogHeader>
               <SessionForm onSubmit={() => setIsAddSessionDialogOpen(false)} />
             </DialogContent>

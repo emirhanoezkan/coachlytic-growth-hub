@@ -4,7 +4,7 @@ import { SidebarProvider } from "@/components/ui/sidebar-animated";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { Header } from "@/components/layout/Header";
 import { DashboardOverview } from "@/components/dashboard/DashboardOverview";
-import { SessionCalendar } from "@/components/sessions/SessionCalendar";
+import { SessionDateSelector } from "@/components/sessions/SessionDateSelector";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const Index = () => {
@@ -40,7 +40,7 @@ const Index = () => {
               <DashboardOverview period={period} />
               
               <div className="pt-6">
-                <SessionCalendar />
+                <SessionDateSelector />
               </div>
             </div>
           </main>

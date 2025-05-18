@@ -29,6 +29,7 @@ import { format } from "date-fns";
 import { useAddSession, SessionFormData } from "@/services/sessionsService";
 import { useClients } from "@/services/clientsService";
 import { usePrograms } from "@/services/programsService";
+import { useTimeFormat } from "@/contexts/TimeFormatContext";
 
 const formSchema = z.object({
   client_id: z.string().min(1, "Client is required"),
@@ -51,12 +52,13 @@ export const SessionForm: React.FC<SessionFormProps> = ({ onSubmit, preselectedC
   const { data: clients = [] } = useClients();
   const { data: programs = [] } = usePrograms();
   const addSession = useAddSession();
+  const { timeFormat } = useTimeFormat();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       client_id: preselectedClientId || "",
-      program_id: "",
+      program_id: "none",
       title: "",
       location_type: "online",
       duration: 60,
@@ -183,7 +185,13 @@ export const SessionForm: React.FC<SessionFormProps> = ({ onSubmit, preselectedC
                         )}
                       >
                         {field.value ? (
-                          format(field.value, "PPP HH:mm")
+                          <>
+                            {format(field.value, "PPP")} {' '}
+                            {timeFormat === '12h'
+                              ? format(field.value, "h:mm a")
+                              : format(field.value, "HH:mm")
+                            }
+                          </>
                         ) : (
                           <span>Pick a date</span>
                         )}
@@ -203,12 +211,13 @@ export const SessionForm: React.FC<SessionFormProps> = ({ onSubmit, preselectedC
                           field.onChange(date);
                         }
                       }}
+                      className="pointer-events-auto"
                     />
                     <div className="p-3 border-t border-border">
                       <div className="flex items-center justify-center">
                         <Clock className="h-4 w-4 mr-2 opacity-50" />
                         <Input
-                          type="time"
+                          type={timeFormat === '24h' ? "time" : "time"} 
                           onChange={(e) => {
                             const [hours, minutes] = e.target.value.split(":").map(Number);
                             const date = field.value || new Date();

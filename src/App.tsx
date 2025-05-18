@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { LanguageProvider } from "@/contexts/LanguageContext";
+import { TimeFormatProvider } from "@/contexts/TimeFormatContext";
 import ProtectedRoute from "@/components/auth/ProtectedRoute";
 import AuthPage from "@/pages/auth/AuthPage";
 import Index from "./pages/Index";
@@ -26,28 +27,30 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <AuthProvider>
       <LanguageProvider>
-        <TooltipProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
-            <Routes>
-              <Route path="/landing" element={<LandingPage />} />
-              <Route path="/auth" element={<AuthPage />} />
-              <Route element={<ProtectedRoute />}>
-                <Route path="/" element={<Index />} />
-                <Route path="/clients" element={<ClientsPage />} />
-                <Route path="/clients/:id" element={<ClientProfilePage />} />
-                <Route path="/sessions" element={<SessionsPage />} />
-                <Route path="/programs" element={<ProgramsPage />} />
-                <Route path="/analytics" element={<AnalyticsPage />} />
-                <Route path="/billing" element={<BillingPage />} />
-                <Route path="/profile" element={<ProfilePage />} />
-                <Route path="/settings" element={<SettingsPage />} />
-              </Route>
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </BrowserRouter>
-        </TooltipProvider>
+        <TimeFormatProvider>
+          <TooltipProvider>
+            <Toaster />
+            <Sonner />
+            <BrowserRouter>
+              <Routes>
+                <Route path="/landing" element={<LandingPage />} />
+                <Route path="/auth" element={<AuthPage />} />
+                <Route element={<ProtectedRoute />}>
+                  <Route path="/" element={<Index />} />
+                  <Route path="/clients" element={<ClientsPage />} />
+                  <Route path="/clients/:id" element={<ClientProfilePage />} />
+                  <Route path="/sessions" element={<SessionsPage />} />
+                  <Route path="/programs" element={<ProgramsPage />} />
+                  <Route path="/analytics" element={<AnalyticsPage />} />
+                  <Route path="/billing" element={<BillingPage />} />
+                  <Route path="/profile" element={<ProfilePage />} />
+                  <Route path="/settings" element={<SettingsPage />} />
+                </Route>
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </BrowserRouter>
+          </TooltipProvider>
+        </TimeFormatProvider>
       </LanguageProvider>
     </AuthProvider>
   </QueryClientProvider>
