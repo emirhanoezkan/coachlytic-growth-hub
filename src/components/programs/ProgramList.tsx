@@ -11,6 +11,17 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Clock, Users, DollarSign, Edit, Trash2 } from "lucide-react";
+import { useI18n } from "@/contexts/I18nContext";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 // Sample data for programs
 const programs = [
@@ -52,7 +63,33 @@ const programs = [
   }
 ];
 
-export const ProgramList: React.FC = () => {
+interface ProgramListProps {
+  onEdit?: (program: any) => void;
+  onDelete?: (id: number) => void;
+}
+
+export const ProgramList: React.FC<ProgramListProps> = ({ onEdit, onDelete }) => {
+  const { t, locale } = useI18n();
+  const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false);
+  const [programToDelete, setProgramToDelete] = React.useState<number | null>(null);
+
+  const handleEditClick = (program: any) => {
+    onEdit?.(program);
+  };
+
+  const handleDeleteClick = (id: number) => {
+    setProgramToDelete(id);
+    setDeleteDialogOpen(true);
+  };
+
+  const confirmDelete = () => {
+    if (programToDelete !== null) {
+      onDelete?.(programToDelete);
+      setProgramToDelete(null);
+    }
+    setDeleteDialogOpen(false);
+  };
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {programs.map((program) => (
@@ -61,7 +98,7 @@ export const ProgramList: React.FC = () => {
             <div className="flex justify-between items-start">
               <CardTitle>{program.name}</CardTitle>
               <Badge className="bg-forest-100 text-forest-800 hover:bg-forest-200">
-                {program.clients} Clients
+                {program.clients} {t('clients')}
               </Badge>
             </div>
             <CardDescription className="line-clamp-2 h-10">
@@ -72,7 +109,7 @@ export const ProgramList: React.FC = () => {
             <div className="grid grid-cols-3 gap-4 text-sm">
               <div className="flex items-center">
                 <Clock className="h-4 w-4 mr-2 text-gray-500" />
-                <span>{program.sessions} sessions</span>
+                <span>{program.sessions} {t('sessions')}</span>
               </div>
               <div className="flex items-center">
                 <Users className="h-4 w-4 mr-2 text-gray-500" />
@@ -80,22 +117,52 @@ export const ProgramList: React.FC = () => {
               </div>
               <div className="flex items-center">
                 <DollarSign className="h-4 w-4 mr-2 text-gray-500" />
-                <span>${program.price}</span>
+                <span>{locale === 'en' ? `$${program.price}` : `₺${program.price * 30}`}</span>
               </div>
             </div>
           </CardContent>
           <CardFooter className="flex justify-between">
-            <Button variant="outline" size="sm">
+            <Button 
+              variant="outline" 
+              size="sm"
+              onClick={() => handleEditClick(program)}
+            >
               <Edit className="h-4 w-4 mr-1" />
-              Edit
+              {t('edit')}
             </Button>
-            <Button variant="outline" size="sm" className="text-red-500 border-red-200 hover:bg-red-50">
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="text-red-500 border-red-200 hover:bg-red-50"
+              onClick={() => handleDeleteClick(program.id)}
+            >
               <Trash2 className="h-4 w-4 mr-1" />
-              Delete
+              {t('delete')}
             </Button>
           </CardFooter>
         </Card>
       ))}
+
+      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. This will permanently delete the program
+              and remove its data from our servers.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction 
+              onClick={confirmDelete}
+              className="bg-red-600 hover:bg-red-700"
+            >
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };

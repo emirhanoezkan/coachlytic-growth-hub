@@ -16,7 +16,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { MoreHorizontal, FileText } from "lucide-react";
+import { MoreHorizontal, FileText, Eye, Download, CheckCircle, Send } from "lucide-react";
+import { useI18n } from "@/contexts/I18nContext";
 
 // Sample data for invoices
 const invoices = [
@@ -25,6 +26,7 @@ const invoices = [
     client: "Sarah Johnson",
     date: "May 01, 2025",
     amount: "$450.00",
+    amountTRY: "₺13,500",
     status: "Paid",
     dueDate: "May 15, 2025"
   },
@@ -33,6 +35,7 @@ const invoices = [
     client: "Michael Chen",
     date: "May 05, 2025",
     amount: "$800.00",
+    amountTRY: "₺24,000",
     status: "Pending",
     dueDate: "May 20, 2025"
   },
@@ -41,6 +44,7 @@ const invoices = [
     client: "Emma Davis",
     date: "Apr 28, 2025",
     amount: "$600.00",
+    amountTRY: "₺18,000",
     status: "Paid",
     dueDate: "May 12, 2025"
   },
@@ -49,6 +53,7 @@ const invoices = [
     client: "Robert Wilson",
     date: "Apr 15, 2025",
     amount: "$1,200.00",
+    amountTRY: "₺36,000",
     status: "Overdue",
     dueDate: "Apr 30, 2025"
   },
@@ -57,23 +62,34 @@ const invoices = [
     client: "Jennifer Lopez",
     date: "May 10, 2025",
     amount: "$450.00",
+    amountTRY: "₺13,500",
     status: "Pending",
     dueDate: "May 25, 2025"
   }
 ];
 
-export const InvoiceList: React.FC = () => {
+interface InvoiceListProps {
+  onInvoiceAction?: (action: string, id: string) => void;
+}
+
+export const InvoiceList: React.FC<InvoiceListProps> = ({ onInvoiceAction }) => {
+  const { t, locale } = useI18n();
+
+  const handleInvoiceAction = (action: string, id: string) => {
+    onInvoiceAction?.(action, id);
+  };
+
   return (
     <div className="bg-white rounded-md border shadow-sm">
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Invoice</TableHead>
-            <TableHead>Client</TableHead>
-            <TableHead>Issue Date</TableHead>
-            <TableHead>Due Date</TableHead>
-            <TableHead>Amount</TableHead>
-            <TableHead>Status</TableHead>
+            <TableHead>{t('invoice')}</TableHead>
+            <TableHead>{t('client')}</TableHead>
+            <TableHead>{t('issueDate')}</TableHead>
+            <TableHead>{t('dueDate')}</TableHead>
+            <TableHead>{t('amount')}</TableHead>
+            <TableHead>{t('status')}</TableHead>
             <TableHead></TableHead>
           </TableRow>
         </TableHeader>
@@ -87,14 +103,16 @@ export const InvoiceList: React.FC = () => {
               <TableCell>{invoice.client}</TableCell>
               <TableCell>{invoice.date}</TableCell>
               <TableCell>{invoice.dueDate}</TableCell>
-              <TableCell>{invoice.amount}</TableCell>
+              <TableCell>{locale === 'en' ? invoice.amount : invoice.amountTRY}</TableCell>
               <TableCell>
                 <Badge className={
                   invoice.status === "Paid" ? "bg-forest-100 text-forest-800 hover:bg-forest-200" :
                   invoice.status === "Pending" ? "bg-lavender-100 text-lavender-800 hover:bg-lavender-200" :
                   "bg-red-100 text-red-800 hover:bg-red-200"
                 }>
-                  {invoice.status}
+                  {invoice.status === "Paid" ? t('paid') : 
+                   invoice.status === "Pending" ? t('pending') : 
+                   t('overdue')}
                 </Badge>
               </TableCell>
               <TableCell>
@@ -105,10 +123,26 @@ export const InvoiceList: React.FC = () => {
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
-                    <DropdownMenuItem>View Invoice</DropdownMenuItem>
-                    <DropdownMenuItem>Download PDF</DropdownMenuItem>
-                    <DropdownMenuItem>Mark as Paid</DropdownMenuItem>
-                    <DropdownMenuItem>Send Reminder</DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => handleInvoiceAction(t('viewInvoice'), invoice.id)}>
+                      <Eye className="h-4 w-4 mr-2" />
+                      {t('viewInvoice')}
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => handleInvoiceAction(t('downloadPDF'), invoice.id)}>
+                      <Download className="h-4 w-4 mr-2" />
+                      {t('downloadPDF')}
+                    </DropdownMenuItem>
+                    {invoice.status !== "Paid" && (
+                      <DropdownMenuItem onClick={() => handleInvoiceAction(t('markAsPaid'), invoice.id)}>
+                        <CheckCircle className="h-4 w-4 mr-2" />
+                        {t('markAsPaid')}
+                      </DropdownMenuItem>
+                    )}
+                    {invoice.status !== "Paid" && (
+                      <DropdownMenuItem onClick={() => handleInvoiceAction(t('sendReminder'), invoice.id)}>
+                        <Send className="h-4 w-4 mr-2" />
+                        {t('sendReminder')}
+                      </DropdownMenuItem>
+                    )}
                   </DropdownMenuContent>
                 </DropdownMenu>
               </TableCell>
