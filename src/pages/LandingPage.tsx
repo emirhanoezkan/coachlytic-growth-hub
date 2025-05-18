@@ -3,8 +3,11 @@ import React from 'react';
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { BarChart, Users, Calendar, FileText, ArrowRight, CheckCircle } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const LandingPage = () => {
+  const { t } = useLanguage();
+  
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
@@ -19,39 +22,38 @@ const LandingPage = () => {
             <div className="md:w-1/2 mb-10 md:mb-0 animate-fade-in">
               <div className="mb-4 inline-flex items-center px-3 py-1.5 text-sm font-medium bg-white/10 text-white/90 backdrop-blur-sm rounded-full">
                 <span className="flex h-2 w-2 rounded-full bg-green-400 mr-2"></span>
-                Simplified coaching management
+                {t('landing.hero.badge')}
               </div>
               
               <h1 className="text-4xl md:text-5xl font-display font-bold mb-6 text-balance">
-                Elevate Your Coaching Business with <span className="text-lavender-300">Coachlytic</span>
+                {t('landing.hero.title.part1')} <span className="text-lavender-300">{t('landing.hero.title.part2')}</span>
               </h1>
               <p className="text-xl mb-8 text-white/90 max-w-lg text-pretty">
-                The all-in-one platform for professional coaches to manage clients, schedule sessions, 
-                and track performance — all in one beautiful dashboard.
+                {t('landing.hero.description')}
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Button asChild size="lg" className="bg-lavender-500 hover:bg-lavender-600 text-white rounded-full px-8 py-6 text-lg shadow-lg shadow-lavender-500/20">
-                  <Link to="/auth">Get Started</Link>
+                  <Link to="/auth">{t('landing.hero.button.primary')}</Link>
                 </Button>
                 <Button asChild variant="outline" size="lg" className="bg-white/10 backdrop-blur-sm text-white border-white/20 hover:bg-white/20 rounded-full px-8 py-6 text-lg">
-                  <Link to="#features">Learn More</Link>
+                  <Link to="#features">{t('landing.hero.button.secondary')}</Link>
                 </Button>
               </div>
               
               <div className="mt-8 flex items-center text-sm text-white/70">
                 <CheckCircle className="h-4 w-4 mr-2 text-green-400" />
-                <span>No credit card required</span>
+                <span>{t('landing.hero.feature1')}</span>
                 <span className="mx-2">•</span>
                 <CheckCircle className="h-4 w-4 mr-2 text-green-400" />
-                <span>14-day free trial</span>
+                <span>{t('landing.hero.feature2')}</span>
               </div>
             </div>
-            <div className="md:w-1/2 animate-slide-in">
+            <div className="md:w-1/2 animate-slide-in relative">
               <div className="bg-white rounded-xl shadow-2xl overflow-hidden border border-white/20">
                 <img 
-                  src="/placeholder.svg" 
+                  src="/coaching-dashboard.jpg" 
                   alt="Coachlytic Dashboard" 
-                  className="w-full"
+                  className="w-full object-cover"
                 />
                 <div className="absolute inset-0 rounded-xl bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none"></div>
               </div>
