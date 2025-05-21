@@ -19,12 +19,6 @@ export const LanguageSelector: React.FC = () => {
     { code: 'tr', name: 'Turkish', localName: 'Türkçe', flag: '🇹🇷' },
   ];
 
-  // Get the display name based on current language
-  const getDisplayName = (langCode: string) => {
-    const lang = languages.find(l => l.code === langCode);
-    return language === 'en' ? lang?.name : lang?.localName;
-  };
-
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -44,7 +38,7 @@ export const LanguageSelector: React.FC = () => {
             className={`flex items-center gap-2 ${language === lang.code ? 'font-bold' : ''}`}
           >
             <span>{lang.flag}</span>
-            <span>{getDisplayName(lang.code)}</span>
+            <span>{language === 'en' ? lang.name : lang.localName}</span>
           </DropdownMenuItem>
         ))}
       </DropdownMenuContent>

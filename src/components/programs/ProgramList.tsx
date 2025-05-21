@@ -71,7 +71,7 @@ export const ProgramList: React.FC = () => {
       <Card className="py-8">
         <CardContent>
           <div className="text-center text-red-500">
-            Error loading programs: {error.message}
+            {t('action.loading')} {error.message}
           </div>
         </CardContent>
       </Card>
@@ -83,7 +83,7 @@ export const ProgramList: React.FC = () => {
       <Card className="py-8">
         <CardContent>
           <div className="text-center text-muted-foreground">
-            No programs found. Create your first program to get started.
+            {t('programs.noPrograms')}
           </div>
         </CardContent>
       </Card>
@@ -99,7 +99,7 @@ export const ProgramList: React.FC = () => {
               <div className="flex justify-between items-start">
                 <CardTitle>{program.name}</CardTitle>
                 <Badge className="bg-forest-100 text-forest-800 hover:bg-forest-200">
-                  {program.sessions_count} Sessions
+                  {program.sessions_count} {t('programs.sessions')}
                 </Badge>
               </div>
               <CardDescription className="line-clamp-2 h-10">
@@ -110,11 +110,11 @@ export const ProgramList: React.FC = () => {
               <div className="grid grid-cols-3 gap-4 text-sm">
                 <div className="flex items-center">
                   <Clock className="h-4 w-4 mr-2 text-gray-500" />
-                  <span>{program.sessions_count} sessions</span>
+                  <span>{program.sessions_count} {t('programs.sessions')}</span>
                 </div>
                 <div className="flex items-center">
                   <Users className="h-4 w-4 mr-2 text-gray-500" />
-                  <span>{program.duration || "-"} weeks</span>
+                  <span>{program.duration || "-"} {t('time.week')}</span>
                 </div>
                 <div className="flex items-center">
                   <DollarSign className="h-4 w-4 mr-2 text-gray-500" />
@@ -125,7 +125,7 @@ export const ProgramList: React.FC = () => {
             <CardFooter className="flex justify-between">
               <Button variant="outline" size="sm" onClick={() => handleEdit(program)}>
                 <Edit className="h-4 w-4 mr-1" />
-                Edit
+                {t('action.edit')}
               </Button>
               <Button 
                 variant="outline" 
@@ -134,7 +134,7 @@ export const ProgramList: React.FC = () => {
                 onClick={() => handleDelete(program)}
               >
                 <Trash2 className="h-4 w-4 mr-1" />
-                Delete
+                {t('action.delete')}
               </Button>
             </CardFooter>
           </Card>
@@ -144,7 +144,7 @@ export const ProgramList: React.FC = () => {
       <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
         <DialogContent className="sm:max-w-[500px]">
           <DialogHeader>
-            <DialogTitle>Edit {selectedProgram?.name}</DialogTitle>
+            <DialogTitle>{t('action.edit')} {selectedProgram?.name}</DialogTitle>
           </DialogHeader>
           {selectedProgram && (
             <ProgramForm 
@@ -165,18 +165,18 @@ export const ProgramList: React.FC = () => {
       <AlertDialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+            <AlertDialogTitle>{t('action.confirm')}</AlertDialogTitle>
             <AlertDialogDescription>
-              This will permanently delete the program "{selectedProgram?.name}". This action cannot be undone.
+              {t('programs.deleteConfirm')} "{selectedProgram?.name}". {t('programs.deleteWarning')}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel>{t('action.cancel')}</AlertDialogCancel>
             <AlertDialogAction 
               onClick={confirmDelete}
               className="bg-red-500 hover:bg-red-600"
             >
-              Delete
+              {t('action.delete')}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

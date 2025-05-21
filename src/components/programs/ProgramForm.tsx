@@ -107,7 +107,7 @@ export const ProgramForm: React.FC<ProgramFormProps> = ({ onSubmit, initialData 
           <Input 
             id="price" 
             type="number" 
-            placeholder="1200" 
+            placeholder={t('programs.pricePlaceholder')} 
             {...register('price', { 
               valueAsNumber: true,
               min: 0
