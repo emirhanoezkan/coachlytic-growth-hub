@@ -52,42 +52,42 @@ const SettingsPage = () => {
           <main className="flex-1 overflow-auto p-6 bg-slate-50">
             <div className="max-w-4xl mx-auto space-y-6">
               <div>
-                <h1 className="text-2xl font-display font-semibold text-gray-900">Settings</h1>
-                <p className="text-gray-500 mt-1">Manage your application preferences</p>
+                <h1 className="text-2xl font-display font-semibold text-gray-900">{t('settings.title')}</h1>
+                <p className="text-gray-500 mt-1">{t('settings.subtitle')}</p>
               </div>
               
               <Tabs defaultValue="notifications">
                 <TabsList className="grid grid-cols-4 max-w-lg">
                   <TabsTrigger value="notifications" className="flex items-center">
                     <Bell className="mr-2 h-4 w-4" />
-                    Notifications
+                    {t('settings.tabs.notifications')}
                   </TabsTrigger>
                   <TabsTrigger value="preferences" className="flex items-center">
                     <Settings className="mr-2 h-4 w-4" />
-                    Preferences
+                    {t('settings.tabs.preferences')}
                   </TabsTrigger>
                   <TabsTrigger value="integrations" className="flex items-center">
                     <Globe className="mr-2 h-4 w-4" />
-                    Integrations
+                    {t('settings.tabs.integrations')}
                   </TabsTrigger>
                   <TabsTrigger value="security" className="flex items-center">
                     <Lock className="mr-2 h-4 w-4" />
-                    Security
+                    {t('settings.tabs.security')}
                   </TabsTrigger>
                 </TabsList>
                 
                 <TabsContent value="notifications">
                   <Card>
                     <CardHeader>
-                      <CardTitle>Notification Settings</CardTitle>
-                      <CardDescription>Manage how you receive notifications from Coachlytic</CardDescription>
+                      <CardTitle>{t('settings.notifications.title')}</CardTitle>
+                      <CardDescription>{t('settings.notifications.description')}</CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-6">
                       <div className="space-y-4">
                         <div className="flex items-center justify-between">
                           <div>
-                            <Label htmlFor="email-notifications">Email Notifications</Label>
-                            <p className="text-sm text-gray-500">Receive email updates about sessions and clients</p>
+                            <Label htmlFor="email-notifications">{t('settings.notifications.email')}</Label>
+                            <p className="text-sm text-gray-500">{t('settings.notifications.emailDesc')}</p>
                           </div>
                           <Switch 
                             id="email-notifications" 
@@ -98,8 +98,8 @@ const SettingsPage = () => {
                         
                         <div className="flex items-center justify-between">
                           <div>
-                            <Label htmlFor="reminder-notifications">Session Reminders</Label>
-                            <p className="text-sm text-gray-500">Receive notifications before scheduled sessions</p>
+                            <Label htmlFor="reminder-notifications">{t('settings.notifications.reminders')}</Label>
+                            <p className="text-sm text-gray-500">{t('settings.notifications.remindersDesc')}</p>
                           </div>
                           <Switch 
                             id="reminder-notifications" 
@@ -110,8 +110,8 @@ const SettingsPage = () => {
                         
                         <div className="flex items-center justify-between">
                           <div>
-                            <Label htmlFor="marketing-communications">Marketing Communications</Label>
-                            <p className="text-sm text-gray-500">Receive updates about new features and promotions</p>
+                            <Label htmlFor="marketing-communications">{t('settings.notifications.marketing')}</Label>
+                            <p className="text-sm text-gray-500">{t('settings.notifications.marketingDesc')}</p>
                           </div>
                           <Switch 
                             id="marketing-communications" 
@@ -121,7 +121,7 @@ const SettingsPage = () => {
                         </div>
                       </div>
                       
-                      <Button onClick={handleSave} className="bg-forest-500 hover:bg-forest-600">Save Changes</Button>
+                      <Button onClick={handleSave} className="bg-forest-500 hover:bg-forest-600">{t('settings.saveChanges')}</Button>
                     </CardContent>
                   </Card>
                 </TabsContent>
@@ -129,13 +129,13 @@ const SettingsPage = () => {
                 <TabsContent value="preferences">
                   <Card>
                     <CardHeader>
-                      <CardTitle>System Preferences</CardTitle>
-                      <CardDescription>Customize your Coachlytic experience</CardDescription>
+                      <CardTitle>{t('settings.preferences.title')}</CardTitle>
+                      <CardDescription>{t('settings.preferences.description')}</CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-6">
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div className="space-y-2">
-                          <Label htmlFor="timezone">Default Timezone</Label>
+                          <Label htmlFor="timezone">{t('settings.preferences.timezone')}</Label>
                           <Select 
                             value={settings.timezone} 
                             onValueChange={(value) => setSettings({...settings, timezone: value})}
@@ -155,7 +155,7 @@ const SettingsPage = () => {
                         </div>
                         
                         <div className="space-y-2">
-                          <Label htmlFor="session-reminders">Session Reminder Time (Hours)</Label>
+                          <Label htmlFor="session-reminders">{t('settings.preferences.reminderTime')}</Label>
                           <Select 
                             value={settings.sessionReminders.toString()} 
                             onValueChange={(value) => setSettings({...settings, sessionReminders: parseInt(value)})}
@@ -179,8 +179,8 @@ const SettingsPage = () => {
                       
                       <div className="flex items-center justify-between">
                         <div>
-                          <Label htmlFor="dark-mode">Dark Mode</Label>
-                          <p className="text-sm text-gray-500">Enable dark mode for the application</p>
+                          <Label htmlFor="dark-mode">{t('settings.preferences.darkMode')}</Label>
+                          <p className="text-sm text-gray-500">{t('settings.preferences.darkModeDesc')}</p>
                         </div>
                         <Switch 
                           id="dark-mode" 
@@ -189,7 +189,7 @@ const SettingsPage = () => {
                         />
                       </div>
                       
-                      <Button onClick={handleSave} className="bg-forest-500 hover:bg-forest-600">Save Changes</Button>
+                      <Button onClick={handleSave} className="bg-forest-500 hover:bg-forest-600">{t('settings.saveChanges')}</Button>
                     </CardContent>
                   </Card>
                 </TabsContent>
@@ -197,8 +197,8 @@ const SettingsPage = () => {
                 <TabsContent value="integrations">
                   <Card>
                     <CardHeader>
-                      <CardTitle>External Integrations</CardTitle>
-                      <CardDescription>Connect with other platforms and services</CardDescription>
+                      <CardTitle>{t('settings.integrations.title')}</CardTitle>
+                      <CardDescription>{t('settings.integrations.description')}</CardDescription>
                     </CardHeader>
                     <CardContent>
                       <div className="space-y-4">
@@ -206,9 +206,11 @@ const SettingsPage = () => {
                           <div key={integration} className="flex items-center justify-between border-b pb-4">
                             <div>
                               <h4 className="font-medium">{integration}</h4>
-                              <p className="text-sm text-gray-500">Connect your {integration} account</p>
+                              <p className="text-sm text-gray-500">
+                                {t('settings.integrations.connect').replace('{integration}', integration)}
+                              </p>
                             </div>
-                            <Button variant="outline">Connect</Button>
+                            <Button variant="outline">{t('settings.integrations.connectButton')}</Button>
                           </div>
                         ))}
                       </div>
@@ -219,37 +221,37 @@ const SettingsPage = () => {
                 <TabsContent value="security">
                   <Card>
                     <CardHeader>
-                      <CardTitle>Security Settings</CardTitle>
-                      <CardDescription>Manage your account security</CardDescription>
+                      <CardTitle>{t('settings.security.title')}</CardTitle>
+                      <CardDescription>{t('settings.security.description')}</CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-6">
                       <div>
-                        <h3 className="text-lg font-medium">Change Password</h3>
-                        <p className="text-sm text-gray-500 mb-4">Update your password regularly for better security</p>
-                        <Button variant="outline">Change Password</Button>
+                        <h3 className="text-lg font-medium">{t('settings.security.changePassword')}</h3>
+                        <p className="text-sm text-gray-500 mb-4">{t('settings.security.changePasswordDesc')}</p>
+                        <Button variant="outline">{t('settings.security.changePassword')}</Button>
                       </div>
                       
                       <div>
-                        <h3 className="text-lg font-medium">Two-Factor Authentication</h3>
-                        <p className="text-sm text-gray-500 mb-4">Add an extra layer of security to your account</p>
-                        <Button variant="outline">Enable 2FA</Button>
+                        <h3 className="text-lg font-medium">{t('settings.security.2fa')}</h3>
+                        <p className="text-sm text-gray-500 mb-4">{t('settings.security.2faDesc')}</p>
+                        <Button variant="outline">{t('settings.security.2fa')}</Button>
                       </div>
                       
                       <div>
-                        <h3 className="text-lg font-medium">Active Sessions</h3>
-                        <p className="text-sm text-gray-500 mb-4">Manage devices where you're currently signed in</p>
+                        <h3 className="text-lg font-medium">{t('settings.security.sessions')}</h3>
+                        <p className="text-sm text-gray-500 mb-4">{t('settings.security.sessionsDesc')}</p>
                         <div className="border rounded-md p-4 mb-2">
                           <div className="flex items-center justify-between">
                             <div className="flex items-center">
                               <WifiOff className="h-5 w-5 mr-2 text-forest-500" />
                               <div>
-                                <p className="font-medium">Current Device</p>
-                                <p className="text-sm text-gray-500">Last active: Just now</p>
+                                <p className="font-medium">{t('settings.security.currentDevice')}</p>
+                                <p className="text-sm text-gray-500">{t('settings.security.lastActive').replace('{time}', 'Just now')}</p>
                               </div>
                             </div>
                           </div>
                         </div>
-                        <Button variant="outline" className="text-red-500">Sign Out All Other Devices</Button>
+                        <Button variant="outline" className="text-red-500">{t('settings.security.signOut')}</Button>
                       </div>
                     </CardContent>
                   </Card>

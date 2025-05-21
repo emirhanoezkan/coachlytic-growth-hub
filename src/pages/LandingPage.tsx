@@ -69,13 +69,13 @@ const LandingPage = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <div className="inline-flex items-center px-3 py-1.5 text-sm font-medium bg-forest-100 text-forest-800 rounded-full mb-4">
-              <span>Features</span>
+              <span>{t('landing.features.title')}</span>
             </div>
             <h2 className="text-3xl md:text-4xl font-display font-bold text-gray-900">
-              Everything You Need to Succeed
+              {t('landing.features.heading')}
             </h2>
             <p className="mt-4 text-xl text-gray-600 max-w-2xl mx-auto text-pretty">
-              Coachlytic brings all your coaching tools together in one seamless experience
+              {t('landing.features.subheading')}
             </p>
           </div>
           
@@ -84,9 +84,9 @@ const LandingPage = () => {
               <div className="bg-forest-100 p-3 inline-block rounded-lg mb-4 group-hover:bg-forest-200 transition-colors">
                 <Users className="h-6 w-6 text-forest-600" />
               </div>
-              <h3 className="text-xl font-semibold mb-3 text-gray-900">Client Management</h3>
+              <h3 className="text-xl font-semibold mb-3 text-gray-900">{t('landing.features.clientManagement.title')}</h3>
               <p className="text-gray-600">
-                Organize client information, track progress, and manage communication in one place.
+                {t('landing.features.clientManagement.description')}
               </p>
             </div>
             
@@ -94,9 +94,9 @@ const LandingPage = () => {
               <div className="bg-lavender-100 p-3 inline-block rounded-lg mb-4 group-hover:bg-lavender-200 transition-colors">
                 <Calendar className="h-6 w-6 text-lavender-600" />
               </div>
-              <h3 className="text-xl font-semibold mb-3 text-gray-900">Smart Scheduling</h3>
+              <h3 className="text-xl font-semibold mb-3 text-gray-900">{t('landing.features.scheduling.title')}</h3>
               <p className="text-gray-600">
-                Interactive calendar that makes booking sessions and managing your time effortless.
+                {t('landing.features.scheduling.description')}
               </p>
             </div>
             
@@ -104,9 +104,9 @@ const LandingPage = () => {
               <div className="bg-forest-100 p-3 inline-block rounded-lg mb-4 group-hover:bg-forest-200 transition-colors">
                 <FileText className="h-6 w-6 text-forest-600" />
               </div>
-              <h3 className="text-xl font-semibold mb-3 text-gray-900">Program Builder</h3>
+              <h3 className="text-xl font-semibold mb-3 text-gray-900">{t('landing.features.program.title')}</h3>
               <p className="text-gray-600">
-                Create and manage coaching programs with customizable packages and pricing.
+                {t('landing.features.program.description')}
               </p>
             </div>
             
@@ -114,9 +114,9 @@ const LandingPage = () => {
               <div className="bg-lavender-100 p-3 inline-block rounded-lg mb-4 group-hover:bg-lavender-200 transition-colors">
                 <BarChart className="h-6 w-6 text-lavender-600" />
               </div>
-              <h3 className="text-xl font-semibold mb-3 text-gray-900">Insightful Analytics</h3>
+              <h3 className="text-xl font-semibold mb-3 text-gray-900">{t('landing.features.analytics.title')}</h3>
               <p className="text-gray-600">
-                Track performance metrics and gain valuable insights to grow your coaching practice.
+                {t('landing.features.analytics.description')}
               </p>
             </div>
           </div>
@@ -128,10 +128,10 @@ const LandingPage = () => {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <div className="inline-flex items-center px-3 py-1.5 text-sm font-medium bg-lavender-100 text-lavender-800 rounded-full mb-4">
-              <span>Testimonials</span>
+              <span>{t('landing.testimonials.badge')}</span>
             </div>
             <h2 className="text-3xl font-display font-bold text-gray-900">
-              Loved by coaches worldwide
+              {t('landing.testimonials.heading')}
             </h2>
           </div>
           
@@ -140,33 +140,33 @@ const LandingPage = () => {
               <div className="flex items-center mb-4">
                 <div className="h-10 w-10 rounded-full bg-forest-200 flex items-center justify-center text-forest-700 font-medium">AJ</div>
                 <div className="ml-3">
-                  <p className="font-medium">Alex Johnson</p>
-                  <p className="text-sm text-gray-500">Business Coach</p>
+                  <p className="font-medium">{t('landing.testimonials.person1.name')}</p>
+                  <p className="text-sm text-gray-500">{t('landing.testimonials.person1.role')}</p>
                 </div>
               </div>
-              <p className="text-gray-600">"Coachlytic transformed my coaching practice. The client management system is intuitive and the analytics help me make better decisions."</p>
+              <p className="text-gray-600">{t('landing.testimonials.person1.quote')}</p>
             </div>
             
             <div className="bg-white p-6 rounded-xl shadow-md border border-gray-100">
               <div className="flex items-center mb-4">
                 <div className="h-10 w-10 rounded-full bg-lavender-200 flex items-center justify-center text-lavender-700 font-medium">SL</div>
                 <div className="ml-3">
-                  <p className="font-medium">Sarah Lee</p>
-                  <p className="text-sm text-gray-500">Life Coach</p>
+                  <p className="font-medium">{t('landing.testimonials.person2.name')}</p>
+                  <p className="text-sm text-gray-500">{t('landing.testimonials.person2.role')}</p>
                 </div>
               </div>
-              <p className="text-gray-600">"The scheduling features saved me hours every week. My clients appreciate the professional experience, and I can focus on coaching instead of admin work."</p>
+              <p className="text-gray-600">{t('landing.testimonials.person2.quote')}</p>
             </div>
             
             <div className="bg-white p-6 rounded-xl shadow-md border border-gray-100">
               <div className="flex items-center mb-4">
                 <div className="h-10 w-10 rounded-full bg-forest-200 flex items-center justify-center text-forest-700 font-medium">MT</div>
                 <div className="ml-3">
-                  <p className="font-medium">Mark Thompson</p>
-                  <p className="text-sm text-gray-500">Executive Coach</p>
+                  <p className="font-medium">{t('landing.testimonials.person3.name')}</p>
+                  <p className="text-sm text-gray-500">{t('landing.testimonials.person3.role')}</p>
                 </div>
               </div>
-              <p className="text-gray-600">"I've tried many coaching platforms, but Coachlytic offers the perfect balance of features without being overwhelming. It's become essential to my business."</p>
+              <p className="text-gray-600">{t('landing.testimonials.person3.quote')}</p>
             </div>
           </div>
         </div>
@@ -176,14 +176,14 @@ const LandingPage = () => {
       <section className="bg-gradient-to-br from-lavender-50 to-forest-50 py-20">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl font-display font-bold text-gray-900 mb-6">
-            Ready to take your coaching to the next level?
+            {t('landing.cta.heading')}
           </h2>
           <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-            Join thousands of coaches who trust Coachlytic to manage their business.
+            {t('landing.cta.subheading')}
           </p>
           <Button asChild size="lg" className="bg-forest-600 hover:bg-forest-700 text-white rounded-full px-8 py-6 text-lg shadow-lg shadow-forest-600/20">
             <Link to="/auth" className="inline-flex items-center">
-              Get Started Now <ArrowRight className="ml-2 h-5 w-5" />
+              {t('landing.cta.button')} <ArrowRight className="ml-2 h-5 w-5" />
             </Link>
           </Button>
         </div>
@@ -196,36 +196,36 @@ const LandingPage = () => {
             <div className="mb-8 md:mb-0">
               <div className="flex items-center">
                 <div className="h-8 w-8 bg-forest-500 rounded-lg mr-2 shadow-lg shadow-forest-500/30"></div>
-                <span className="text-xl font-bold text-white">Coachlytic</span>
+                <span className="text-xl font-bold text-white">{t('app.name')}</span>
               </div>
-              <p className="mt-2 text-gray-400">Empowering coaches, transforming practices.</p>
+              <p className="mt-2 text-gray-400">{t('landing.footer.slogan')}</p>
             </div>
             <div className="flex flex-wrap justify-center gap-8 md:gap-12">
               <div>
-                <h3 className="text-sm font-semibold uppercase tracking-wider text-gray-400">Product</h3>
+                <h3 className="text-sm font-semibold uppercase tracking-wider text-gray-400">{t('landing.footer.product')}</h3>
                 <div className="mt-4 space-y-3">
-                  <a href="#" className="block text-gray-300 hover:text-white transition-colors">Features</a>
-                  <a href="#" className="block text-gray-300 hover:text-white transition-colors">Pricing</a>
+                  <a href="#" className="block text-gray-300 hover:text-white transition-colors">{t('landing.footer.features')}</a>
+                  <a href="#" className="block text-gray-300 hover:text-white transition-colors">{t('landing.footer.pricing')}</a>
                 </div>
               </div>
               <div>
-                <h3 className="text-sm font-semibold uppercase tracking-wider text-gray-400">Support</h3>
+                <h3 className="text-sm font-semibold uppercase tracking-wider text-gray-400">{t('landing.footer.support')}</h3>
                 <div className="mt-4 space-y-3">
-                  <a href="#" className="block text-gray-300 hover:text-white transition-colors">Help Center</a>
-                  <a href="#" className="block text-gray-300 hover:text-white transition-colors">Contact</a>
+                  <a href="#" className="block text-gray-300 hover:text-white transition-colors">{t('landing.footer.helpCenter')}</a>
+                  <a href="#" className="block text-gray-300 hover:text-white transition-colors">{t('landing.footer.contact')}</a>
                 </div>
               </div>
               <div>
-                <h3 className="text-sm font-semibold uppercase tracking-wider text-gray-400">Legal</h3>
+                <h3 className="text-sm font-semibold uppercase tracking-wider text-gray-400">{t('landing.footer.legal')}</h3>
                 <div className="mt-4 space-y-3">
-                  <a href="#" className="block text-gray-300 hover:text-white transition-colors">Privacy</a>
-                  <a href="#" className="block text-gray-300 hover:text-white transition-colors">Terms</a>
+                  <a href="#" className="block text-gray-300 hover:text-white transition-colors">{t('landing.footer.privacy')}</a>
+                  <a href="#" className="block text-gray-300 hover:text-white transition-colors">{t('landing.footer.terms')}</a>
                 </div>
               </div>
             </div>
           </div>
           <div className="mt-8 border-t border-gray-700 pt-8 text-center">
-            <p className="text-gray-400">&copy; 2025 Coachlytic. All rights reserved.</p>
+            <p className="text-gray-400">{t('landing.footer.copyright')}</p>
           </div>
         </div>
       </footer>

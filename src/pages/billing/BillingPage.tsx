@@ -8,10 +8,12 @@ import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { InvoiceForm } from "@/components/billing/InvoiceForm";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const BillingPage = () => {
   const [isAddInvoiceDialogOpen, setIsAddInvoiceDialogOpen] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { t } = useLanguage();
 
   return (
     <SidebarProvider open={sidebarOpen} setOpen={setSidebarOpen}>
@@ -25,8 +27,8 @@ const BillingPage = () => {
             <div className="max-w-7xl mx-auto space-y-6">
               <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                 <div>
-                  <h1 className="text-2xl font-display font-semibold text-gray-900">Invoices & Billing</h1>
-                  <p className="text-gray-500 mt-1">Manage your financial transactions</p>
+                  <h1 className="text-2xl font-display font-semibold text-gray-900">{t('billing.title')}</h1>
+                  <p className="text-gray-500 mt-1">{t('billing.subtitle')}</p>
                 </div>
                 <div>
                   <Button 
@@ -34,7 +36,7 @@ const BillingPage = () => {
                     className="bg-forest-500 hover:bg-forest-600"
                   >
                     <Plus className="h-4 w-4 mr-2" />
-                    Create Invoice
+                    {t('billing.createInvoice')}
                   </Button>
                 </div>
               </div>
@@ -46,7 +48,7 @@ const BillingPage = () => {
           <Dialog open={isAddInvoiceDialogOpen} onOpenChange={setIsAddInvoiceDialogOpen}>
             <DialogContent className="sm:max-w-[500px]">
               <DialogHeader>
-                <DialogTitle>Create New Invoice</DialogTitle>
+                <DialogTitle>{t('billing.newInvoice')}</DialogTitle>
               </DialogHeader>
               <InvoiceForm onSubmit={() => setIsAddInvoiceDialogOpen(false)} />
             </DialogContent>
