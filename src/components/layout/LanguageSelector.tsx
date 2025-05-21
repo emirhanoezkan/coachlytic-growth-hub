@@ -13,9 +13,10 @@ import { Globe } from 'lucide-react';
 export const LanguageSelector: React.FC = () => {
   const { language, setLanguage, t } = useLanguage();
   
+  // Define languages with their codes, names, and flags
   const languages: { code: string; name: string; flag: string }[] = [
-    { code: 'en', name: t('language.english'), flag: '🇺🇸' },
-    { code: 'tr', name: t('language.turkish'), flag: '🇹🇷' },
+    { code: 'en', name: language === 'en' ? 'English' : 'İngilizce', flag: '🇺🇸' },
+    { code: 'tr', name: language === 'en' ? 'Turkish' : 'Türkçe', flag: '🇹🇷' },
   ];
 
   return (
@@ -24,7 +25,9 @@ export const LanguageSelector: React.FC = () => {
         <Button variant="ghost" size="sm" className="gap-2">
           <Globe className="h-4 w-4" />
           {languages.find(lang => lang.code === language)?.flag}
-          <span className="hidden md:inline">{t('app.language')}</span>
+          <span className="hidden md:inline">
+            {language === 'en' ? 'Language' : 'Dil'}
+          </span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
