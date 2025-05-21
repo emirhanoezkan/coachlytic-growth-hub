@@ -14,10 +14,16 @@ export const LanguageSelector: React.FC = () => {
   const { language, setLanguage, t } = useLanguage();
   
   // Define languages with their codes, names, and flags
-  const languages: { code: string; name: string; flag: string }[] = [
-    { code: 'en', name: t('language.english'), flag: '🇺🇸' },
-    { code: 'tr', name: t('language.turkish'), flag: '🇹🇷' },
+  const languages = [
+    { code: 'en', name: 'English', localName: 'English', flag: '🇺🇸' },
+    { code: 'tr', name: 'Turkish', localName: 'Türkçe', flag: '🇹🇷' },
   ];
+
+  // Get the display name based on current language
+  const getDisplayName = (langCode: string) => {
+    const lang = languages.find(l => l.code === langCode);
+    return language === 'en' ? lang?.name : lang?.localName;
+  };
 
   return (
     <DropdownMenu>
@@ -38,7 +44,7 @@ export const LanguageSelector: React.FC = () => {
             className={`flex items-center gap-2 ${language === lang.code ? 'font-bold' : ''}`}
           >
             <span>{lang.flag}</span>
-            <span>{lang.name}</span>
+            <span>{getDisplayName(lang.code)}</span>
           </DropdownMenuItem>
         ))}
       </DropdownMenuContent>
