@@ -18,6 +18,7 @@ import { CalendarIcon, Plus, Trash2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface InvoiceFormProps {
   onSubmit: () => void;
@@ -31,6 +32,7 @@ interface InvoiceFormProps {
 
 export const InvoiceForm: React.FC<InvoiceFormProps> = ({ onSubmit, initialData = {} }) => {
   const { toast } = useToast();
+  const { t } = useLanguage();
   const [items, setItems] = React.useState(initialData.items || [
     { description: "", quantity: 1, rate: 0 }
   ]);
@@ -53,8 +55,8 @@ export const InvoiceForm: React.FC<InvoiceFormProps> = ({ onSubmit, initialData 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     toast({
-      title: "Success",
-      description: "Invoice has been successfully created.",
+      title: t('billing.success'),
+      description: t('billing.invoiceCreated'),
     });
     onSubmit();
   };
@@ -67,10 +69,10 @@ export const InvoiceForm: React.FC<InvoiceFormProps> = ({ onSubmit, initialData 
     <form onSubmit={handleSubmit} className="space-y-5">
       <div className="grid grid-cols-1 gap-4">
         <div className="space-y-2">
-          <Label htmlFor="client">Client</Label>
+          <Label htmlFor="client">{t('billing.client')}</Label>
           <Select defaultValue={initialData.client || ''}>
             <SelectTrigger id="client">
-              <SelectValue placeholder="Select a client" />
+              <SelectValue placeholder={t('billing.selectClient')} />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
@@ -84,7 +86,7 @@ export const InvoiceForm: React.FC<InvoiceFormProps> = ({ onSubmit, initialData 
         </div>
 
         <div>
-          <Label>Due Date</Label>
+          <Label>{t('billing.dueDate')}</Label>
           <Popover>
             <PopoverTrigger asChild>
               <Button
@@ -95,7 +97,7 @@ export const InvoiceForm: React.FC<InvoiceFormProps> = ({ onSubmit, initialData 
                 )}
               >
                 <CalendarIcon className="mr-2 h-4 w-4" />
-                {dueDate ? format(dueDate, "PPP") : <span>Select a due date</span>}
+                {dueDate ? format(dueDate, "PPP") : <span>{t('billing.selectDueDate')}</span>}
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0">
@@ -111,7 +113,7 @@ export const InvoiceForm: React.FC<InvoiceFormProps> = ({ onSubmit, initialData 
 
         <div className="space-y-3 mt-3">
           <div className="flex justify-between items-center">
-            <Label>Invoice Items</Label>
+            <Label>{t('billing.invoiceItems')}</Label>
             <Button 
               type="button" 
               variant="outline" 
@@ -120,7 +122,7 @@ export const InvoiceForm: React.FC<InvoiceFormProps> = ({ onSubmit, initialData 
               className="text-forest-600 border-forest-300 hover:bg-forest-50"
             >
               <Plus className="h-4 w-4 mr-1" />
-              Add Item
+              {t('billing.addItem')}
             </Button>
           </div>
           
@@ -128,17 +130,17 @@ export const InvoiceForm: React.FC<InvoiceFormProps> = ({ onSubmit, initialData 
             {items.map((item, index) => (
               <div key={index} className="grid grid-cols-12 gap-2 items-end border p-2 rounded-md">
                 <div className="col-span-6">
-                  <Label htmlFor={`item-desc-${index}`} className="text-xs">Description</Label>
+                  <Label htmlFor={`item-desc-${index}`} className="text-xs">{t('billing.description')}</Label>
                   <Input 
                     id={`item-desc-${index}`} 
                     value={item.description} 
                     onChange={(e) => handleItemChange(index, "description", e.target.value)} 
-                    placeholder="Service description" 
+                    placeholder={t('billing.serviceDescription')} 
                     className="mt-1"
                   />
                 </div>
                 <div className="col-span-2">
-                  <Label htmlFor={`item-qty-${index}`} className="text-xs">Qty</Label>
+                  <Label htmlFor={`item-qty-${index}`} className="text-xs">{t('billing.quantity')}</Label>
                   <Input 
                     id={`item-qty-${index}`} 
                     type="number" 
@@ -149,7 +151,7 @@ export const InvoiceForm: React.FC<InvoiceFormProps> = ({ onSubmit, initialData 
                   />
                 </div>
                 <div className="col-span-3">
-                  <Label htmlFor={`item-rate-${index}`} className="text-xs">Rate ($)</Label>
+                  <Label htmlFor={`item-rate-${index}`} className="text-xs">{t('billing.rate')}</Label>
                   <Input 
                     id={`item-rate-${index}`} 
                     type="number" 
@@ -179,25 +181,25 @@ export const InvoiceForm: React.FC<InvoiceFormProps> = ({ onSubmit, initialData 
           
           <div className="border-t pt-3 mt-4">
             <div className="flex justify-between text-sm">
-              <span>Subtotal</span>
+              <span>{t('billing.subtotal')}</span>
               <span>${subtotal.toFixed(2)}</span>
             </div>
             <div className="flex justify-between text-sm mt-1">
-              <span>Tax (10%)</span>
+              <span>{t('billing.tax')}</span>
               <span>${tax.toFixed(2)}</span>
             </div>
             <div className="flex justify-between font-bold mt-2 text-lg">
-              <span>Total</span>
+              <span>{t('billing.total')}</span>
               <span>${total.toFixed(2)}</span>
             </div>
           </div>
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="notes">Notes</Label>
+          <Label htmlFor="notes">{t('billing.notes')}</Label>
           <Textarea 
             id="notes" 
-            placeholder="Additional notes for the invoice" 
+            placeholder={t('billing.invoiceNotes')} 
             defaultValue={initialData.notes || ''}
             className="h-20"
           />
@@ -205,8 +207,8 @@ export const InvoiceForm: React.FC<InvoiceFormProps> = ({ onSubmit, initialData 
       </div>
 
       <div className="flex justify-end gap-3 pt-3">
-        <Button type="button" variant="outline" onClick={onSubmit}>Cancel</Button>
-        <Button type="submit" className="bg-forest-500 hover:bg-forest-600">Create Invoice</Button>
+        <Button type="button" variant="outline" onClick={onSubmit}>{t('action.cancel')}</Button>
+        <Button type="submit" className="bg-forest-500 hover:bg-forest-600">{t('billing.createInvoice')}</Button>
       </div>
     </form>
   );

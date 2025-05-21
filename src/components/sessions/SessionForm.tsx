@@ -30,6 +30,7 @@ import { useAddSession, useUpdateSession, SessionFormData, Session } from "@/ser
 import { useClients } from "@/services/clientsService";
 import { usePrograms } from "@/services/programsService";
 import { useTimeFormat } from "@/contexts/TimeFormatContext";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const formSchema = z.object({
   client_id: z.string().min(1, "Client is required"),
@@ -63,6 +64,7 @@ export const SessionForm: React.FC<SessionFormProps> = ({
   const addSession = useAddSession();
   const updateSession = useUpdateSession();
   const { timeFormat } = useTimeFormat();
+  const { t } = useLanguage();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -154,7 +156,7 @@ export const SessionForm: React.FC<SessionFormProps> = ({
             name="client_id"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Client</FormLabel>
+                <FormLabel>{t('sessions.client')}</FormLabel>
                 <Select
                   onValueChange={field.onChange}
                   defaultValue={field.value}
@@ -162,7 +164,7 @@ export const SessionForm: React.FC<SessionFormProps> = ({
                 >
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder="Select a client" />
+                      <SelectValue placeholder={t('sessions.selectClient')} />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
@@ -184,7 +186,7 @@ export const SessionForm: React.FC<SessionFormProps> = ({
           name="program_id"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Program (Optional)</FormLabel>
+              <FormLabel>{t('sessions.program')}</FormLabel>
               <Select
                 onValueChange={field.onChange}
                 defaultValue={field.value}
@@ -192,11 +194,11 @@ export const SessionForm: React.FC<SessionFormProps> = ({
               >
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="Select a program" />
+                    <SelectValue placeholder={t('sessions.selectProgram')} />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value="none">None</SelectItem>
+                  <SelectItem value="none">{t('sessions.noProgram')}</SelectItem>
                   {programs.map((program) => (
                     <SelectItem key={program.id} value={program.id}>
                       {program.name}
@@ -214,9 +216,9 @@ export const SessionForm: React.FC<SessionFormProps> = ({
           name="title"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Session Title</FormLabel>
+              <FormLabel>{t('sessions.title')}</FormLabel>
               <FormControl>
-                <Input placeholder="Session title" {...field} />
+                <Input placeholder={t('sessions.titlePlaceholder')} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -229,7 +231,7 @@ export const SessionForm: React.FC<SessionFormProps> = ({
             name="date"
             render={({ field }) => (
               <FormItem className="flex flex-col">
-                <FormLabel>Date & Time</FormLabel>
+                <FormLabel>{t('sessions.dateTime')}</FormLabel>
                 <Popover>
                   <PopoverTrigger asChild>
                     <FormControl>
@@ -249,7 +251,7 @@ export const SessionForm: React.FC<SessionFormProps> = ({
                             }
                           </>
                         ) : (
-                          <span>Pick a date</span>
+                          <span>{t('sessions.pickDate')}</span>
                         )}
                         <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                       </Button>
@@ -298,7 +300,7 @@ export const SessionForm: React.FC<SessionFormProps> = ({
             name="duration"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Duration (minutes)</FormLabel>
+                <FormLabel>{t('sessions.duration')}</FormLabel>
                 <FormControl>
                   <Input type="number" {...field} />
                 </FormControl>
@@ -313,7 +315,7 @@ export const SessionForm: React.FC<SessionFormProps> = ({
           name="location_type"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Session Type</FormLabel>
+              <FormLabel>{t('sessions.locationType')}</FormLabel>
               <Select
                 onValueChange={field.onChange}
                 defaultValue={field.value}
@@ -321,13 +323,13 @@ export const SessionForm: React.FC<SessionFormProps> = ({
               >
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="Select session type" />
+                    <SelectValue placeholder={t('sessions.selectLocationType')} />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value="online">Online</SelectItem>
-                  <SelectItem value="in-person">In-Person</SelectItem>
-                  <SelectItem value="phone">Phone</SelectItem>
+                  <SelectItem value="online">{t('online')}</SelectItem>
+                  <SelectItem value="in-person">{t('in-person')}</SelectItem>
+                  <SelectItem value="phone">{t('phone')}</SelectItem>
                 </SelectContent>
               </Select>
               <FormMessage />
@@ -341,7 +343,7 @@ export const SessionForm: React.FC<SessionFormProps> = ({
             name="status"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Status</FormLabel>
+                <FormLabel>{t('sessions.status')}</FormLabel>
                 <Select
                   onValueChange={field.onChange}
                   defaultValue={field.value}
@@ -349,13 +351,13 @@ export const SessionForm: React.FC<SessionFormProps> = ({
                 >
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder="Select session status" />
+                      <SelectValue placeholder={t('sessions.selectStatus')} />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="scheduled">Scheduled</SelectItem>
-                    <SelectItem value="completed">Completed</SelectItem>
-                    <SelectItem value="cancelled">Cancelled</SelectItem>
+                    <SelectItem value="scheduled">{t('sessions.status.scheduled')}</SelectItem>
+                    <SelectItem value="completed">{t('sessions.status.completed')}</SelectItem>
+                    <SelectItem value="cancelled">{t('sessions.status.cancelled')}</SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -369,10 +371,10 @@ export const SessionForm: React.FC<SessionFormProps> = ({
           name="notes"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Notes (Optional)</FormLabel>
+              <FormLabel>{t('sessions.notes')}</FormLabel>
               <FormControl>
                 <Textarea
-                  placeholder="Add any notes about the session"
+                  placeholder={t('sessions.notesPlaceholder')}
                   className="resize-none"
                   {...field}
                 />
@@ -389,8 +391,8 @@ export const SessionForm: React.FC<SessionFormProps> = ({
             className="bg-forest-500 hover:bg-forest-600"
           >
             {isEditing 
-              ? (updateSession.isPending ? "Updating..." : "Update Session")
-              : (addSession.isPending ? "Scheduling..." : "Schedule Session")}
+              ? (updateSession.isPending ? t('sessions.updating') : t('sessions.update'))
+              : (addSession.isPending ? t('sessions.scheduling') : t('sessions.schedule'))}
           </Button>
         </div>
       </form>

@@ -167,6 +167,22 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       "client.manage": "Manage and organize your coaching clients",
       "client.filter": "Filter",
       "client.add": "Add Client",
+      "clients.name": "Name",
+      "clients.email": "Email",
+      "clients.phone": "Phone",
+      "clients.program": "Program",
+      "clients.notes": "Notes",
+      "clients.namePlaceholder": "John Doe",
+      "clients.emailPlaceholder": "client@example.com",
+      "clients.phonePlaceholder": "+1 (555) 123-4567",
+      "clients.selectProgram": "Select program",
+      "clients.notesPlaceholder": "Add any relevant information about this client",
+      "clients.success": "Success",
+      "clients.clientAdded": "Client has been successfully added.",
+      "clients.programs.career": "Career Development",
+      "clients.programs.business": "Business Strategy",
+      "clients.programs.life": "Life Coaching",
+      "clients.programs.executive": "Executive Coaching",
       
       // Session translations
       "sessions.title": "Sessions Schedule",
@@ -182,41 +198,113 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       "programs.subtitle": "Manage your coaching program packages",
       "programs.create": "Create Program",
       "programs.new": "New Program",
+      "programs.name": "Name",
+      "programs.namePlaceholder": "Program name",
+      "programs.description": "Description",
+      "programs.descriptionPlaceholder": "Program description",
+      "programs.sessions": "Sessions",
+      "programs.duration": "Duration (weeks)",
+      "programs.price": "Price",
       
-      // Document translations
-      "documents.title": "Document Library",
-      "documents.subtitle": "Manage coaching materials and client documents",
-      "documents.upload": "Upload Document",
-      "documents.uploadDesc": "Add new documents to your coaching library",
-      "documents.library": "Document Library",
-      "documents.access": "Access and manage your coaching materials",
+      // Billing translations
+      "billing.title": "Billing & Invoices",
+      "billing.subtitle": "Manage invoices and payment information",
+      "billing.createInvoice": "Create Invoice",
+      "billing.newInvoice": "New Invoice",
+      "billing.invoice": "Invoice",
+      "billing.client": "Client",
+      "billing.issueDate": "Issue Date",
+      "billing.dueDate": "Due Date",
+      "billing.amount": "Amount",
+      "billing.status": "Status",
+      "billing.status.paid": "Paid",
+      "billing.status.pending": "Pending",
+      "billing.status.overdue": "Overdue",
+      "billing.viewInvoice": "View Invoice",
+      "billing.downloadPDF": "Download PDF",
+      "billing.markAsPaid": "Mark as Paid",
+      "billing.sendReminder": "Send Reminder",
+      "billing.selectClient": "Select a client",
+      "billing.selectDueDate": "Select a due date",
+      "billing.invoiceItems": "Invoice Items",
+      "billing.addItem": "Add Item",
+      "billing.description": "Description",
+      "billing.serviceDescription": "Service description",
+      "billing.quantity": "Qty",
+      "billing.rate": "Rate ($)",
+      "billing.subtotal": "Subtotal",
+      "billing.tax": "Tax (10%)",
+      "billing.total": "Total",
+      "billing.notes": "Notes",
+      "billing.invoiceNotes": "Additional notes for the invoice",
+      "billing.success": "Success",
+      "billing.invoiceCreated": "Invoice has been successfully created.",
       
-      // Profile translations
-      "profile.title": "My Profile",
-      "profile.subtitle": "Manage your personal and business information",
-      "profile.personal": "Personal Information",
-      "profile.update": "Update your profile details",
-      "profile.firstName": "First Name",
-      "profile.lastName": "Last Name",
-      "profile.email": "Email",
-      "profile.company": "Company",
-      "profile.phone": "Phone",
-      "profile.save": "Save Changes",
-      "profile.changePhoto": "Change Photo",
+      // Analytics translations
+      "analytics.title": "Performance Analytics",
+      "analytics.subtitle": "Track your coaching business metrics",
+      "analytics.day": "Day",
+      "analytics.week": "Week",
+      "analytics.month": "Month",
+      "analytics.revenue": "Revenue",
+      "analytics.clients": "Clients",
+      "analytics.sessions": "Sessions",
+      "analytics.retention": "Retention",
       
-      // Authentication translations
-      "auth.login": "Login",
-      "auth.signup": "Sign Up",
-      "auth.email": "Email",
-      "auth.password": "Password",
-      "auth.forgotPassword": "Forgot Password?",
-      "auth.noAccount": "Don't have an account?",
-      "auth.haveAccount": "Already have an account?",
+      // Settings translations
+      "settings.title": "Settings",
+      "settings.subtitle": "Manage your account and application preferences",
+      "settings.tabs.notifications": "Notifications",
+      "settings.tabs.preferences": "Preferences",
+      "settings.tabs.integrations": "Integrations",
+      "settings.tabs.security": "Security",
+      "settings.saveChanges": "Save Changes",
       
-      // Location types
-      "online": "Online Session",
-      "in-person": "In-Person Session",
-      "phone": "Phone Session",
+      "settings.notifications.title": "Notification Settings",
+      "settings.notifications.description": "Configure how you receive notifications",
+      "settings.notifications.email": "Email Notifications",
+      "settings.notifications.emailDesc": "Receive notifications via email",
+      "settings.notifications.reminders": "Session Reminders",
+      "settings.notifications.remindersDesc": "Receive reminders about upcoming sessions",
+      "settings.notifications.marketing": "Marketing Communications",
+      "settings.notifications.marketingDesc": "Receive updates about new features and promotions",
+      
+      "settings.preferences.title": "User Preferences",
+      "settings.preferences.description": "Customize your coaching platform experience",
+      "settings.preferences.timezone": "Timezone",
+      "settings.preferences.reminderTime": "Session Reminder Time",
+      "settings.preferences.darkMode": "Dark Mode",
+      "settings.preferences.darkModeDesc": "Switch to dark theme",
+      
+      "settings.integrations.title": "Integrations",
+      "settings.integrations.description": "Connect with other services",
+      "settings.integrations.connect": "Connect your {integration} account",
+      "settings.integrations.connectButton": "Connect",
+      
+      "settings.security.title": "Security Settings",
+      "settings.security.description": "Manage your account security",
+      "settings.security.changePassword": "Change Password",
+      "settings.security.changePasswordDesc": "Update your account password",
+      "settings.security.2fa": "Two-Factor Authentication",
+      "settings.security.2faDesc": "Add an extra layer of security",
+      "settings.security.sessions": "Active Sessions",
+      "settings.security.sessionsDesc": "Manage your active sessions",
+      "settings.security.currentDevice": "Current Device",
+      "settings.security.lastActive": "Last active: {time}",
+      "settings.security.signOut": "Sign Out All Devices",
+      
+      // Action translations
+      "action.cancel": "Cancel",
+      "action.save": "Save",
+      "action.saving": "Saving...",
+      "action.add": "Add",
+      "action.update": "Update",
+      
+      // Validation translations
+      "validation.required": "This field is required",
+      "validation.validNumber": "Valid number required",
+      
+      // ... keep existing code (remaining translations)
     },
     tr: {
       // App general translations
@@ -351,57 +439,151 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       "client.manage": "Koçluk müşterilerinizi yönetin ve düzenleyin",
       "client.filter": "Filtrele",
       "client.add": "Müşteri Ekle",
-      
-      // Session translations
-      "sessions.title": "Oturum Takvimi",
-      "sessions.subtitle": "Koçluk oturumları takviminizi yönetin",
-      "sessions.calendar": "Takvim",
-      "sessions.list": "Liste",
-      "sessions.add": "Yeni Oturum",
-      "sessions.new": "Yeni Oturum",
-      "sessions.createDesc": "Yeni bir koçluk oturumu planlayın",
+      "clients.name": "İsim",
+      "clients.email": "E-posta",
+      "clients.phone": "Telefon",
+      "clients.program": "Program",
+      "clients.notes": "Notlar",
+      "clients.namePlaceholder": "John Doe",
+      "clients.emailPlaceholder": "musteri@ornek.com",
+      "clients.phonePlaceholder": "+90 (555) 123-4567",
+      "clients.selectProgram": "Program seçin",
+      "clients.notesPlaceholder": "Bu müşteri hakkında ilgili bilgileri ekleyin",
+      "clients.success": "Başarılı",
+      "clients.clientAdded": "Müşteri başarıyla eklendi.",
+      "clients.programs.career": "Kariyer Gelişimi",
+      "clients.programs.business": "İş Stratejisi",
+      "clients.programs.life": "Yaşam Koçluğu",
+      "clients.programs.executive": "Yönetici Koçluğu",
       
       // Program translations
       "programs.title": "Koçluk Programları",
       "programs.subtitle": "Koçluk program paketlerinizi yönetin",
       "programs.create": "Program Oluştur",
       "programs.new": "Yeni Program",
+      "programs.name": "İsim",
+      "programs.namePlaceholder": "Program adı",
+      "programs.description": "Açıklama",
+      "programs.descriptionPlaceholder": "Program açıklaması",
+      "programs.sessions": "Oturumlar",
+      "programs.duration": "Süre (hafta)",
+      "programs.price": "Fiyat",
       
-      // Document translations
-      "documents.title": "Belge Kütüphanesi",
-      "documents.subtitle": "Koçluk materyallerini ve müşteri belgelerini yönetin",
-      "documents.upload": "Belge Yükle",
-      "documents.uploadDesc": "Koçluk kütüphanenize yeni belgeler ekleyin",
-      "documents.library": "Belge Kütüphanesi",
-      "documents.access": "Koçluk materyallerinize erişin ve yönetin",
+      // Billing translations
+      "billing.title": "Faturalama ve Faturalar",
+      "billing.subtitle": "Faturaları ve ödeme bilgilerini yönetin",
+      "billing.createInvoice": "Fatura Oluştur",
+      "billing.newInvoice": "Yeni Fatura",
+      "billing.invoice": "Fatura",
+      "billing.client": "Müşteri",
+      "billing.issueDate": "Düzenleme Tarihi",
+      "billing.dueDate": "Son Ödeme Tarihi",
+      "billing.amount": "Tutar",
+      "billing.status": "Durum",
+      "billing.status.paid": "Ödendi",
+      "billing.status.pending": "Beklemede",
+      "billing.status.overdue": "Gecikmiş",
+      "billing.viewInvoice": "Faturayı Görüntüle",
+      "billing.downloadPDF": "PDF İndir",
+      "billing.markAsPaid": "Ödendi Olarak İşaretle",
+      "billing.sendReminder": "Hatırlatma Gönder",
+      "billing.selectClient": "Müşteri seçin",
+      "billing.selectDueDate": "Son ödeme tarihi seçin",
+      "billing.invoiceItems": "Fatura Kalemleri",
+      "billing.addItem": "Kalem Ekle",
+      "billing.description": "Açıklama",
+      "billing.serviceDescription": "Hizmet açıklaması",
+      "billing.quantity": "Miktar",
+      "billing.rate": "Ücret (TL)",
+      "billing.subtotal": "Ara Toplam",
+      "billing.tax": "Vergi (%10)",
+      "billing.total": "Toplam",
+      "billing.notes": "Notlar",
+      "billing.invoiceNotes": "Fatura için ek notlar",
+      "billing.success": "Başarılı",
+      "billing.invoiceCreated": "Fatura başarıyla oluşturuldu.",
       
-      // Profile translations
-      "profile.title": "Profilim",
-      "profile.subtitle": "Kişisel ve iş bilgilerinizi yönetin",
-      "profile.personal": "Kişisel Bilgiler",
-      "profile.update": "Profil detaylarınızı güncelleyin",
-      "profile.firstName": "Ad",
-      "profile.lastName": "Soyad",
-      "profile.email": "E-posta",
-      "profile.company": "Şirket",
-      "profile.phone": "Telefon",
-      "profile.save": "Değişiklikleri Kaydet",
-      "profile.changePhoto": "Fotoğraf Değiştir",
+      // Analytics translations
+      "analytics.title": "Performans Analizleri",
+      "analytics.subtitle": "Koçluk işletmenizin metriklerini takip edin",
+      "analytics.day": "Gün",
+      "analytics.week": "Hafta",
+      "analytics.month": "Ay",
+      "analytics.revenue": "Gelir",
+      "analytics.clients": "Müşteriler",
+      "analytics.sessions": "Oturumlar",
+      "analytics.retention": "Koruma",
       
-      // Authentication translations
-      "auth.login": "Giriş Yap",
-      "auth.signup": "Kaydol",
-      "auth.email": "E-posta",
-      "auth.password": "Şifre",
-      "auth.forgotPassword": "Şifremi Unuttum?",
-      "auth.noAccount": "Hesabınız yok mu?",
-      "auth.haveAccount": "Zaten hesabınız var mı?",
+      // Settings translations
+      "settings.title": "Ayarlar",
+      "settings.subtitle": "Hesabınızı ve uygulama tercihlerinizi yönetin",
+      "settings.tabs.notifications": "Bildirimler",
+      "settings.tabs.preferences": "Tercihler",
+      "settings.tabs.integrations": "Entegrasyonlar",
+      "settings.tabs.security": "Güvenlik",
+      "settings.saveChanges": "Değişiklikleri Kaydet",
       
-      // Location types
-      "online": "Online Oturum",
-      "in-person": "Yüz Yüze Oturum",
-      "phone": "Telefon Oturumu",
+      "settings.notifications.title": "Bildirim Ayarları",
+      "settings.notifications.description": "Bildirimleri nasıl alacağınızı yapılandırın",
+      "settings.notifications.email": "E-posta Bildirimleri",
+      "settings.notifications.emailDesc": "Bildirimleri e-posta yoluyla alın",
+      "settings.notifications.reminders": "Oturum Hatırlatmaları",
+      "settings.notifications.remindersDesc": "Yaklaşan oturumlar hakkında hatırlatmalar alın",
+      "settings.notifications.marketing": "Pazarlama İletişimleri",
+      "settings.notifications.marketingDesc": "Yeni özellikler ve promosyonlar hakkında güncellemeler alın",
+      
+      "settings.preferences.title": "Kullanıcı Tercihleri",
+      "settings.preferences.description": "Koçluk platform deneyiminizi özelleştirin",
+      "settings.preferences.timezone": "Saat Dilimi",
+      "settings.preferences.reminderTime": "Oturum Hatırlatma Zamanı",
+      "settings.preferences.darkMode": "Karanlık Mod",
+      "settings.preferences.darkModeDesc": "Karanlık temaya geçin",
+      
+      "settings.integrations.title": "Entegrasyonlar",
+      "settings.integrations.description": "Diğer hizmetlerle bağlantı kurun",
+      "settings.integrations.connect": "{integration} hesabınızı bağlayın",
+      "settings.integrations.connectButton": "Bağlan",
+      
+      "settings.security.title": "Güvenlik Ayarları",
+      "settings.security.description": "Hesap güvenliğinizi yönetin",
+      "settings.security.changePassword": "Şifre Değiştir",
+      "settings.security.changePasswordDesc": "Hesap şifrenizi güncelleyin",
+      "settings.security.2fa": "İki Faktörlü Kimlik Doğrulama",
+      "settings.security.2faDesc": "Ekstra bir güvenlik katmanı ekleyin",
+      "settings.security.sessions": "Aktif Oturumlar",
+      "settings.security.sessionsDesc": "Aktif oturumlarınızı yönetin",
+      "settings.security.currentDevice": "Mevcut Cihaz",
+      "settings.security.lastActive": "Son aktif: {time}",
+      "settings.security.signOut": "Tüm Cihazlardan Çıkış Yap",
+      
+      // Action translations
+      "action.cancel": "İptal",
+      "action.save": "Kaydet",
+      "action.saving": "Kaydediliyor...",
+      "action.add": "Ekle",
+      "action.update": "Güncelle",
+      
+      // Validation translations
+      "validation.required": "Bu alan gereklidir",
+      "validation.validNumber": "Geçerli bir numara gereklidir",
+      
+      // ... keep existing code (remaining translations)
     }
+  };
+
+  const saveLanguagePreference = async (newLanguage: Language) => {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (user) {
+      await supabase
+        .from('profiles')
+        .upsert({
+          id: user.id,
+          language: newLanguage,
+          updated_at: new Date().toISOString(),
+        });
+    }
+    
+    setLanguage(newLanguage);
   };
 
   const t = (key: string) => {
@@ -409,7 +591,7 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   };
 
   return (
-    <LanguageContext.Provider value={{ language, setLanguage, t }}>
+    <LanguageContext.Provider value={{ language, setLanguage: saveLanguagePreference, t }}>
       {children}
     </LanguageContext.Provider>
   );

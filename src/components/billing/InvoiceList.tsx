@@ -17,6 +17,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { MoreHorizontal, FileText } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 // Sample data for invoices
 const invoices = [
@@ -63,17 +64,19 @@ const invoices = [
 ];
 
 export const InvoiceList: React.FC = () => {
+  const { t } = useLanguage();
+  
   return (
     <div className="bg-white rounded-md border shadow-sm">
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Invoice</TableHead>
-            <TableHead>Client</TableHead>
-            <TableHead>Issue Date</TableHead>
-            <TableHead>Due Date</TableHead>
-            <TableHead>Amount</TableHead>
-            <TableHead>Status</TableHead>
+            <TableHead>{t('billing.invoice')}</TableHead>
+            <TableHead>{t('billing.client')}</TableHead>
+            <TableHead>{t('billing.issueDate')}</TableHead>
+            <TableHead>{t('billing.dueDate')}</TableHead>
+            <TableHead>{t('billing.amount')}</TableHead>
+            <TableHead>{t('billing.status')}</TableHead>
             <TableHead></TableHead>
           </TableRow>
         </TableHeader>
@@ -94,7 +97,7 @@ export const InvoiceList: React.FC = () => {
                   invoice.status === "Pending" ? "bg-lavender-100 text-lavender-800 hover:bg-lavender-200" :
                   "bg-red-100 text-red-800 hover:bg-red-200"
                 }>
-                  {invoice.status}
+                  {t(`billing.status.${invoice.status.toLowerCase()}`)}
                 </Badge>
               </TableCell>
               <TableCell>
@@ -105,10 +108,10 @@ export const InvoiceList: React.FC = () => {
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
-                    <DropdownMenuItem>View Invoice</DropdownMenuItem>
-                    <DropdownMenuItem>Download PDF</DropdownMenuItem>
-                    <DropdownMenuItem>Mark as Paid</DropdownMenuItem>
-                    <DropdownMenuItem>Send Reminder</DropdownMenuItem>
+                    <DropdownMenuItem>{t('billing.viewInvoice')}</DropdownMenuItem>
+                    <DropdownMenuItem>{t('billing.downloadPDF')}</DropdownMenuItem>
+                    <DropdownMenuItem>{t('billing.markAsPaid')}</DropdownMenuItem>
+                    <DropdownMenuItem>{t('billing.sendReminder')}</DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
               </TableCell>

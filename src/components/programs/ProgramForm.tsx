@@ -54,18 +54,18 @@ export const ProgramForm: React.FC<ProgramFormProps> = ({ onSubmit, initialData 
           <Label htmlFor="name">{t('programs.name')}</Label>
           <Input 
             id="name" 
-            placeholder={t('programs.name')} 
+            placeholder={t('programs.namePlaceholder')} 
             {...register('name', { required: true })} 
             className={errors.name ? "border-red-500" : ""}
           />
-          {errors.name && <p className="text-sm text-red-500">This field is required</p>}
+          {errors.name && <p className="text-sm text-red-500">{t('validation.required')}</p>}
         </div>
 
         <div className="space-y-2">
           <Label htmlFor="description">{t('programs.description')}</Label>
           <Textarea 
             id="description" 
-            placeholder={t('programs.description')} 
+            placeholder={t('programs.descriptionPlaceholder')} 
             className="min-h-[100px]"
             {...register('description')}
           />
@@ -85,7 +85,7 @@ export const ProgramForm: React.FC<ProgramFormProps> = ({ onSubmit, initialData 
               })}
               className={errors.sessions_count ? "border-red-500" : ""}
             />
-            {errors.sessions_count && <p className="text-sm text-red-500">Valid number required</p>}
+            {errors.sessions_count && <p className="text-sm text-red-500">{t('validation.validNumber')}</p>}
           </div>
 
           <div className="space-y-2">
@@ -125,7 +125,7 @@ export const ProgramForm: React.FC<ProgramFormProps> = ({ onSubmit, initialData 
           className="bg-forest-500 hover:bg-forest-600"
           disabled={isPending}
         >
-          {isPending ? "Saving..." : (isEditing ? t('action.save') : t('action.add'))}
+          {isPending ? t('action.saving') : (isEditing ? t('action.update') : t('action.add'))}
         </Button>
       </div>
     </form>

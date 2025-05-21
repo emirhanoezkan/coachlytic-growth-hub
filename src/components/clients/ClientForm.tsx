@@ -43,6 +43,10 @@ export const ClientForm: React.FC<ClientFormProps> = ({ onSubmit, initialData })
   const onFormSubmit = (data: ClientFormData) => {
     addClient(data, {
       onSuccess: () => {
+        toast({
+          title: t('clients.success'),
+          description: t('clients.clientAdded')
+        });
         onSubmit();
       }
     });
@@ -55,7 +59,7 @@ export const ClientForm: React.FC<ClientFormProps> = ({ onSubmit, initialData })
           <Label htmlFor="name">{t('clients.name')}</Label>
           <Input 
             id="name" 
-            placeholder="John Doe" 
+            placeholder={t('clients.namePlaceholder')}
             {...register('name', { required: true })}
           />
         </div>
@@ -65,7 +69,7 @@ export const ClientForm: React.FC<ClientFormProps> = ({ onSubmit, initialData })
           <Input 
             id="email" 
             type="email" 
-            placeholder="client@example.com" 
+            placeholder={t('clients.emailPlaceholder')}
             {...register('email')}
           />
         </div>
@@ -75,7 +79,7 @@ export const ClientForm: React.FC<ClientFormProps> = ({ onSubmit, initialData })
           <Input 
             id="phone" 
             type="tel" 
-            placeholder="+1 (555) 123-4567" 
+            placeholder={t('clients.phonePlaceholder')}
             {...register('phone')}
           />
         </div>
@@ -87,14 +91,14 @@ export const ClientForm: React.FC<ClientFormProps> = ({ onSubmit, initialData })
             onValueChange={(value) => setValue('program', value)}
           >
             <SelectTrigger id="program">
-              <SelectValue placeholder={`${t('clients.program')}...`} />
+              <SelectValue placeholder={`${t('clients.selectProgram')}...`} />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
-                <SelectItem value="Career Development">Career Development</SelectItem>
-                <SelectItem value="Business Strategy">Business Strategy</SelectItem>
-                <SelectItem value="Life Coaching">Life Coaching</SelectItem>
-                <SelectItem value="Executive Coaching">Executive Coaching</SelectItem>
+                <SelectItem value="Career Development">{t('clients.programs.career')}</SelectItem>
+                <SelectItem value="Business Strategy">{t('clients.programs.business')}</SelectItem>
+                <SelectItem value="Life Coaching">{t('clients.programs.life')}</SelectItem>
+                <SelectItem value="Executive Coaching">{t('clients.programs.executive')}</SelectItem>
               </SelectGroup>
             </SelectContent>
           </Select>
@@ -104,7 +108,7 @@ export const ClientForm: React.FC<ClientFormProps> = ({ onSubmit, initialData })
           <Label htmlFor="notes">{t('clients.notes')}</Label>
           <Textarea 
             id="notes" 
-            placeholder="Add any relevant information about this client" 
+            placeholder={t('clients.notesPlaceholder')}
             className="min-h-[100px]"
             {...register('notes')}
           />
@@ -120,7 +124,7 @@ export const ClientForm: React.FC<ClientFormProps> = ({ onSubmit, initialData })
           className="bg-forest-500 hover:bg-forest-600"
           disabled={isPending}
         >
-          {isPending ? "Saving..." : t('action.save')}
+          {isPending ? t('action.saving') : t('action.save')}
         </Button>
       </div>
     </form>
