@@ -52,7 +52,7 @@ export function LoginForm() {
           <Input
             id="email"
             type="email"
-            placeholder="coach@example.com"
+            placeholder={t('auth.email_placeholder')}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             disabled={isLoading}

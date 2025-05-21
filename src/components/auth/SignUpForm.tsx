@@ -73,7 +73,7 @@ export function SignUpForm() {
             <Label htmlFor="firstName">{t('auth.first_name')}</Label>
             <Input
               id="firstName"
-              placeholder="John"
+              placeholder={t('auth.first_name_placeholder')}
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
               disabled={isLoading}
@@ -84,7 +84,7 @@ export function SignUpForm() {
             <Label htmlFor="lastName">{t('auth.last_name')}</Label>
             <Input
               id="lastName"
-              placeholder="Doe"
+              placeholder={t('auth.last_name_placeholder')}
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
               disabled={isLoading}
@@ -97,7 +97,7 @@ export function SignUpForm() {
           <Input
             id="email"
             type="email"
-            placeholder="coach@example.com"
+            placeholder={t('auth.email_placeholder')}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             disabled={isLoading}
