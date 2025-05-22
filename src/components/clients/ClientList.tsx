@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { 
   Card, 
@@ -105,8 +106,8 @@ export const ClientList: React.FC = () => {
     if (!selectedClientId || !note.trim()) {
       toast({
         variant: "destructive",
-        title: "Note cannot be empty",
-        description: "Please enter a note before saving."
+        title: t('error.title'),
+        description: t('client.noteCannotBeEmpty')
       });
       return;
     }
@@ -129,8 +130,8 @@ export const ClientList: React.FC = () => {
         setNote("");
         setIsAddNoteDialogOpen(false);
         toast({
-          title: "Note added",
-          description: "The client note has been added successfully."
+          title: t('client.noteAdded'),
+          description: t('client.noteAddedSuccess')
         });
       }
     });
@@ -157,7 +158,7 @@ export const ClientList: React.FC = () => {
       <Card>
         <CardContent className="pt-6">
           <div className="flex items-center justify-center h-48 text-red-500">
-            Error loading clients: {error.message}
+            {t('error.title')}: {error.message}
           </div>
         </CardContent>
       </Card>
@@ -199,12 +200,12 @@ export const ClientList: React.FC = () => {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Client</TableHead>
-                  <TableHead>Program</TableHead>
-                  <TableHead>Progress</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Sessions</TableHead>
-                  <TableHead>Next Session</TableHead>
+                  <TableHead>{t('client.name')}</TableHead>
+                  <TableHead>{t('client.program')}</TableHead>
+                  <TableHead>{t('chart.progress')}</TableHead>
+                  <TableHead>{t('client.status')}</TableHead>
+                  <TableHead>{t('sessions.title')}</TableHead>
+                  <TableHead>{t('sessions.next')}</TableHead>
                   <TableHead></TableHead>
                 </TableRow>
               </TableHeader>
@@ -253,13 +254,13 @@ export const ClientList: React.FC = () => {
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
                           <DropdownMenuItem onClick={() => handleViewProfile(client.id)}>
-                            View Profile
+                            {t('client.viewProfile')}
                           </DropdownMenuItem>
                           <DropdownMenuItem onClick={() => handleScheduleSession(client.id)}>
-                            Schedule Session
+                            {t('sessions.schedule')}
                           </DropdownMenuItem>
                           <DropdownMenuItem onClick={() => handleAddNote(client.id)}>
-                            Add Notes
+                            {t('sessions.addNotes')}
                           </DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
@@ -276,7 +277,7 @@ export const ClientList: React.FC = () => {
       <Dialog open={isAddSessionDialogOpen} onOpenChange={setIsAddSessionDialogOpen}>
         <DialogContent className="sm:max-w-[500px]">
           <DialogHeader>
-            <DialogTitle>Schedule New Session</DialogTitle>
+            <DialogTitle>{t('sessions.new')}</DialogTitle>
           </DialogHeader>
           <SessionForm 
             onSubmit={() => setIsAddSessionDialogOpen(false)} 
@@ -289,22 +290,22 @@ export const ClientList: React.FC = () => {
       <Dialog open={isAddNoteDialogOpen} onOpenChange={setIsAddNoteDialogOpen}>
         <DialogContent className="sm:max-w-[500px]">
           <DialogHeader>
-            <DialogTitle>Add Note</DialogTitle>
+            <DialogTitle>{t('sessions.addNotes')}</DialogTitle>
             <DialogDescription>
-              Add a note about {clients.find(c => c.id === selectedClientId)?.name}. Notes help track client progress and important information.
+              {t('client.addNoteDescription')} {clients.find(c => c.id === selectedClientId)?.name}
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-4">
             <Textarea 
               value={note} 
               onChange={(e) => setNote(e.target.value)} 
-              placeholder="Write your note here..." 
+              placeholder={t('client.notesPlaceholder')}
               className="min-h-[150px]"
             />
             <div className="flex justify-end gap-2">
-              <Button variant="outline" onClick={() => setIsAddNoteDialogOpen(false)}>Cancel</Button>
+              <Button variant="outline" onClick={() => setIsAddNoteDialogOpen(false)}>{t('action.cancel')}</Button>
               <Button onClick={handleSaveNote} className="bg-forest-500 hover:bg-forest-600">
-                Save Note
+                {t('action.save')}
               </Button>
             </div>
           </div>
