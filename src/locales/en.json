@@ -209,14 +209,6 @@
         "clients": "Clients",
         "sessions": "Sessions",
         "retention": "Client Retention"
-        
-        "day.tue": "Tue"
-        "day.wed": "Wed"
-        "day.thu": "Thu"
-        "day.fri": "Fri"
-        "day.sat": "Sat"
-        "day.sun": "Sun"
-        
       },
       "billing": {
         "title": "Billing",
