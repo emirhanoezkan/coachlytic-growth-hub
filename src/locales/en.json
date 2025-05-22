@@ -1,3 +1,4 @@
+
 {
       "app": {
         "name": "Coachlytic",
@@ -186,10 +187,22 @@
         "status": "Status",
         "selectStatus": "Select status",
         "pickDate": "Pick a date and time",
+        "editSession": "Edit Session",
+        "viewDetails": "View Details",
+        "cancelSession": "Cancel Session",
+        "addNotes": "Add Notes",
+        "loading": "Loading sessions...",
+        "noSessionsFound": "No sessions found",
         "status": {
           "scheduled": "Scheduled",
           "completed": "Completed",
           "cancelled": "Cancelled"
+        },
+        "confirmDelete": {
+          "title": "Are you sure?",
+          "description": "This will permanently delete this session and cannot be undone.",
+          "confirm": "Delete",
+          "cancel": "Cancel"
         }
       },
       "documents": {
@@ -310,6 +323,7 @@
         "cancel": "Cancel",
         "success": "Success",
         "invoiceCreated": "Invoice created successfully",
+        "status": "Status",
         "invoice": "Invoice",
         "issueDate": "Issue Date",
         "viewInvoice": "View Invoice",
@@ -432,5 +446,11 @@
       },
       "online": "Online",
       "in-person": "In-Person",
-      "phone": "Phone"
+      "phone": "Phone",
+      "error": {
+        "title": "Error",
+        "sessionDelete": "Error deleting session",
+        "sessionUpdate": "Error updating session",
+        "sessionCreate": "Error creating session"
+      }
 }

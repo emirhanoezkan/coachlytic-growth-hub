@@ -38,11 +38,15 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { useToast } from "@/hooks/use-toast";
 
 export const SessionList: React.FC = () => {
   const { data: sessions = [], isLoading } = useSessions();
   const deleteSession = useDeleteSession();
   const { formatTime } = useTimeFormat();
+  const { t } = useLanguage();
+  const { toast } = useToast();
   
   const [editSessionId, setEditSessionId] = useState<string | null>(null);
   const [deleteSessionId, setDeleteSessionId] = useState<string | null>(null);
@@ -68,9 +72,17 @@ export const SessionList: React.FC = () => {
   
   const confirmDeleteSession = async () => {
     if (deleteSessionId) {
-      await deleteSession.mutateAsync(deleteSessionId);
-      setIsDeleteDialogOpen(false);
-      setDeleteSessionId(null);
+      try {
+        await deleteSession.mutateAsync(deleteSessionId);
+        setIsDeleteDialogOpen(false);
+        setDeleteSessionId(null);
+      } catch (error) {
+        toast({
+          title: t('error.title'),
+          description: t('error.sessionDelete'),
+          variant: "destructive"
+        });
+      }
     }
   };
   
@@ -78,7 +90,7 @@ export const SessionList: React.FC = () => {
     return (
       <div className="rounded-md border overflow-hidden bg-white p-8 text-center">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-forest-500 mx-auto"></div>
-        <p className="mt-4 text-gray-500">Loading sessions...</p>
+        <p className="mt-4 text-gray-500">{t('sessions.loading')}</p>
       </div>
     );
   }
@@ -89,12 +101,12 @@ export const SessionList: React.FC = () => {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Client</TableHead>
-              <TableHead>Session Type</TableHead>
-              <TableHead>Date</TableHead>
-              <TableHead>Time</TableHead>
-              <TableHead>Duration</TableHead>
-              <TableHead>Status</TableHead>
+              <TableHead>{t('sessions.client')}</TableHead>
+              <TableHead>{t('sessions.title')}</TableHead>
+              <TableHead>{t('sessions.date')}</TableHead>
+              <TableHead>{t('sessions.time')}</TableHead>
+              <TableHead>{t('sessions.duration')}</TableHead>
+              <TableHead>{t('sessions.status')}</TableHead>
               <TableHead></TableHead>
             </TableRow>
           </TableHeader>
@@ -107,14 +119,14 @@ export const SessionList: React.FC = () => {
                   <TableCell>{session.title}</TableCell>
                   <TableCell>{format(sessionDate, 'MMM dd, yyyy')}</TableCell>
                   <TableCell>{formatTime(sessionDate)}</TableCell>
-                  <TableCell>{session.duration} min</TableCell>
+                  <TableCell>{session.duration} {t('time.min')}</TableCell>
                   <TableCell>
                     <Badge className={
                       session.status === "scheduled" ? "bg-lavender-100 text-lavender-800 hover:bg-lavender-200" :
                       session.status === "completed" ? "bg-forest-100 text-forest-800 hover:bg-forest-200" :
                       "bg-red-100 text-red-800 hover:bg-red-200"
                     }>
-                      {session.status.charAt(0).toUpperCase() + session.status.slice(1)}
+                      {t(`sessions.status.${session.status}`)}
                     </Badge>
                   </TableCell>
                   <TableCell>
@@ -125,15 +137,21 @@ export const SessionList: React.FC = () => {
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
-                        <DropdownMenuItem onClick={() => handleViewDetails(session.id)}>View Details</DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => handleEditSession(session.id)}>Edit Session</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => handleViewDetails(session.id)}>
+                          {t('sessions.viewDetails')}
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => handleEditSession(session.id)}>
+                          {t('sessions.editSession')}
+                        </DropdownMenuItem>
                         <DropdownMenuItem 
                           className="text-red-500 focus:text-red-500" 
                           onClick={() => handleDeleteSession(session.id)}
                         >
-                          Cancel Session
+                          {t('sessions.cancelSession')}
                         </DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => handleEditSession(session.id)}>Add Notes</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => handleEditSession(session.id)}>
+                          {t('sessions.addNotes')}
+                        </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </TableCell>
@@ -142,7 +160,7 @@ export const SessionList: React.FC = () => {
             }) : (
               <TableRow>
                 <TableCell colSpan={7} className="text-center py-6 text-gray-500">
-                  No sessions found
+                  {t('sessions.noSessionsFound')}
                 </TableCell>
               </TableRow>
             )}
@@ -154,8 +172,8 @@ export const SessionList: React.FC = () => {
       <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
         <DialogContent className="sm:max-w-[500px]">
           <DialogHeader>
-            <DialogTitle>Edit Session</DialogTitle>
-            <DialogDescription>Make changes to the session details</DialogDescription>
+            <DialogTitle>{t('sessions.editSession')}</DialogTitle>
+            <DialogDescription>{t('sessions.createDesc')}</DialogDescription>
           </DialogHeader>
           {sessionToEdit && (
             <SessionForm 
@@ -174,18 +192,20 @@ export const SessionList: React.FC = () => {
       <AlertDialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+            <AlertDialogTitle>{t('sessions.confirmDelete.title')}</AlertDialogTitle>
             <AlertDialogDescription>
-              This will permanently delete this session and cannot be undone.
+              {t('sessions.confirmDelete.description')}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel onClick={() => setDeleteSessionId(null)}>Cancel</AlertDialogCancel>
+            <AlertDialogCancel onClick={() => setDeleteSessionId(null)}>
+              {t('sessions.confirmDelete.cancel')}
+            </AlertDialogCancel>
             <AlertDialogAction 
               onClick={confirmDeleteSession}
               className="bg-red-500 hover:bg-red-600"
             >
-              Delete
+              {t('sessions.confirmDelete.confirm')}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

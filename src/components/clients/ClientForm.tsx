@@ -44,8 +44,8 @@ export const ClientForm: React.FC<ClientFormProps> = ({ onSubmit, initialData })
     addClient(data, {
       onSuccess: () => {
         toast({
-          title: t('clients.success'),
-          description: t('clients.clientAdded')
+          title: t('client.success'),
+          description: t('client.clientAdded')
         });
         onSubmit();
       }
@@ -56,59 +56,59 @@ export const ClientForm: React.FC<ClientFormProps> = ({ onSubmit, initialData })
     <form onSubmit={handleSubmit(onFormSubmit)} className="space-y-4">
       <div className="grid grid-cols-1 gap-4">
         <div className="space-y-2">
-          <Label htmlFor="name">{t('clients.name')}</Label>
+          <Label htmlFor="name">{t('client.name')}</Label>
           <Input 
             id="name" 
-            placeholder={t('clients.namePlaceholder')}
+            placeholder={t('client.namePlaceholder')}
             {...register('name', { required: true })}
           />
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="email">{t('clients.email')}</Label>
+          <Label htmlFor="email">{t('client.email')}</Label>
           <Input 
             id="email" 
             type="email" 
-            placeholder={t('clients.emailPlaceholder')}
+            placeholder={t('client.emailPlaceholder')}
             {...register('email')}
           />
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="phone">{t('clients.phone')}</Label>
+          <Label htmlFor="phone">{t('client.phone')}</Label>
           <Input 
             id="phone" 
             type="tel" 
-            placeholder={t('clients.phonePlaceholder')}
+            placeholder={t('client.phonePlaceholder')}
             {...register('phone')}
           />
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="program">{t('clients.program')}</Label>
+          <Label htmlFor="program">{t('client.program')}</Label>
           <Select 
             value={selectedProgram} 
             onValueChange={(value) => setValue('program', value)}
           >
             <SelectTrigger id="program">
-              <SelectValue placeholder={`${t('clients.selectProgram')}...`} />
+              <SelectValue placeholder={`${t('client.selectProgram')}...`} />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
-                <SelectItem value="Career Development">{t('clients.programs.career')}</SelectItem>
-                <SelectItem value="Business Strategy">{t('clients.programs.business')}</SelectItem>
-                <SelectItem value="Life Coaching">{t('clients.programs.life')}</SelectItem>
-                <SelectItem value="Executive Coaching">{t('clients.programs.executive')}</SelectItem>
+                <SelectItem value="Career Development">{t('client.programs.career')}</SelectItem>
+                <SelectItem value="Business Strategy">{t('client.programs.business')}</SelectItem>
+                <SelectItem value="Life Coaching">{t('client.programs.life')}</SelectItem>
+                <SelectItem value="Executive Coaching">{t('client.programs.executive')}</SelectItem>
               </SelectGroup>
             </SelectContent>
           </Select>
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="notes">{t('clients.notes')}</Label>
+          <Label htmlFor="notes">{t('client.notes')}</Label>
           <Textarea 
             id="notes" 
-            placeholder={t('clients.notesPlaceholder')}
+            placeholder={t('client.notesPlaceholder')}
             className="min-h-[100px]"
             {...register('notes')}
           />

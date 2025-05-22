@@ -1,3 +1,4 @@
+
 {
       "app": {
         "name": "Coachlytic",
@@ -186,10 +187,22 @@
         "status": "Durum",
         "selectStatus": "Durum seçin",
         "pickDate": "Bir tarih ve saat seçin",
+        "editSession": "Oturumu Düzenle",
+        "viewDetails": "Detayları Görüntüle",
+        "cancelSession": "Oturumu İptal Et",
+        "addNotes": "Not Ekle",
+        "loading": "Oturumlar yükleniyor...",
+        "noSessionsFound": "Oturum bulunamadı",
         "status": {
           "scheduled": "Planlandı",
           "completed": "Tamamlandı",
           "cancelled": "İptal Edildi"
+        },
+        "confirmDelete": {
+          "title": "Emin misiniz?",
+          "description": "Bu işlem oturumu kalıcı olarak silecek ve geri alınamayacaktır.",
+          "confirm": "Sil",
+          "cancel": "İptal"
         }
       },
       "documents": {
@@ -433,5 +446,11 @@
       },
       "online": "Çevrimiçi",
       "in-person": "Yüz Yüze",
-      "phone": "Telefon"
+      "phone": "Telefon",
+      "error": {
+        "title": "Hata",
+        "sessionDelete": "Oturum silinirken hata oluştu",
+        "sessionUpdate": "Oturum güncellenirken hata oluştu",
+        "sessionCreate": "Oturum oluşturulurken hata oluştu"
+      }
 }

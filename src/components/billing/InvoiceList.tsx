@@ -26,7 +26,7 @@ const invoices = [
     client: "Sarah Johnson",
     date: "May 01, 2025",
     amount: "$450.00",
-    status: "Paid",
+    status: "paid",
     dueDate: "May 15, 2025"
   },
   {
@@ -34,7 +34,7 @@ const invoices = [
     client: "Michael Chen",
     date: "May 05, 2025",
     amount: "$800.00",
-    status: "Pending",
+    status: "pending",
     dueDate: "May 20, 2025"
   },
   {
@@ -42,7 +42,7 @@ const invoices = [
     client: "Emma Davis",
     date: "Apr 28, 2025",
     amount: "$600.00",
-    status: "Paid",
+    status: "paid",
     dueDate: "May 12, 2025"
   },
   {
@@ -50,7 +50,7 @@ const invoices = [
     client: "Robert Wilson",
     date: "Apr 15, 2025",
     amount: "$1,200.00",
-    status: "Overdue",
+    status: "overdue",
     dueDate: "Apr 30, 2025"
   },
   {
@@ -58,7 +58,7 @@ const invoices = [
     client: "Jennifer Lopez",
     date: "May 10, 2025",
     amount: "$450.00",
-    status: "Pending",
+    status: "pending",
     dueDate: "May 25, 2025"
   }
 ];
@@ -93,11 +93,11 @@ export const InvoiceList: React.FC = () => {
               <TableCell>{invoice.amount}</TableCell>
               <TableCell>
                 <Badge className={
-                  invoice.status === "Paid" ? "bg-forest-100 text-forest-800 hover:bg-forest-200" :
-                  invoice.status === "Pending" ? "bg-lavender-100 text-lavender-800 hover:bg-lavender-200" :
+                  invoice.status === "paid" ? "bg-forest-100 text-forest-800 hover:bg-forest-200" :
+                  invoice.status === "pending" ? "bg-lavender-100 text-lavender-800 hover:bg-lavender-200" :
                   "bg-red-100 text-red-800 hover:bg-red-200"
                 }>
-                  {t(`billing.status.${invoice.status.toLowerCase()}`)}
+                  {t(`billing.status.${invoice.status}`)}
                 </Badge>
               </TableCell>
               <TableCell>
