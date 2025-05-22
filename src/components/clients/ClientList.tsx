@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { 
   Card, 
@@ -34,23 +33,53 @@ import { ClientForm } from "@/components/clients/ClientForm";
 import { useToast } from "@/hooks/use-toast";
 import { Textarea } from "@/components/ui/textarea";
 import { useUpdateClient } from "@/services/clientsService";
+import { ClientFilter, FilterOptions } from './ClientFilter';
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export const ClientList: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const { data: clients = [], isLoading, error } = useClients();
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { t } = useLanguage();
   const [isAddSessionDialogOpen, setIsAddSessionDialogOpen] = useState(false);
   const [isAddNoteDialogOpen, setIsAddNoteDialogOpen] = useState(false);
   const [selectedClientId, setSelectedClientId] = useState<string | null>(null);
   const [note, setNote] = useState("");
+  const [filterOptions, setFilterOptions] = useState<FilterOptions>({});
   const updateClient = useUpdateClient();
   
-  const filteredClients = clients.filter(client => 
-    client.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    (client.email && client.email.toLowerCase().includes(searchQuery.toLowerCase())) ||
-    (client.program && client.program.toLowerCase().includes(searchQuery.toLowerCase()))
-  );
+  const filteredClients = clients.filter(client => {
+    // Apply search filter
+    const searchFilter = filterOptions.search 
+      ? client.name.toLowerCase().includes(filterOptions.search.toLowerCase()) ||
+        (client.email && client.email.toLowerCase().includes(filterOptions.search.toLowerCase())) ||
+        (client.program && client.program.toLowerCase().includes(filterOptions.search.toLowerCase()))
+      : true;
+    
+    // Apply status filter
+    const statusFilter = filterOptions.status 
+      ? client.status === filterOptions.status
+      : true;
+    
+    // Apply program filter
+    const programFilter = filterOptions.program 
+      ? client.program === filterOptions.program
+      : true;
+    
+    // Apply quick search from the input field
+    const quickSearch = searchQuery
+      ? client.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        (client.email && client.email.toLowerCase().includes(searchQuery.toLowerCase())) ||
+        (client.program && client.program.toLowerCase().includes(searchQuery.toLowerCase()))
+      : true;
+    
+    return searchFilter && statusFilter && programFilter && quickSearch;
+  });
+
+  const handleFilterChange = (filters: FilterOptions) => {
+    setFilterOptions(filters);
+  };
 
   const formatDate = (dateString?: string | null) => {
     if (!dateString) return "-";
@@ -140,27 +169,30 @@ export const ClientList: React.FC = () => {
       <CardHeader>
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div>
-            <CardTitle>Client Directory</CardTitle>
-            <CardDescription>Manage your coaching clients</CardDescription>
+            <CardTitle>{t('client.directory')}</CardTitle>
+            <CardDescription>{t('client.manage')}</CardDescription>
           </div>
           <div className="flex items-center gap-2">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-500" />
               <input
                 type="text"
-                placeholder="Search clients..."
+                placeholder={t('client.searchPlaceholder')}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="pl-9 pr-4 py-2 border rounded-md w-full md:w-64 focus:outline-none focus:ring-2 focus:ring-forest-400"
               />
             </div>
+            <ClientFilter onFilter={handleFilterChange} />
           </div>
         </div>
       </CardHeader>
       <CardContent>
         {filteredClients.length === 0 ? (
           <div className="text-center py-8">
-            <p className="text-muted-foreground">No clients found. Add your first client to get started.</p>
+            <p className="text-muted-foreground">
+              {t('client.noClientsFound')}
+            </p>
           </div>
         ) : (
           <div className="rounded-md border overflow-hidden">

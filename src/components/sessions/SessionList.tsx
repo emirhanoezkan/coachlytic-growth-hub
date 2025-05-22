@@ -26,6 +26,7 @@ import {
   DialogTitle 
 } from "@/components/ui/dialog";
 import { SessionForm } from "@/components/sessions/SessionForm";
+import { SessionDetails } from "@/components/sessions/SessionDetails";
 import { format } from "date-fns";
 import { useTimeFormat } from "@/contexts/TimeFormatContext";
 import { 
@@ -50,14 +51,17 @@ export const SessionList: React.FC = () => {
   
   const [editSessionId, setEditSessionId] = useState<string | null>(null);
   const [deleteSessionId, setDeleteSessionId] = useState<string | null>(null);
+  const [viewSessionId, setViewSessionId] = useState<string | null>(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [isDetailsDialogOpen, setIsDetailsDialogOpen] = useState(false);
   
   const sessionToEdit = sessions.find(s => s.id === editSessionId);
+  const sessionToView = sessions.find(s => s.id === viewSessionId);
   
   const handleViewDetails = (sessionId: string) => {
-    // In a real application, this might navigate to a session details page
-    console.log("View details for session:", sessionId);
+    setViewSessionId(sessionId);
+    setIsDetailsDialogOpen(true);
   };
   
   const handleEditSession = (sessionId: string) => {
@@ -187,6 +191,13 @@ export const SessionList: React.FC = () => {
           )}
         </DialogContent>
       </Dialog>
+      
+      {/* Session Details Dialog */}
+      <SessionDetails 
+        session={sessionToView} 
+        open={isDetailsDialogOpen} 
+        onOpenChange={setIsDetailsDialogOpen}
+      />
       
       {/* Delete Confirmation Dialog */}
       <AlertDialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>

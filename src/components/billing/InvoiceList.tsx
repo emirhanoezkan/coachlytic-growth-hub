@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Table,
   TableBody,
@@ -18,6 +18,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { MoreHorizontal, FileText } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { InvoiceDetails } from "./InvoiceDetails";
 
 // Sample data for invoices
 const invoices = [
@@ -65,60 +66,89 @@ const invoices = [
 
 export const InvoiceList: React.FC = () => {
   const { t } = useLanguage();
+  const [invoiceData, setInvoiceData] = useState(invoices);
+  const [selectedInvoice, setSelectedInvoice] = useState<(typeof invoices)[0] | null>(null);
+  const [isDetailsOpen, setIsDetailsOpen] = useState(false);
+  
+  const handleViewInvoice = (invoice: typeof invoices[0]) => {
+    setSelectedInvoice(invoice);
+    setIsDetailsOpen(true);
+  };
+  
+  const handleStatusChange = (invoiceId: string, newStatus: string) => {
+    setInvoiceData(prevInvoices => 
+      prevInvoices.map(invoice => 
+        invoice.id === invoiceId ? { ...invoice, status: newStatus } : invoice
+      )
+    );
+  };
   
   return (
-    <div className="bg-white rounded-md border shadow-sm">
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>{t('billing.invoice')}</TableHead>
-            <TableHead>{t('billing.client')}</TableHead>
-            <TableHead>{t('billing.issueDate')}</TableHead>
-            <TableHead>{t('billing.dueDate')}</TableHead>
-            <TableHead>{t('billing.amount')}</TableHead>
-            <TableHead>{t('billing.status')}</TableHead>
-            <TableHead></TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {invoices.map((invoice) => (
-            <TableRow key={invoice.id}>
-              <TableCell className="font-medium flex items-center gap-2">
-                <FileText className="h-4 w-4 text-gray-500" />
-                {invoice.id}
-              </TableCell>
-              <TableCell>{invoice.client}</TableCell>
-              <TableCell>{invoice.date}</TableCell>
-              <TableCell>{invoice.dueDate}</TableCell>
-              <TableCell>{invoice.amount}</TableCell>
-              <TableCell>
-                <Badge className={
-                  invoice.status === "paid" ? "bg-forest-100 text-forest-800 hover:bg-forest-200" :
-                  invoice.status === "pending" ? "bg-lavender-100 text-lavender-800 hover:bg-lavender-200" :
-                  "bg-red-100 text-red-800 hover:bg-red-200"
-                }>
-                  {t(`billing.status.${invoice.status}`)}
-                </Badge>
-              </TableCell>
-              <TableCell>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-                      <MoreHorizontal className="h-4 w-4" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <DropdownMenuItem>{t('billing.viewInvoice')}</DropdownMenuItem>
-                    <DropdownMenuItem>{t('billing.downloadPDF')}</DropdownMenuItem>
-                    <DropdownMenuItem>{t('billing.markAsPaid')}</DropdownMenuItem>
-                    <DropdownMenuItem>{t('billing.sendReminder')}</DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </TableCell>
+    <>
+      <div className="bg-white rounded-md border shadow-sm">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>{t('billing.invoice')}</TableHead>
+              <TableHead>{t('billing.client')}</TableHead>
+              <TableHead>{t('billing.issueDate')}</TableHead>
+              <TableHead>{t('billing.dueDate')}</TableHead>
+              <TableHead>{t('billing.amount')}</TableHead>
+              <TableHead>{t('billing.status')}</TableHead>
+              <TableHead></TableHead>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </div>
+          </TableHeader>
+          <TableBody>
+            {invoiceData.map((invoice) => (
+              <TableRow key={invoice.id}>
+                <TableCell className="font-medium flex items-center gap-2">
+                  <FileText className="h-4 w-4 text-gray-500" />
+                  {invoice.id}
+                </TableCell>
+                <TableCell>{invoice.client}</TableCell>
+                <TableCell>{invoice.date}</TableCell>
+                <TableCell>{invoice.dueDate}</TableCell>
+                <TableCell>{invoice.amount}</TableCell>
+                <TableCell>
+                  <Badge className={
+                    invoice.status === "paid" ? "bg-forest-100 text-forest-800 hover:bg-forest-200" :
+                    invoice.status === "pending" ? "bg-lavender-100 text-lavender-800 hover:bg-lavender-200" :
+                    "bg-red-100 text-red-800 hover:bg-red-200"
+                  }>
+                    {t(`billing.status.${invoice.status}`)}
+                  </Badge>
+                </TableCell>
+                <TableCell>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                        <MoreHorizontal className="h-4 w-4" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                      <DropdownMenuItem onClick={() => handleViewInvoice(invoice)}>
+                        {t('billing.viewInvoice')}
+                      </DropdownMenuItem>
+                      {invoice.status !== "paid" && (
+                        <DropdownMenuItem onClick={() => handleStatusChange(invoice.id, "paid")}>
+                          {t('billing.markAsPaid')}
+                        </DropdownMenuItem>
+                      )}
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+      
+      <InvoiceDetails 
+        invoice={selectedInvoice} 
+        open={isDetailsOpen} 
+        onOpenChange={setIsDetailsOpen}
+        onStatusChange={handleStatusChange}
+      />
+    </>
   );
 };

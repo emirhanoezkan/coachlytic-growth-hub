@@ -5,7 +5,7 @@ import { Sidebar } from "@/components/layout/Sidebar";
 import { Header } from "@/components/layout/Header";
 import { ClientList } from "@/components/clients/ClientList";
 import { Button } from "@/components/ui/button";
-import { Plus, Filter } from "lucide-react";
+import { Plus } from "lucide-react";
 import { ClientForm } from "@/components/clients/ClientForm";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -30,11 +30,7 @@ const ClientsPage = () => {
                   <h1 className="text-2xl font-display font-semibold text-gray-900">{t('client.directory')}</h1>
                   <p className="text-gray-500 mt-1">{t('client.manage')}</p>
                 </div>
-                <div className="flex gap-3">
-                  <Button variant="outline" size="sm" className="flex items-center gap-1">
-                    <Filter className="h-4 w-4" />
-                    {t('client.filter')}
-                  </Button>
+                <div>
                   <Button 
                     onClick={() => setIsAddClientDialogOpen(true)} 
                     className="bg-forest-500 hover:bg-forest-600"

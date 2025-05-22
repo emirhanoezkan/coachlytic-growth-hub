@@ -27,6 +27,7 @@ interface InvoiceFormProps {
     items?: Array<{ description: string; quantity: number; rate: number; }>;
     dueDate?: Date;
     notes?: string;
+    status?: string;
   };
 }
 
@@ -37,6 +38,7 @@ export const InvoiceForm: React.FC<InvoiceFormProps> = ({ onSubmit, initialData 
     { description: "", quantity: 1, rate: 0 }
   ]);
   const [dueDate, setDueDate] = React.useState<Date | undefined>(initialData.dueDate || undefined);
+  const [status, setStatus] = React.useState(initialData.status || "pending");
   
   const handleAddItem = () => {
     setItems([...items, { description: "", quantity: 1, rate: 0 }]);
@@ -85,30 +87,48 @@ export const InvoiceForm: React.FC<InvoiceFormProps> = ({ onSubmit, initialData 
           </Select>
         </div>
 
-        <div>
-          <Label>{t('billing.dueDate')}</Label>
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button
-                variant="outline"
-                className={cn(
-                  "w-full justify-start text-left font-normal mt-2",
-                  !dueDate && "text-muted-foreground"
-                )}
-              >
-                <CalendarIcon className="mr-2 h-4 w-4" />
-                {dueDate ? format(dueDate, "PPP") : <span>{t('billing.selectDueDate')}</span>}
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-auto p-0">
-              <Calendar
-                mode="single"
-                selected={dueDate}
-                onSelect={setDueDate}
-                initialFocus
-              />
-            </PopoverContent>
-          </Popover>
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <Label>{t('billing.dueDate')}</Label>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  className={cn(
+                    "w-full justify-start text-left font-normal mt-2",
+                    !dueDate && "text-muted-foreground"
+                  )}
+                >
+                  <CalendarIcon className="mr-2 h-4 w-4" />
+                  {dueDate ? format(dueDate, "PPP") : <span>{t('billing.selectDueDate')}</span>}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0">
+                <Calendar
+                  mode="single"
+                  selected={dueDate}
+                  onSelect={setDueDate}
+                  initialFocus
+                />
+              </PopoverContent>
+            </Popover>
+          </div>
+          
+          <div>
+            <Label htmlFor="status">{t('billing.status')}</Label>
+            <Select value={status} onValueChange={setStatus}>
+              <SelectTrigger id="status" className="mt-2">
+                <SelectValue placeholder={t('billing.selectStatus')} />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectItem value="pending">{t('billing.status.pending')}</SelectItem>
+                  <SelectItem value="paid">{t('billing.status.paid')}</SelectItem>
+                  <SelectItem value="overdue">{t('billing.status.overdue')}</SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </div>
         </div>
 
         <div className="space-y-3 mt-3">
