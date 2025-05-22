@@ -343,14 +343,20 @@
         "invoiceCreated": "Invoice created successfully",
         "statusUpdated": "Status Updated",
         "invoiceMarkedAsPaid": "Invoice has been marked as paid",
+        "status": "Status",
+        "invoice": "Invoice",
+        "issueDate": "Issue Date",
+        "viewInvoice": "View Invoice",
+        "downloadPDF": "Download PDF",
+        "markAsPaid": "Mark as Paid",
+        "sendReminder": "Send Reminder",
         "status": "Billing Status",
-        "statuses": {
+        "status": {
           "paid": "Paid",
           "pending": "Pending",
           "overdue": "Overdue"
         }
       },
-
       "action": {
         "add": "Add",
         "edit": "Edit",
