@@ -57,14 +57,14 @@ export const ClientList: React.FC = () => {
         (client.program && client.program.toLowerCase().includes(filterOptions.search.toLowerCase()))
       : true;
     
-    // Apply status filter
+    // Apply status filter - Updated to handle "all" value
     const statusFilter = filterOptions.status 
-      ? client.status === filterOptions.status
+      ? filterOptions.status === "all" ? true : client.status === filterOptions.status
       : true;
     
-    // Apply program filter
+    // Apply program filter - Updated to handle "all" value
     const programFilter = filterOptions.program 
-      ? client.program === filterOptions.program
+      ? filterOptions.program === "all" ? true : client.program === filterOptions.program
       : true;
     
     // Apply quick search from the input field

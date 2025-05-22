@@ -86,7 +86,7 @@ export const ClientFilter: React.FC<ClientFilterProps> = ({ onFilter }) => {
                 <SelectValue placeholder={t('client.selectStatus')} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">{t('client.all')}</SelectItem>
+                <SelectItem value="all">{t('client.all')}</SelectItem>
                 <SelectItem value="Active">{t('client.statuses.active')}</SelectItem>
                 <SelectItem value="Inactive">{t('client.statuses.inactive')}</SelectItem>
                 <SelectItem value="At Risk">{t('client.statuses.atRisk')}</SelectItem>
@@ -101,7 +101,7 @@ export const ClientFilter: React.FC<ClientFilterProps> = ({ onFilter }) => {
                 <SelectValue placeholder={t('client.selectProgram')} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">{t('client.all')}</SelectItem>
+                <SelectItem value="all">{t('client.all')}</SelectItem>
                 <SelectItem value="Career Development">{t('client.programs.career')}</SelectItem>
                 <SelectItem value="Business Strategy">{t('client.programs.business')}</SelectItem>
                 <SelectItem value="Life Coaching">{t('client.programs.life')}</SelectItem>
