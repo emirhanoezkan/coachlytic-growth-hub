@@ -1,4 +1,3 @@
-
 {
       "app": {
         "name": "Coachlytic",
@@ -55,12 +54,17 @@
         "clientRetentionCardDescription": "Seçilen dönem için müşteri sadakati trendleri",
         "clientStatusDescription": "Müşteri katılımının mevcut durumu",
         "upcomingSessionsCardTitle": "Yaklaşan Oturumlar",
-        "todayAppointmentsCardDescription": "Bugün için planlanmış randevularınız"
+        "todayAppointmentsCardDescription": "Bugün için planlanmış randevularınız",
+        "noUpcomingSessions": "Planlanmış yaklaşan oturum yok",
+        "errorLoading": "Oturumlar yüklenirken hata oluştu"
       },
       "time": {
         "day": "Gün",
         "week": "Hafta",
-        "month": "Ay"
+        "month": "Ay",
+        "min": "dk",
+        "today": "Bugün",
+        "tomorrow": "Yarın"
       },
       "day": {
         "mon": "Pzt",
@@ -157,19 +161,36 @@
         "new": "Yeni Oturum",
         "createDesc": "Yeni bir koçluk oturumu planlayın",
         "client": "Müşteri",
-        "clientPlaceholder": "Müşteri seçin",
+        "selectClient": "Müşteri seçin",
+        "program": "Program",
+        "selectProgram": "Program seçin",
+        "noProgram": "Program Yok",
+        "title": "Başlık",
+        "titlePlaceholder": "Oturum başlığı girin",
+        "dateTime": "Tarih ve Saat",
         "date": "Tarih",
         "time": "Saat",
-        "duration": "Süre",
+        "duration": "Süre (dakika)",
         "durationUnit": "dakika",
-        "type": "Oturum Türü",
-        "typePlaceholder": "Tür seçin",
+        "locationType": "Konum Türü",
+        "selectLocationType": "Konum türü seçin",
         "location": "Konum",
         "locationPlaceholder": "Konum girin",
         "notes": "Oturum Notları",
         "notesPlaceholder": "Oturum notlarını buraya ekleyin...",
         "schedule": "Oturumu Planla",
-        "cancel": "İptal"
+        "scheduling": "Planlanıyor...",
+        "update": "Oturumu Güncelle",
+        "updating": "Güncelleniyor...",
+        "cancel": "İptal",
+        "status": "Durum",
+        "selectStatus": "Durum seçin",
+        "pickDate": "Bir tarih ve saat seçin",
+        "status": {
+          "scheduled": "Planlandı",
+          "completed": "Tamamlandı",
+          "cancelled": "İptal Edildi"
+        }
       },
       "documents": {
         "title": "Belgeler",
@@ -409,5 +430,8 @@
           "terms": "Kullanım Koşulları",
           "copyright": "© 2025 Coachlytic. Tüm hakları saklıdır."
         }
-      }
+      },
+      "online": "Çevrimiçi",
+      "in-person": "Yüz Yüze",
+      "phone": "Telefon"
 }
