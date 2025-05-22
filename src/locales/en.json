@@ -276,7 +276,6 @@
         "retention": "Client Retention"
       },
       "billing": {
-        "billingStatus": "Billing Status"
         "title": "Billing",
         "subtitle": "Manage invoices and payment information",
         "createInvoice": "Create Invoice",
