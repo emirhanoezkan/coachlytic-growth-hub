@@ -27,28 +27,28 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({ period }) 
   
   const stats: StatItem[] = [
     {
-      title: t('dashboard.totalRevenue'),
+      title: t('dashboard.totalRevenueStat'),
       value: "$45,000",
       icon: Wallet,
       change: "+12%",
       changeType: "increase",
     },
     {
-      title: t('dashboard.newClients'),
+      title: t('dashboard.newClientsStat'),
       value: "235",
       icon: Users,
       change: "+9%",
       changeType: "increase",
     },
     {
-      title: t('dashboard.clientRetention'),
+      title: t('analytics.retention'), // Remapped from dashboard.clientRetention
       value: "85%",
       icon: User,
       change: "-3%",
       changeType: "decrease",
     },
     {
-      title: t('dashboard.avgSessionTime'),
+      title: t('dashboard.avgSessionTimeStat'),
       value: "52 min",
       icon: Users,
       change: "+5%",
@@ -79,8 +79,8 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({ period }) 
       <div className="grid gap-4 grid-cols-1 lg:grid-cols-2">
         <Card>
           <CardHeader>
-            <CardTitle>{t('dashboard.revenue')}</CardTitle>
-            <CardDescription>{t('dashboard.revenueDesc')} {translatedPeriod}</CardDescription>
+            <CardTitle>{t('analytics.revenue')}</CardTitle> 
+            <CardDescription>{t('dashboard.revenueDescription')} {translatedPeriod}</CardDescription>
           </CardHeader>
           <CardContent>
             <RevenueChart period={period} />
@@ -89,8 +89,8 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({ period }) 
 
         <Card>
           <CardHeader>
-            <CardTitle>{t('dashboard.clientRetentionTitle')}</CardTitle>
-            <CardDescription>{t('dashboard.clientRetentionDesc')} {translatedPeriod}</CardDescription>
+            <CardTitle>{t('dashboard.clientRetentionCardTitle')}</CardTitle>
+            <CardDescription>{t('dashboard.clientRetentionCardDescription')} {translatedPeriod}</CardDescription>
           </CardHeader>
           <CardContent>
             <ClientRetentionChart period={period} />
@@ -102,8 +102,8 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({ period }) 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card>
           <CardHeader>
-            <CardTitle>{t('dashboard.clientHealth')}</CardTitle>
-            <CardDescription>{t('dashboard.clientStatus')}</CardDescription>
+            <CardTitle>{t('dashboard.clientHealthCardTitle')}</CardTitle>
+            <CardDescription>{t('dashboard.clientStatusDescription')}</CardDescription>
           </CardHeader>
           <CardContent>
             <ClientHealthSection />
@@ -112,8 +112,8 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({ period }) 
         
         <Card>
           <CardHeader>
-            <CardTitle>{t('dashboard.upcomingSessions')}</CardTitle>
-            <CardDescription>{t('dashboard.todayAppointments')}</CardDescription>
+            <CardTitle>{t('dashboard.upcomingSessionsCardTitle')}</CardTitle>
+            <CardDescription>{t('dashboard.todayAppointmentsCardDescription')}</CardDescription>
           </CardHeader>
           <CardContent>
             <UpcomingSessionsSection />

@@ -1,0 +1,352 @@
+{
+      "app": {
+        "name": "Coachlytic",
+        "dashboard": "Gösterge Paneli",
+        "clients": "Müşteriler",
+        "sessions": "Oturumlar",
+        "programs": "Programlar",
+        "documents": "Belgeler",
+        "analytics": "Analiz",
+        "billing": "Faturalama",
+        "settings": "Ayarlar",
+        "logout": "Çıkış Yap",
+        "language": "Dil",
+        "description": "Koç yönetim platformu"
+      },
+      "language": {
+        "english": "İngilizce",
+        "turkish": "Türkçe"
+      },
+      "auth": {
+        "welcome_back": "Tekrar Hoşgeldiniz",
+        "enter_credentials": "Giriş yapmak için bilgilerinizi girin",
+        "email": "E-posta",
+        "email_placeholder": "coach@example.com",
+        "password": "Şifre",
+        "forgot_password": "Şifremi Unuttum?",
+        "sign_in": "Giriş Yap",
+        "signing_in": "Giriş yapılıyor...",
+        "login": "Giriş",
+        "signup": "Kayıt Ol",
+        "create_account": "Hesap Oluştur",
+        "enter_information": "Hesap oluşturmak için bilgilerinizi girin",
+        "first_name": "Ad",
+        "first_name_placeholder": "Ahmet",
+        "last_name": "Soyad",
+        "last_name_placeholder": "Yılmaz",
+        "confirm_password": "Şifreyi Onayla",
+        "create_account_button": "Hesap Oluştur",
+        "creating_account": "Hesap oluşturuluyor...",
+        "error": "Hata",
+        "fill_all_fields": "Lütfen tüm alanları doldurun",
+        "passwords_dont_match": "Şifreler eşleşmiyor",
+        "password_length": "Şifre en az 6 karakter olmalıdır"
+      },
+      "dashboard": {
+        "welcomeTitle": "Gösterge Panelinize Hoş Geldiniz",
+        "welcomeSubtitle": "Koçluk işletmenize genel bir bakış",
+        "clientHealthCardTitle": "[TR_NEEDS_TRANSLATION] Client Health",
+        "totalRevenueStat": "[TR_NEEDS_TRANSLATION] Total Revenue",
+        "newClientsStat": "[TR_NEEDS_TRANSLATION] New Clients",
+        "avgSessionTimeStat": "[TR_NEEDS_TRANSLATION] Avg. Session Time",
+        "revenueDescription": "[TR_NEEDS_TRANSLATION] Revenue overview for the selected",
+        "clientRetentionCardTitle": "[TR_NEEDS_TRANSLATION] Client Retention",
+        "clientRetentionCardDescription": "[TR_NEEDS_TRANSLATION] Client retention trends for the selected",
+        "clientStatusDescription": "[TR_NEEDS_TRANSLATION] Current status of client engagement",
+        "upcomingSessionsCardTitle": "[TR_NEEDS_TRANSLATION] Upcoming Sessions",
+        "todayAppointmentsCardDescription": "[TR_NEEDS_TRANSLATION] Your appointments scheduled for today"
+      },
+      "time": {
+        "day": "Gün",
+        "week": "Hafta",
+        "month": "Ay"
+      },
+      "clientHealth": {
+        "highPerformers": "Yüksek Performans Gösterenler",
+        "onTrack": "Yolunda Gidenler",
+        "needsAttention": "İlgi Gerektiren",
+        "atRisk": "Risk Altında"
+      },
+      "client": {
+        "directory": "Müşteri Rehberi",
+        "manage": "Koçluk müşterilerinizi yönetin",
+        "filter": "Filtrele",
+        "add": "Müşteri Ekle",
+        "firstName": "Ad",
+        "firstNamePlaceholder": "Ad girin",
+        "lastName": "Soyad",
+        "lastNamePlaceholder": "Soyad girin",
+        "email": "E-posta Adresi",
+        "emailPlaceholder": "musteri@ornek.com",
+        "phone": "Telefon Numarası",
+        "phonePlaceholder": "Telefon numarası girin",
+        "notes": "Notlar",
+        "notesPlaceholder": "Müşteri notlarını buraya ekleyin...",
+        "save": "Müşteriyi Kaydet",
+        "cancel": "İptal"
+      },
+      "programs": {
+        "title": "Programlar",
+        "subtitle": "Koçluk programlarınızı oluşturun ve yönetin",
+        "create": "Program Oluştur",
+        "new": "Yeni Program",
+        "name": "Program Adı",
+        "namePlaceholder": "Program adı girin",
+        "description": "Açıklama",
+        "descriptionPlaceholder": "Program açıklaması girin",
+        "duration": "Süre (Hafta)",
+        "price": "Fiyat",
+        "pricePlaceholder": "₺0,00",
+        "save": "Programı Kaydet",
+        "cancel": "İptal",
+        "status": "Durum",
+        "category": "Kategori",
+        "categoryPlaceholder": "Kategori seçin",
+        "sessions": "Oturumlar"
+      },
+      "sessions": {
+        "title": "Oturumlar",
+        "subtitle": "Koçluk oturumlarınızı planlayın ve yönetin",
+        "calendar": "Takvim",
+        "list": "Liste",
+        "add": "Oturum Ekle",
+        "new": "Yeni Oturum",
+        "createDesc": "Yeni bir koçluk oturumu planlayın",
+        "client": "Müşteri",
+        "clientPlaceholder": "Müşteri seçin",
+        "date": "Tarih",
+        "time": "Saat",
+        "duration": "Süre",
+        "durationUnit": "dakika",
+        "type": "Oturum Türü",
+        "typePlaceholder": "Tür seçin",
+        "location": "Konum",
+        "locationPlaceholder": "Konum girin",
+        "notes": "Oturum Notları",
+        "notesPlaceholder": "Oturum notlarını buraya ekleyin...",
+        "schedule": "Oturumu Planla",
+        "cancel": "İptal"
+      },
+      "documents": {
+        "title": "Belgeler",
+        "subtitle": "Koçluk kaynaklarınızı ve materyallerinizi yönetin",
+        "upload": "Belge Yükleme",
+        "uploadDesc": "Müşterileriniz için koçluk materyalleri ve kaynakları yükleyin",
+        "library": "Belge Kütüphanesi",
+        "access": "Koçluk belgelerinize erişin ve paylaşın",
+        "dragDrop": "Dosyaları buraya sürükleyip bırakın veya seçmek için tıklayın",
+        "uploadButton": "Belge Yükle",
+        "searchPlaceholder": "Belgeleri ara..."
+      },
+      "settings": {
+        "title": "Ayarlar",
+        "subtitle": "Hesabınızı ve uygulama tercihlerinizi yönetin",
+        "tabs": {
+          "notifications": "Bildirimler",
+          "preferences": "Tercihler",
+          "integrations": "Entegrasyonlar",
+          "security": "Güvenlik"
+        },
+        "notifications": {
+          "title": "Bildirim Tercihleri",
+          "description": "Bildirimleri nasıl ve ne zaman alacağınızı yönetin",
+          "email": "E-posta Bildirimleri",
+          "emailDesc": "Bildirimleri e-posta yoluyla alın",
+          "reminders": "Oturum Hatırlatıcıları",
+          "remindersDesc": "Yaklaşan oturumlar hakkında hatırlatıcılar alın",
+          "marketing": "Pazarlama İletişimleri",
+          "marketingDesc": "Yeni özellikler ve teklifler hakkında güncellemeler alın"
+        },
+        "preferences": {
+          "title": "Sistem Tercihleri",
+          "description": "Uygulama deneyiminizi özelleştirin",
+          "timezone": "Saat Dilimi",
+          "reminderTime": "Oturum Hatırlatıcı Zamanı",
+          "darkMode": "Karanlık Mod",
+          "darkModeDesc": "Uygulama için karanlık tema kullanın"
+        },
+        "integrations": {
+          "title": "Hizmet Entegrasyonları",
+          "description": "Üçüncü taraf hizmetlere bağlanın",
+          "connect": "{integration} hesabınıza bağlayın",
+          "connectButton": "Bağlan"
+        },
+        "security": {
+          "title": "Güvenlik Ayarları",
+          "description": "Hesap güvenlik tercihlerinizi yönetin",
+          "changePassword": "Şifre Değiştir",
+          "changePasswordDesc": "Hesap şifrenizi güncelleyin",
+          "2fa": "İki Faktörlü Kimlik Doğrulama",
+          "2faDesc": "Hesabınıza ekstra bir güvenlik katmanı ekleyin",
+          "sessions": "Aktif Oturumlar",
+          "sessionsDesc": "Aktif giriş oturumlarınızı yönetin",
+          "currentDevice": "Mevcut Cihaz",
+          "lastActive": "Son aktif: {time}",
+          "signOut": "Tüm Cihazlardan Çıkış Yap"
+        },
+        "saveChanges": "Değişiklikleri Kaydet"
+      },
+      "profile": {
+        "title": "Profil",
+        "subtitle": "Kişisel bilgilerinizi yönetin",
+        "personal": "Kişisel Bilgiler",
+        "update": "Kişisel bilgilerinizi güncelleyin",
+        "firstName": "Ad",
+        "lastName": "Soyad",
+        "email": "E-posta Adresi",
+        "company": "Şirket",
+        "phone": "Telefon Numarası",
+        "changePhoto": "Fotoğrafı Değiştir",
+        "save": "Değişiklikleri Kaydet"
+      },
+      "analytics": {
+        "title": "Analitikler",
+        "subtitle": "Koçluk işletmenize ait içgörüleri ve metrikleri görüntüleyin",
+        "day": "Gün",
+        "week": "Hafta",
+        "month": "Ay",
+        "revenue": "Gelir",
+        "clients": "Müşteriler",
+        "sessions": "Oturumlar",
+        "retention": "Müşteri Sadakati"
+      },
+      "billing": {
+        "title": "Faturalama",
+        "subtitle": "Faturaları ve ödeme bilgilerini yönetin",
+        "createInvoice": "Fatura Oluştur",
+        "newInvoice": "Yeni Fatura",
+        "client": "Müşteri",
+        "clientPlaceholder": "Müşteri seçin",
+        "invoiceDate": "Fatura Tarihi",
+        "dueDate": "Son Ödeme Tarihi",
+        "amount": "Tutar",
+        "amountPlaceholder": "₺0,00",
+        "description": "Açıklama",
+        "descriptionPlaceholder": "Fatura açıklaması girin",
+        "items": "Fatura Kalemleri",
+        "addItem": "Kalem Ekle",
+        "itemName": "Kalem Adı",
+        "itemDescription": "Açıklama",
+        "quantity": "Miktar",
+        "price": "Fiyat",
+        "subtotal": "Ara Toplam",
+        "tax": "Vergi",
+        "taxRate": "Vergi Oranı",
+        "total": "Toplam",
+        "notes": "Notlar",
+        "notesPlaceholder": "Fatura notlarını buraya ekleyin...",
+        "save": "Faturayı Kaydet",
+        "cancel": "İptal",
+        "status": "Durum",
+        "paid": "Ödendi",
+        "unpaid": "Ödenmedi"
+      },
+      "action": {
+        "add": "Ekle",
+        "edit": "Düzenle",
+        "delete": "Sil",
+        "save": "Kaydet",
+        "cancel": "İptal",
+        "update": "Güncelle",
+        "create": "Oluştur",
+        "search": "Ara",
+        "filter": "Filtrele",
+        "clear": "Temizle",
+        "apply": "Uygula",
+        "confirm": "Onayla",
+        "back": "Geri",
+        "next": "İleri",
+        "previous": "Önceki",
+        "finish": "Bitir",
+        "continue": "Devam Et",
+        "submit": "Gönder",
+        "loading": "Yükleniyor...",
+        "processing": "İşleniyor...",
+        "saving": "Kaydediliyor..."
+      },
+      "validation": {
+        "required": "Bu alan zorunludur",
+        "email": "Lütfen geçerli bir e-posta adresi girin",
+        "minLength": "En az {length} karakter olmalıdır",
+        "maxLength": "En fazla {length} karakter olmalıdır",
+        "passwordMatch": "Şifreler eşleşmelidir",
+        "validNumber": "Lütfen geçerli bir sayı girin",
+        "positiveNumber": "Lütfen pozitif bir sayı girin",
+        "date": "Lütfen geçerli bir tarih girin",
+        "phone": "Lütfen geçerli bir telefon numarası girin"
+      },
+      "landing": {
+        "hero": {
+          "badge": "Koç Yönetim Platformu",
+          "title": {
+            "part1": "Koçluk Uygulamanızı",
+            "part2": "Akıllı Araçlarla Yükseltin"
+          },
+          "description": "Müşteri yönetimini kolaylaştırın, oturumları kolayca planlayın, kişiselleştirilmiş programlar oluşturun ve koçluk işletmenizi hepsi bir arada platformumuzla büyütün.",
+          "button": {
+            "primary": "Başlayın",
+            "secondary": "Daha Fazla Bilgi"
+          },
+          "feature1": "Kredi kartı gerekmiyor",
+          "feature2": "14 gün ücretsiz deneme"
+        },
+        "features": {
+          "title": "Özellikler",
+          "heading": "Koçluk işletmenizi yönetmek için ihtiyacınız olan her şey",
+          "subheading": "Özellikle koçların müşterilerine olağanüstü hizmet sunmalarına yardımcı olmak için tasarlanmıştır.",
+          "clientManagement": {
+            "title": "Müşteri Yönetimi",
+            "description": "Müşteri bilgilerini düzenleyin, ilerlemeyi takip edin ve kişiselleştirilmiş koçluk için detaylı notlar tutun."
+          },
+          "scheduling": {
+            "title": "Akıllı Planlama",
+            "description": "Kolayca oturum ayarlayın, otomatik hatırlatıcılar gönderin ve takviminizi tek bir yerden yönetin."
+          },
+          "program": {
+            "title": "Program Oluşturucu",
+            "description": "Yapılandırılmış modüller, kaynaklar ve takip ile özelleştirilmiş koçluk programları oluşturun."
+          },
+          "analytics": {
+            "title": "İşletme Analitiği",
+            "description": "Gelir izleme ve müşteri sadakati metrikleri ile koçluk uygulamanız hakkında içgörüler elde edin."
+          }
+        },
+        "testimonials": {
+          "badge": "Başarı Hikayeleri",
+          "heading": "Dünya çapında koçlar tarafından güvenilir",
+          "person1": {
+            "name": "Ayşe Yılmaz",
+            "role": "Yaşam Koçu",
+            "quote": "Coachlytic'i kullanmaya başladıktan sonra, idari görevlere daha az zaman harcayarak müşteri tabanımı ikiye katladım. Platform işletmemi dönüştürdü."
+          },
+          "person2": {
+            "name": "Mehmet Kaya",
+            "role": "İş Koçu",
+            "quote": "Program oluşturucular özelliği, müşterilerim için yapılandırılmış yolculuklar oluşturmama yardımcı oluyor. Müşteri sonuçları ve memnuniyeti konusunda büyük bir fark yarattı."
+          },
+          "person3": {
+            "name": "Zeynep Demir",
+            "role": "Sağlık Koçu",
+            "quote": "Müşteri izleme ve analitik özellikleri, daha kişiselleştirilmiş koçluk hizmetleri sunmama yardımcı oluyor. Müşterilerim profesyonel deneyimi seviyorlar."
+          }
+        },
+        "cta": {
+          "heading": "Koçluk işletmenizi büyütmeye hazır mısınız?",
+          "subheading": "Güçlü platformumuzla uygulamalarını ölçeklendiren binlerce koça katılın.",
+          "button": "Yolculuğunuza başlayın"
+        },
+        "footer": {
+          "slogan": "Dünya çapında koçları güçlendiriyoruz",
+          "product": "Ürün",
+          "features": "Özellikler",
+          "pricing": "Fiyatlandırma",
+          "support": "Destek",
+          "helpCenter": "Yardım Merkezi",
+          "contact": "Bize Ulaşın",
+          "legal": "Yasal",
+          "privacy": "Gizlilik Politikası",
+          "terms": "Kullanım Koşulları",
+          "copyright": "© 2025 Coachlytic. Tüm hakları saklıdır."
+        }
+      }
+}
