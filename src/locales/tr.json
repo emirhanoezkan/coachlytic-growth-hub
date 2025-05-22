@@ -350,6 +350,7 @@
         "downloadPDF": "PDF İndir",
         "markAsPaid": "Ödenmiş Olarak İşaretle",
         "sendReminder": "Hatırlatıcı Gönder",
+        "billingStatus": "Fatura Durumu",
         "status": {
           "paid": "Ödendi",
           "pending": "Beklemede",
