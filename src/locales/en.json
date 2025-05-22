@@ -1,3 +1,4 @@
+
 {
       "app": {
         "name": "Coachlytic",
@@ -61,6 +62,37 @@
         "week": "Week",
         "month": "Month"
       },
+      "day": {
+        "mon": "Mon",
+        "tue": "Tue",
+        "wed": "Wed",
+        "thu": "Thu",
+        "fri": "Fri",
+        "sat": "Sat",
+        "sun": "Sun"
+      },
+      "month": {
+        "jan": "Jan",
+        "feb": "Feb",
+        "mar": "Mar",
+        "apr": "Apr",
+        "may": "May",
+        "jun": "Jun",
+        "jul": "Jul",
+        "aug": "Aug",
+        "sep": "Sep",
+        "oct": "Oct",
+        "nov": "Nov",
+        "dec": "Dec"
+      },
+      "chart": {
+        "revenue": "Revenue",
+        "sessions": "Sessions",
+        "active_clients": "Active Clients",
+        "completed": "Completed",
+        "inactive": "Inactive",
+        "at_risk": "At Risk"
+      },
       "clientHealth": {
         "highPerformers": "High Performers",
         "onTrack": "On Track",
@@ -83,7 +115,19 @@
         "notes": "Notes",
         "notesPlaceholder": "Add client notes here...",
         "save": "Save Client",
-        "cancel": "Cancel"
+        "cancel": "Cancel",
+        "name": "Name",
+        "namePlaceholder": "Enter full name",
+        "program": "Program",
+        "selectProgram": "Select program",
+        "programs": {
+          "career": "Career Development",
+          "business": "Business Strategy",
+          "life": "Life Coaching",
+          "executive": "Executive Coaching"
+        },
+        "success": "Success",
+        "clientAdded": "Client added successfully"
       },
       "programs": {
         "title": "Programs",
@@ -217,29 +261,46 @@
         "newInvoice": "New Invoice",
         "client": "Client",
         "clientPlaceholder": "Select client",
+        "selectClient": "Select client",
         "invoiceDate": "Invoice Date",
         "dueDate": "Due Date",
+        "selectDueDate": "Select due date",
         "amount": "Amount",
         "amountPlaceholder": "$0.00",
         "description": "Description",
         "descriptionPlaceholder": "Enter invoice description",
+        "serviceDescription": "Service description",
         "items": "Invoice Items",
+        "invoiceItems": "Invoice Items",
         "addItem": "Add Item",
         "itemName": "Item Name",
         "itemDescription": "Description",
         "quantity": "Quantity",
+        "rate": "Rate",
         "price": "Price",
         "subtotal": "Subtotal",
         "tax": "Tax",
         "taxRate": "Tax Rate",
         "total": "Total",
         "notes": "Notes",
+        "invoiceNotes": "Add invoice notes here...",
         "notesPlaceholder": "Add invoice notes here...",
         "save": "Save Invoice",
         "cancel": "Cancel",
-        "status": "Status",
-        "paid": "Paid",
-        "unpaid": "Unpaid"
+        "success": "Success",
+        "invoiceCreated": "Invoice created successfully",
+        "status": "Status", 
+        "invoice": "Invoice",
+        "issueDate": "Issue Date",
+        "viewInvoice": "View Invoice",
+        "downloadPDF": "Download PDF",
+        "markAsPaid": "Mark as Paid",
+        "sendReminder": "Send Reminder",
+        "status": {
+          "paid": "Paid",
+          "pending": "Pending",
+          "overdue": "Overdue"
+        }
       },
       "action": {
         "add": "Add",

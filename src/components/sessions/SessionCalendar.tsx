@@ -3,8 +3,12 @@ import React from 'react';
 import { Calendar } from "@/components/ui/calendar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { format } from "date-fns";
 
 export const SessionCalendar = () => {
+  const { t } = useLanguage();
+  
   // Sample data for upcoming sessions
   const sessions = [
     { date: new Date(2025, 4, 19), count: 3 }, // May 19, 2025
@@ -38,7 +42,7 @@ export const SessionCalendar = () => {
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
       <Card className="lg:col-span-2">
         <CardHeader>
-          <CardTitle>Session Calendar</CardTitle>
+          <CardTitle>{t('sessions.calendar')}</CardTitle>
         </CardHeader>
         <CardContent>
           <Calendar 
@@ -84,14 +88,14 @@ export const SessionCalendar = () => {
 
       <Card>
         <CardHeader>
-          <CardTitle>Today's Sessions</CardTitle>
+          <CardTitle>{t('dashboard.todayAppointmentsCardDescription')}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
             {todaySessions.map((session, index) => (
               <div key={index} className="flex items-start p-3 rounded-lg border border-gray-200">
                 <div className="bg-lavender-100 text-lavender-600 px-3 py-2 rounded-md text-center min-w-16">
-                  <div className="text-xs font-semibold">MAY</div>
+                  <div className="text-xs font-semibold">{t('month.may').toUpperCase()}</div>
                   <div className="text-lg font-bold">18</div>
                 </div>
                 <div className="ml-3 flex-1">
