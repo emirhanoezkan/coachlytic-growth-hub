@@ -14,6 +14,13 @@
         "language": "Language",
         "description": "Coach management platform"
       },
+      "navigation": {
+        "features": "Features",
+        "pricing": "Pricing",
+        "benefits": "Benefits",
+        "login": "Log In",
+        "getStarted": "Get Started"
+      },
       "language": {
         "english": "English",
         "turkish": "Turkish"
@@ -435,6 +442,59 @@
           "analytics": {
             "title": "Business Analytics",
             "description": "Gain insights into your coaching practice with revenue tracking and client retention metrics."
+          }
+        },
+        "benefits": {
+          "heading": "Why coaches choose Coachlytic",
+          "subheading": "Discover the key benefits that make our platform the preferred choice for coaching professionals.",
+          "efficiency": {
+            "title": "Save Time",
+            "description": "Automate administrative tasks and focus more on what matters - coaching your clients."
+          },
+          "engagement": {
+            "title": "Boost Engagement",
+            "description": "Keep clients engaged with structured programs and regular progress tracking."
+          },
+          "delivery": {
+            "title": "Professional Delivery",
+            "description": "Deliver consistent, high-quality coaching experiences that clients love."
+          },
+          "financial": {
+            "title": "Financial Control",
+            "description": "Track revenue, manage invoicing, and grow your coaching business profitably."
+          }
+        },
+        "pricing": {
+          "heading": "Simple, transparent pricing",
+          "subheading": "Choose the plan that fits your coaching practice. All plans include our core features.",
+          "basic": {
+            "title": "Basic",
+            "price": "$29",
+            "period": "month",
+            "feature1": "Up to 25 clients",
+            "feature2": "Basic scheduling",
+            "feature3": "Email support",
+            "button": "Start Basic"
+          },
+          "pro": {
+            "title": "Professional",
+            "price": "$59",
+            "period": "month",
+            "badge": "Most Popular",
+            "feature1": "Up to 100 clients",
+            "feature2": "Advanced scheduling",
+            "feature3": "Program builder",
+            "feature4": "Priority support",
+            "button": "Start Professional"
+          },
+          "enterprise": {
+            "title": "Enterprise",
+            "price": "Custom",
+            "feature1": "Unlimited clients",
+            "feature2": "Custom integrations",
+            "feature3": "Dedicated support",
+            "feature4": "Advanced analytics",
+            "button": "Contact Sales"
           }
         },
         "testimonials": {

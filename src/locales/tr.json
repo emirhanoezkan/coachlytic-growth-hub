@@ -14,6 +14,13 @@
         "language": "Dil",
         "description": "Koç yönetim platformu"
       },
+      "navigation": {
+        "features": "Özellikler",
+        "pricing": "Fiyatlandırma",
+        "benefits": "Avantajlar",
+        "login": "Giriş Yap",
+        "getStarted": "Başlayın"
+      },
       "language": {
         "english": "İngilizce",
         "turkish": "Türkçe"
@@ -435,6 +442,59 @@
           "analytics": {
             "title": "İşletme Analitiği",
             "description": "Gelir izleme ve müşteri sadakati metrikleri ile koçluk uygulamanız hakkında içgörüler elde edin."
+          }
+        },
+        "benefits": {
+          "heading": "Koçlar neden Coachlytic'i tercih ediyor",
+          "subheading": "Platformumuzu koçluk profesyonelleri için tercih edilen seçenek yapan temel avantajları keşfedin.",
+          "efficiency": {
+            "title": "Zaman Kazanın",
+            "description": "İdari görevleri otomatikleştirin ve önemli olan şeye - müşterilerinizi koçlamaya odaklanın."
+          },
+          "engagement": {
+            "title": "Katılımı Artırın",
+            "description": "Yapılandırılmış programlar ve düzenli ilerleme takibi ile müşterileri meşgul tutun."
+          },
+          "delivery": {
+            "title": "Profesyonel Teslimat",
+            "description": "Müşterilerin sevdiği tutarlı, yüksek kaliteli koçluk deneyimleri sunun."
+          },
+          "financial": {
+            "title": "Finansal Kontrol",
+            "description": "Geliri takip edin, faturalamayı yönetin ve koçluk işletmenizi karlı şekilde büyütün."
+          }
+        },
+        "pricing": {
+          "heading": "Basit, şeffaf fiyatlandırma",
+          "subheading": "Koçluk uygulamanıza uygun planı seçin. Tüm planlar temel özelliklerimizi içerir.",
+          "basic": {
+            "title": "Temel",
+            "price": "₺299",
+            "period": "ay",
+            "feature1": "25 müşteriye kadar",
+            "feature2": "Temel planlama",
+            "feature3": "E-posta desteği",
+            "button": "Temel'i Başlat"
+          },
+          "pro": {
+            "title": "Profesyonel",
+            "price": "₺599",
+            "period": "ay",
+            "badge": "En Popüler",
+            "feature1": "100 müşteriye kadar",
+            "feature2": "Gelişmiş planlama",
+            "feature3": "Program oluşturucu",
+            "feature4": "Öncelikli destek",
+            "button": "Profesyonel'i Başlat"
+          },
+          "enterprise": {
+            "title": "Kurumsal",
+            "price": "Özel",
+            "feature1": "Sınırsız müşteri",
+            "feature2": "Özel entegrasyonlar",
+            "feature3": "Özel destek",
+            "feature4": "Gelişmiş analitik",
+            "button": "Satış ile İletişime Geç"
           }
         },
         "testimonials": {
