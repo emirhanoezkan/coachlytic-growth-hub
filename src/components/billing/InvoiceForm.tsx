@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -114,7 +115,7 @@ export const InvoiceForm: React.FC<InvoiceFormProps> = ({ onSubmit, initialData 
           </div>
           
           <div>
-            <Label htmlFor="status">{t('billing.status')}</Label>
+            <Label htmlFor="status">{t('billing.statusLabel')}</Label>
             <Select value={status} onValueChange={setStatus}>
               <SelectTrigger id="status" className="mt-2">
                 <SelectValue placeholder={t('billing.selectStatus')} />

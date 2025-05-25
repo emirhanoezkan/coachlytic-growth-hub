@@ -94,7 +94,7 @@ export const InvoiceList: React.FC = () => {
               <TableHead>{t('billing.issueDate')}</TableHead>
               <TableHead>{t('billing.dueDate')}</TableHead>
               <TableHead>{t('billing.amount')}</TableHead>
-              <TableHead>{t('billing.status')}</TableHead>
+              <TableHead>{t('billing.statusLabel')}</TableHead>
               <TableHead></TableHead>
             </TableRow>
           </TableHeader>

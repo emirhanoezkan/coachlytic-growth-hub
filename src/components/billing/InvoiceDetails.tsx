@@ -62,7 +62,7 @@ export const InvoiceDetails: React.FC<InvoiceDetailsProps> = ({
               <p className="mt-1 text-lg font-medium">{invoice.client}</p>
             </div>
             <div>
-              <h3 className="text-sm font-medium text-gray-500">{t('billing.status')}</h3>
+              <h3 className="text-sm font-medium text-gray-500">{t('billing.statusLabel')}</h3>
               <div className="mt-1">
                 <Badge className={
                   invoice.status === "paid" ? "bg-forest-100 text-forest-800 hover:bg-forest-200" :
