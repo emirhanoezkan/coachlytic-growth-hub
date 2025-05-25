@@ -1,4 +1,3 @@
-
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -343,7 +342,7 @@ export const SessionForm: React.FC<SessionFormProps> = ({
             name="status"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{t('sessions.status')}</FormLabel>
+                <FormLabel>{t('sessions.statusLabel')}</FormLabel>
                 <Select
                   onValueChange={field.onChange}
                   defaultValue={field.value}
