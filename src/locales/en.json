@@ -8,7 +8,18 @@
     "programs": "Programs",
     "documents": "Documents",
     "analytics": "Analytics",
-    "billing": "Billing"
+    "billing": "Billing",
+    "settings": "Settings",
+    "logout": "Sign Out",
+    "language": "Language",
+    "description": "Your comprehensive coaching management platform"
+  },
+  "navigation": {
+    "features": "Features",
+    "pricing": "Pricing", 
+    "benefits": "Benefits",
+    "login": "Sign In",
+    "getStarted": "Get Started"
   },
   "auth": {
     "signIn": "Sign In",
@@ -21,7 +32,15 @@
     "forgotPassword": "Forgot Password?",
     "noAccount": "Don't have an account?",
     "hasAccount": "Already have an account?",
-    "signOut": "Sign Out"
+    "signOut": "Sign Out",
+    "welcomeBack": "Welcome back",
+    "enterCredentials": "Enter your credentials to access your account",
+    "emailPlaceholder": "Enter your email",
+    "signingIn": "Signing in...",
+    "login": "Sign In",
+    "signup": "Sign Up",
+    "error": "Error",
+    "fillAllFields": "Please fill in all fields"
   },
   "dashboard": {
     "title": "Dashboard",
@@ -38,10 +57,13 @@
     "clientHealth": "Client Health Overview",
     "totalRevenue": "Total Revenue"
   },
-  "clients": {
+  "client": {
     "title": "Clients",
     "subtitle": "Manage your clients and track their progress",
+    "directory": "Client Directory",
+    "manage": "Manage your clients and track their progress",
     "addClient": "Add Client",
+    "add": "Add Client",
     "noClients": "No clients found",
     "createFirst": "Create your first client to get started.",
     "name": "Name",
@@ -94,6 +116,8 @@
     "title": "Programs",
     "subtitle": "Create and manage your coaching programs",
     "newProgram": "New Program",
+    "new": "New Program",
+    "create": "Create Program",
     "noPrograms": "No programs found",
     "createFirst": "Create your first program to get started.",
     "programName": "Program Name",
@@ -112,6 +136,10 @@
     "title": "Documents",
     "subtitle": "Store and manage your coaching documents",
     "uploadDocument": "Upload Document",
+    "upload": "Upload Documents",
+    "uploadDesc": "Upload and organize your coaching documents",
+    "library": "Document Library",
+    "access": "Access and manage your uploaded documents",
     "noDocuments": "No documents found",
     "uploadFirst": "Upload your first document to get started.",
     "fileName": "File Name",
@@ -137,7 +165,10 @@
     "totalRevenue": "Total Revenue",
     "avgSessionRevenue": "Avg. Session Revenue",
     "retentionRate": "Retention Rate",
-    "newClients": "New Clients"
+    "newClients": "New Clients",
+    "day": "Day",
+    "week": "Week",
+    "month": "Month"
   },
   "billing": {
     "title": "Billing",
@@ -187,6 +218,23 @@
     "24hour": "24-hour",
     "english": "English",
     "turkish": "Türkçe"
+  },
+  "actions": {
+    "loading": "Loading...",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "view": "View",
+    "add": "Add",
+    "search": "Search",
+    "filter": "Filter",
+    "actions": "Actions",
+    "submit": "Submit",
+    "close": "Close",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous"
   },
   "common": {
     "loading": "Loading...",

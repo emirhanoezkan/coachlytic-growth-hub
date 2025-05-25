@@ -8,7 +8,18 @@
     "programs": "Programlar",
     "documents": "Belgeler",
     "analytics": "Analitik",
-    "billing": "Faturalandırma"
+    "billing": "Faturalandırma",
+    "settings": "Ayarlar",
+    "logout": "Çıkış Yap",
+    "language": "Dil",
+    "description": "Kapsamlı koçluk yönetim platformunuz"
+  },
+  "navigation": {
+    "features": "Özellikler",
+    "pricing": "Fiyatlandırma",
+    "benefits": "Faydalar",
+    "login": "Giriş Yap",
+    "getStarted": "Başlayın"
   },
   "auth": {
     "signIn": "Giriş Yap",
@@ -21,7 +32,15 @@
     "forgotPassword": "Şifrenizi mi unuttunuz?",
     "noAccount": "Hesabınız yok mu?",
     "hasAccount": "Zaten hesabınız var mı?",
-    "signOut": "Çıkış Yap"
+    "signOut": "Çıkış Yap",
+    "welcomeBack": "Tekrar hoş geldiniz",
+    "enterCredentials": "Hesabınıza erişmek için kimlik bilgilerinizi girin",
+    "emailPlaceholder": "E-postanızı girin",
+    "signingIn": "Giriş yapılıyor...",
+    "login": "Giriş Yap",
+    "signup": "Kayıt Ol",
+    "error": "Hata",
+    "fillAllFields": "Lütfen tüm alanları doldurun"
   },
   "dashboard": {
     "title": "Anasayfa",
@@ -38,10 +57,13 @@
     "clientHealth": "Müşteri Sağlığı Genel Bakış",
     "totalRevenue": "Toplam Gelir"
   },
-  "clients": {
+  "client": {
     "title": "Müşteriler",
     "subtitle": "Müşterilerinizi yönetin ve ilerlemelerini takip edin",
+    "directory": "Müşteri Dizini",
+    "manage": "Müşterilerinizi yönetin ve ilerlemelerini takip edin",
     "addClient": "Müşteri Ekle",
+    "add": "Müşteri Ekle",
     "noClients": "Müşteri bulunamadı",
     "createFirst": "Başlamak için ilk müşterinizi oluşturun.",
     "name": "Ad",
@@ -94,6 +116,8 @@
     "title": "Programlar",
     "subtitle": "Koçluk programlarınızı oluşturun ve yönetin",
     "newProgram": "Yeni Program",
+    "new": "Yeni Program",
+    "create": "Program Oluştur",
     "noPrograms": "Program bulunamadı",
     "createFirst": "Başlamak için ilk programınızı oluşturun.",
     "programName": "Program Adı",
@@ -112,6 +136,10 @@
     "title": "Belgeler",
     "subtitle": "Koçluk belgelerinizi saklayın ve yönetin",
     "uploadDocument": "Belge Yükle",
+    "upload": "Belge Yükle",
+    "uploadDesc": "Koçluk belgelerinizi yükleyin ve düzenleyin",
+    "library": "Belge Kütüphanesi",
+    "access": "Yüklenen belgelerinize erişin ve yönetin",
     "noDocuments": "Belge bulunamadı",
     "uploadFirst": "Başlamak için ilk belgenizi yükleyin.",
     "fileName": "Dosya Adı",
@@ -137,7 +165,10 @@
     "totalRevenue": "Toplam Gelir",
     "avgSessionRevenue": "Ort. Seans Geliri",
     "retentionRate": "Tutma Oranı",
-    "newClients": "Yeni Müşteriler"
+    "newClients": "Yeni Müşteriler",
+    "day": "Gün",
+    "week": "Hafta",
+    "month": "Ay"
   },
   "billing": {
     "title": "Faturalandırma",
@@ -187,6 +218,23 @@
     "24hour": "24 saat",
     "english": "English",
     "turkish": "Türkçe"
+  },
+  "actions": {
+    "loading": "Yükleniyor...",
+    "save": "Kaydet",
+    "cancel": "İptal",
+    "delete": "Sil",
+    "edit": "Düzenle",
+    "view": "Görüntüle",
+    "add": "Ekle",
+    "search": "Ara",
+    "filter": "Filtrele",
+    "actions": "İşlemler",
+    "submit": "Gönder",
+    "close": "Kapat",
+    "back": "Geri",
+    "next": "İleri",
+    "previous": "Önceki"
   },
   "common": {
     "loading": "Yükleniyor...",
