@@ -69,7 +69,7 @@ export const InvoiceDetails: React.FC<InvoiceDetailsProps> = ({
                   invoice.status === "pending" ? "bg-lavender-100 text-lavender-800 hover:bg-lavender-200" :
                   "bg-red-100 text-red-800 hover:bg-red-200"
                 }>
-                  {t(`billing.status.${invoice.status}`)}
+                  {t(`billing.statuses.${invoice.status}`)}
                 </Badge>
               </div>
             </div>

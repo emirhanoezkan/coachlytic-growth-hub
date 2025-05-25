@@ -96,7 +96,8 @@
         "active_clients": "Active Clients",
         "completed": "Completed",
         "inactive": "Inactive",
-        "at_risk": "At Risk"
+        "at_risk": "At Risk",
+        "progress": "Progress"
       },
       "clientHealth": {
         "highPerformers": "High Performers",
@@ -145,7 +146,13 @@
           "executive": "Executive Coaching"
         },
         "success": "Success",
-        "clientAdded": "Client added successfully"
+        "clientAdded": "Client added successfully",
+        "viewProfile": "View Profile",
+        "noteCannotBeEmpty": "Note cannot be empty",
+        "noteAdded": "Note Added",
+        "noteAddedSuccess": "Note added successfully",
+        "addNoteDescription": "Add a note to this client",
+        "progress": "Progress"
       },
       "programs": {
         "title": "Programs",
@@ -206,6 +213,7 @@
         "addNotes": "Add Notes",
         "loading": "Loading sessions...",
         "noSessionsFound": "No sessions found",
+        "next": "Next Session",
         "location": {
           "online": "Online",
           "in-person": "In-Person",
@@ -350,8 +358,8 @@
         "downloadPDF": "Download PDF",
         "markAsPaid": "Mark as Paid",
         "sendReminder": "Send Reminder",
-        "status": "Billing Status",
-        "status": {
+        "selectStatus": "Select status",
+        "statuses": {
           "paid": "Paid",
           "pending": "Pending",
           "overdue": "Overdue"

@@ -96,7 +96,8 @@
         "active_clients": "Aktif Müşteriler",
         "completed": "Tamamlanan",
         "inactive": "Pasif",
-        "at_risk": "Risk Altında"
+        "at_risk": "Risk Altında",
+        "progress": "İlerleme"
       },
       "clientHealth": {
         "highPerformers": "Yüksek Performans Gösterenler",
@@ -145,7 +146,13 @@
           "executive": "Yönetici Koçluğu"
         },
         "success": "Başarılı",
-        "clientAdded": "Müşteri başarıyla eklendi"
+        "clientAdded": "Müşteri başarıyla eklendi",
+        "viewProfile": "Profili Görüntüle",
+        "noteCannotBeEmpty": "Not boş olamaz",
+        "noteAdded": "Not Eklendi",
+        "noteAddedSuccess": "Not başarıyla eklendi",
+        "addNoteDescription": "Bu müşteriye bir not ekleyin",
+        "progress": "İlerleme"
       },
       "programs": {
         "title": "Programlar",
@@ -206,6 +213,7 @@
         "addNotes": "Not Ekle",
         "loading": "Oturumlar yükleniyor...",
         "noSessionsFound": "Oturum bulunamadı",
+        "next": "Sonraki Oturum",
         "location": {
           "online": "Çevrimiçi",
           "in-person": "Yüz Yüze",
@@ -350,8 +358,8 @@
         "downloadPDF": "PDF İndir",
         "markAsPaid": "Ödenmiş Olarak İşaretle",
         "sendReminder": "Hatırlatıcı Gönder",
-        "status": "Fatura Durumu",
-        "status": {
+        "selectStatus": "Durum seçin",
+        "statuses": {
           "paid": "Ödendi",
           "pending": "Beklemede",
           "overdue": "Gecikmiş"

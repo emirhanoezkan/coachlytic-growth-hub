@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -122,9 +121,9 @@ export const InvoiceForm: React.FC<InvoiceFormProps> = ({ onSubmit, initialData 
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
-                  <SelectItem value="pending">{t('billing.status.pending')}</SelectItem>
-                  <SelectItem value="paid">{t('billing.status.paid')}</SelectItem>
-                  <SelectItem value="overdue">{t('billing.status.overdue')}</SelectItem>
+                  <SelectItem value="pending">{t('billing.statuses.pending')}</SelectItem>
+                  <SelectItem value="paid">{t('billing.statuses.paid')}</SelectItem>
+                  <SelectItem value="overdue">{t('billing.statuses.overdue')}</SelectItem>
                 </SelectGroup>
               </SelectContent>
             </Select>
