@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { useAddClient, ClientFormData } from "@/services/clientsService";
+import { usePrograms } from "@/services/programsService";
 import { useForm } from "react-hook-form";
 import { useLanguage } from "@/contexts/LanguageContext";
 
@@ -26,6 +27,7 @@ export const ClientForm: React.FC<ClientFormProps> = ({ onSubmit, initialData })
   const { t } = useLanguage();
   const { toast } = useToast();
   const { mutate: addClient, isPending } = useAddClient();
+  const { data: programs = [], isLoading: programsLoading } = usePrograms();
   
   const { register, handleSubmit, setValue, watch } = useForm<ClientFormData>({
     defaultValues: initialData || {
@@ -89,16 +91,24 @@ export const ClientForm: React.FC<ClientFormProps> = ({ onSubmit, initialData })
           <Select 
             value={selectedProgram} 
             onValueChange={(value) => setValue('program', value)}
+            disabled={programsLoading}
           >
             <SelectTrigger id="program">
-              <SelectValue placeholder={`${t('client.selectProgram')}...`} />
+              <SelectValue placeholder={programsLoading ? t('action.loading') : `${t('client.selectProgram')}...`} />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
-                <SelectItem value="Career Development">{t('client.programs.career')}</SelectItem>
-                <SelectItem value="Business Strategy">{t('client.programs.business')}</SelectItem>
-                <SelectItem value="Life Coaching">{t('client.programs.life')}</SelectItem>
-                <SelectItem value="Executive Coaching">{t('client.programs.executive')}</SelectItem>
+                {programs.length === 0 && !programsLoading ? (
+                  <SelectItem value="" disabled>
+                    {t('programs.noPrograms')}
+                  </SelectItem>
+                ) : (
+                  programs.map((program) => (
+                    <SelectItem key={program.id} value={program.name}>
+                      {program.name}
+                    </SelectItem>
+                  ))
+                )}
               </SelectGroup>
             </SelectContent>
           </Select>
