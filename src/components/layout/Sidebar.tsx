@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useLocation } from "react-router-dom";
 import { 
@@ -24,7 +23,7 @@ export function Sidebar() {
   const routes = [
     {
       label: t('app.dashboard'),
-      href: "/",
+      href: "/dashboard",
       icon: <Home className="h-5 w-5 text-neutral-700 dark:text-neutral-200 flex-shrink-0" />,
     },
     {

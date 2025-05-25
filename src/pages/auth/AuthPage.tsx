@@ -14,11 +14,11 @@ export default function AuthPage() {
   const { user, loading } = useAuth();
   const { t } = useLanguage();
   
-  // Redirect to home if already authenticated - with improved condition to avoid infinite loops
+  // Redirect to dashboard if already authenticated
   useEffect(() => {
     if (user && !loading) {
-      console.log("User already authenticated, redirecting to home");
-      navigate("/", { replace: true });
+      console.log("User already authenticated, redirecting to dashboard");
+      navigate("/dashboard", { replace: true });
     }
   }, [user, loading, navigate]);
 
