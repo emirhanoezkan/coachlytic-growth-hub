@@ -51,7 +51,7 @@ import { useTimeFormat } from "@/contexts/TimeFormatContext";
 const ClientProfilePage = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const { toast } = useToast();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("overview");
@@ -77,6 +77,13 @@ const ClientProfilePage = () => {
   const clientSessions = sessions.filter(
     session => session.client_id === id
   );
+
+  // Currency formatting based on language
+  const formatCurrency = (amount: number) => {
+    return language === 'tr' 
+      ? `₺${amount.toLocaleString('tr-TR')}` 
+      : `$${amount.toLocaleString('en-US')}`;
+  };
 
   if (isLoading) {
     return (
@@ -106,7 +113,7 @@ const ClientProfilePage = () => {
             <main className="flex-1 overflow-auto p-6 bg-slate-50">
               <div className="max-w-7xl mx-auto flex items-center justify-center h-48">
                 <div className="text-red-500">
-                  Error loading client: {error?.message || "Client not found"}
+                  {t('error.title')}: {error?.message || t('client.noClientsFound')}
                 </div>
               </div>
             </main>
@@ -120,8 +127,8 @@ const ClientProfilePage = () => {
     if (!note.trim()) {
       toast({
         variant: "destructive",
-        title: "Note cannot be empty",
-        description: "Please enter a note before saving."
+        title: t('client.noteCannotBeEmpty'),
+        description: t('client.noteCannotBeEmpty')
       });
       return;
     }
@@ -141,8 +148,8 @@ const ClientProfilePage = () => {
         setNote("");
         setIsAddNoteDialogOpen(false);
         toast({
-          title: "Note added",
-          description: "The client note has been added successfully."
+          title: t('client.noteAdded'),
+          description: t('client.noteAddedSuccess')
         });
       }
     });
@@ -152,8 +159,8 @@ const ClientProfilePage = () => {
     if (!note.trim() || editingNoteIndex === null) {
       toast({
         variant: "destructive",
-        title: "Note cannot be empty",
-        description: "Please enter a note before saving."
+        title: t('client.noteCannotBeEmpty'),
+        description: t('client.noteCannotBeEmpty')
       });
       return;
     }
@@ -182,8 +189,8 @@ const ClientProfilePage = () => {
         setIsEditNoteDialogOpen(false);
         setEditingNoteIndex(null);
         toast({
-          title: "Note updated",
-          description: "The client note has been updated successfully."
+          title: t('client.noteUpdated'),
+          description: t('client.noteUpdatedSuccess')
         });
       }
     });
@@ -211,8 +218,8 @@ const ClientProfilePage = () => {
         setIsDeleteNoteDialogOpen(false);
         setEditingNoteIndex(null);
         toast({
-          title: "Note deleted",
-          description: "The client note has been deleted successfully."
+          title: t('client.noteDeleted'),
+          description: t('client.noteDeletedSuccess')
         });
       }
     });
@@ -286,7 +293,7 @@ const ClientProfilePage = () => {
                     onClick={() => navigate('/clients')}
                     className="h-9"
                   >
-                    Back to Clients
+                    {t('client.backToClients')}
                   </Button>
                 </div>
                 <div className="flex gap-2">
@@ -297,7 +304,7 @@ const ClientProfilePage = () => {
                     className="h-9"
                   >
                     <Calendar className="h-4 w-4 mr-2" />
-                    Schedule Session
+                    {t('client.scheduleSession')}
                   </Button>
                   <Button 
                     onClick={() => setIsAddNoteDialogOpen(true)} 
@@ -305,7 +312,7 @@ const ClientProfilePage = () => {
                     className="bg-forest-500 hover:bg-forest-600 h-9"
                   >
                     <Plus className="h-4 w-4 mr-2" />
-                    Add Note
+                    {t('client.addNote')}
                   </Button>
                 </div>
               </div>
@@ -314,7 +321,7 @@ const ClientProfilePage = () => {
                 <Card className="md:col-span-1">
                   <CardHeader className="pb-2">
                     <div className="flex items-center justify-between">
-                      <CardTitle>Client Profile</CardTitle>
+                      <CardTitle>{t('client.profile')}</CardTitle>
                     </div>
                   </CardHeader>
                   <CardContent>
@@ -336,48 +343,48 @@ const ClientProfilePage = () => {
                       <div className="flex items-start">
                         <Mail className="h-5 w-5 text-gray-500 mr-3 mt-0.5" />
                         <div>
-                          <p className="text-sm text-gray-500">Email</p>
-                          <p>{client.email || "Not provided"}</p>
+                          <p className="text-sm text-gray-500">{t('client.email')}</p>
+                          <p>{client.email || t('client.notProvided')}</p>
                         </div>
                       </div>
                       
                       <div className="flex items-start">
                         <Phone className="h-5 w-5 text-gray-500 mr-3 mt-0.5" />
                         <div>
-                          <p className="text-sm text-gray-500">Phone</p>
-                          <p>{client.phone || "Not provided"}</p>
+                          <p className="text-sm text-gray-500">{t('client.phone')}</p>
+                          <p>{client.phone || t('client.notProvided')}</p>
                         </div>
                       </div>
                       
                       <div className="flex items-start">
                         <FileText className="h-5 w-5 text-gray-500 mr-3 mt-0.5" />
                         <div>
-                          <p className="text-sm text-gray-500">Program</p>
-                          <p>{client.program || "Not assigned"}</p>
+                          <p className="text-sm text-gray-500">{t('client.program')}</p>
+                          <p>{client.program || t('client.notAssigned')}</p>
                         </div>
                       </div>
                       
                       <div className="flex items-start">
                         <Calendar className="h-5 w-5 text-gray-500 mr-3 mt-0.5" />
                         <div>
-                          <p className="text-sm text-gray-500">Next Session</p>
-                          <p>{formatDate(client.next_session) || "Not scheduled"}</p>
+                          <p className="text-sm text-gray-500">{t('sessions.next')}</p>
+                          <p>{formatDate(client.next_session) || t('client.notScheduled')}</p>
                         </div>
                       </div>
                       
                       <div className="flex items-start">
                         <Clock className="h-5 w-5 text-gray-500 mr-3 mt-0.5" />
                         <div>
-                          <p className="text-sm text-gray-500">Joined</p>
+                          <p className="text-sm text-gray-500">{t('client.joined')}</p>
                           <p>{formatDate(client.created_at)}</p>
                         </div>
                       </div>
                     </div>
                     
                     <div className="mt-6 pt-6 border-t">
-                      <p className="text-sm font-medium mb-2">Progress</p>
+                      <p className="text-sm font-medium mb-2">{t('client.progress')}</p>
                       <div className="flex items-center justify-between mb-1">
-                        <span className="text-xs font-medium">{client.progress}% Complete</span>
+                        <span className="text-xs font-medium">{client.progress}% {t('client.complete')}</span>
                       </div>
                       <Progress value={client.progress} className={
                         client.progress >= 75 ? "bg-forest-500" :
@@ -393,9 +400,9 @@ const ClientProfilePage = () => {
                   <CardHeader className="pb-2 border-b">
                     <Tabs value={activeTab} onValueChange={setActiveTab}>
                       <TabsList>
-                        <TabsTrigger value="overview">Overview</TabsTrigger>
-                        <TabsTrigger value="sessions">Sessions</TabsTrigger>
-                        <TabsTrigger value="notes">Notes</TabsTrigger>
+                        <TabsTrigger value="overview">{t('client.overview')}</TabsTrigger>
+                        <TabsTrigger value="sessions">{t('sessions.title')}</TabsTrigger>
+                        <TabsTrigger value="notes">{t('client.notes')}</TabsTrigger>
                       </TabsList>
                     </Tabs>
                   </CardHeader>
@@ -404,25 +411,25 @@ const ClientProfilePage = () => {
                       <TabsContent value="overview" className="mt-0">
                         <div className="space-y-6">
                           <div>
-                            <h3 className="text-lg font-medium mb-2">Client Summary</h3>
+                            <h3 className="text-lg font-medium mb-2">{t('client.clientSummary')}</h3>
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                               <div className="bg-gray-50 border rounded-lg p-4">
-                                <p className="text-sm text-gray-500">Total Sessions</p>
+                                <p className="text-sm text-gray-500">{t('client.totalSessions')}</p>
                                 <p className="text-2xl font-semibold">{client.sessions}</p>
                               </div>
                               <div className="bg-gray-50 border rounded-lg p-4">
-                                <p className="text-sm text-gray-500">Program Progress</p>
+                                <p className="text-sm text-gray-500">{t('client.programProgress')}</p>
                                 <p className="text-2xl font-semibold">{client.progress}%</p>
                               </div>
                               <div className="bg-gray-50 border rounded-lg p-4">
-                                <p className="text-sm text-gray-500">Client Since</p>
+                                <p className="text-sm text-gray-500">{t('client.clientSince')}</p>
                                 <p className="text-lg font-semibold">{formatDate(client.created_at)}</p>
                               </div>
                             </div>
                           </div>
                           
                           <div>
-                            <h3 className="text-lg font-medium mb-2">Upcoming Sessions</h3>
+                            <h3 className="text-lg font-medium mb-2">{t('client.upcomingSessions')}</h3>
                             {clientSessions.filter(s => new Date(s.date) >= new Date()).length > 0 ? (
                               <div className="space-y-3">
                                 {clientSessions
@@ -435,7 +442,7 @@ const ClientProfilePage = () => {
                                         <div>
                                           <p className="font-medium">{session.title}</p>
                                           <p className="text-sm text-gray-500">
-                                            {format(new Date(session.date), 'MMM dd, yyyy - HH:mm')} · {session.duration} min
+                                            {format(new Date(session.date), 'MMM dd, yyyy - HH:mm')} · {session.duration} {t('client.min')}
                                           </p>
                                         </div>
                                         <Badge className={
@@ -450,12 +457,12 @@ const ClientProfilePage = () => {
                                   ))}
                               </div>
                             ) : (
-                              <p className="text-gray-500">No upcoming sessions scheduled</p>
+                              <p className="text-gray-500">{t('client.noUpcomingSessionsScheduled')}</p>
                             )}
                           </div>
                           
                           <div>
-                            <h3 className="text-lg font-medium mb-2">Recent Notes</h3>
+                            <h3 className="text-lg font-medium mb-2">{t('client.recentNotes')}</h3>
                             {clientNotes.length > 0 ? (
                               <div className="space-y-3">
                                 {clientNotes.slice(0, 3).map((note, index) => (
@@ -470,12 +477,12 @@ const ClientProfilePage = () => {
                                     onClick={() => setActiveTab("notes")}
                                     className="text-forest-600 hover:text-forest-700"
                                   >
-                                    View all notes
+                                    {t('client.viewAllNotes')}
                                   </Button>
                                 )}
                               </div>
                             ) : (
-                              <p className="text-gray-500">No notes added yet</p>
+                              <p className="text-gray-500">{t('client.noNotesAdded')}</p>
                             )}
                           </div>
                         </div>
@@ -483,14 +490,14 @@ const ClientProfilePage = () => {
                       
                       <TabsContent value="sessions" className="mt-0">
                         <div className="flex justify-between items-center mb-4">
-                          <h3 className="text-lg font-medium">Session History</h3>
+                          <h3 className="text-lg font-medium">{t('client.sessionHistory')}</h3>
                           <Button 
                             size="sm" 
                             onClick={() => setIsAddSessionDialogOpen(true)} 
                             className="bg-forest-500 hover:bg-forest-600"
                           >
                             <Plus className="h-4 w-4 mr-2" />
-                            Schedule Session
+                            {t('client.scheduleSession')}
                           </Button>
                         </div>
                         
@@ -513,7 +520,7 @@ const ClientProfilePage = () => {
                                         </Badge>
                                       </div>
                                       <p className="text-sm text-gray-500">
-                                        {format(new Date(session.date), 'MMM dd, yyyy')} - {formatTime(new Date(session.date))} · {session.duration} min · {session.location_type.charAt(0).toUpperCase() + session.location_type.slice(1)}
+                                        {format(new Date(session.date), 'MMM dd, yyyy')} - {formatTime(new Date(session.date))} · {session.duration} {t('client.min')} · {session.location_type.charAt(0).toUpperCase() + session.location_type.slice(1)}
                                       </p>
                                     </div>
                                     <div className="flex gap-1">
@@ -545,12 +552,12 @@ const ClientProfilePage = () => {
                           </div>
                         ) : (
                           <div className="text-center py-8">
-                            <p className="text-gray-500">No sessions found for this client</p>
+                            <p className="text-gray-500">{t('client.noSessionsForClient')}</p>
                             <Button 
                               onClick={() => setIsAddSessionDialogOpen(true)} 
                               className="mt-4 bg-forest-500 hover:bg-forest-600"
                             >
-                              Schedule First Session
+                              {t('client.scheduleFirstSession')}
                             </Button>
                           </div>
                         )}
@@ -558,14 +565,14 @@ const ClientProfilePage = () => {
                       
                       <TabsContent value="notes" className="mt-0">
                         <div className="flex justify-between items-center mb-4">
-                          <h3 className="text-lg font-medium">Client Notes</h3>
+                          <h3 className="text-lg font-medium">{t('client.clientNotes')}</h3>
                           <Button 
                             size="sm" 
                             onClick={() => setIsAddNoteDialogOpen(true)} 
                             className="bg-forest-500 hover:bg-forest-600"
                           >
                             <Plus className="h-4 w-4 mr-2" />
-                            Add Note
+                            {t('client.addNote')}
                           </Button>
                         </div>
                         
@@ -607,12 +614,12 @@ const ClientProfilePage = () => {
                           </div>
                         ) : (
                           <div className="text-center py-8">
-                            <p className="text-gray-500">No notes added yet</p>
+                            <p className="text-gray-500">{t('client.noNotesAdded')}</p>
                             <Button 
                               onClick={() => setIsAddNoteDialogOpen(true)} 
                               className="mt-4 bg-forest-500 hover:bg-forest-600"
                             >
-                              Add First Note
+                              {t('client.addFirstNote')}
                             </Button>
                           </div>
                         )}
@@ -630,22 +637,22 @@ const ClientProfilePage = () => {
       <Dialog open={isAddNoteDialogOpen} onOpenChange={setIsAddNoteDialogOpen}>
         <DialogContent className="sm:max-w-[500px]">
           <DialogHeader>
-            <DialogTitle>Add Note</DialogTitle>
+            <DialogTitle>{t('client.addNote')}</DialogTitle>
             <DialogDescription>
-              Add a note about {client.name}. Notes help track client progress and important information.
+              {t('client.addNoteAbout').replace('{name}', client.name)}
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-4">
             <Textarea 
               value={note} 
               onChange={(e) => setNote(e.target.value)} 
-              placeholder="Write your note here..." 
+              placeholder={t('client.notesPlaceholder')}
               className="min-h-[150px]"
             />
             <div className="flex justify-end gap-2">
-              <Button variant="outline" onClick={() => setIsAddNoteDialogOpen(false)}>Cancel</Button>
+              <Button variant="outline" onClick={() => setIsAddNoteDialogOpen(false)}>{t('action.cancel')}</Button>
               <Button onClick={handleAddNote} className="bg-forest-500 hover:bg-forest-600">
-                Save Note
+                {t('client.saveNote')}
               </Button>
             </div>
           </div>
@@ -656,22 +663,22 @@ const ClientProfilePage = () => {
       <Dialog open={isEditNoteDialogOpen} onOpenChange={setIsEditNoteDialogOpen}>
         <DialogContent className="sm:max-w-[500px]">
           <DialogHeader>
-            <DialogTitle>Edit Note</DialogTitle>
+            <DialogTitle>{t('client.editNote')}</DialogTitle>
             <DialogDescription>
-              Edit your note about {client.name}.
+              {t('client.editNoteAbout').replace('{name}', client.name)}
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-4">
             <Textarea 
               value={note} 
               onChange={(e) => setNote(e.target.value)} 
-              placeholder="Edit your note here..." 
+              placeholder={t('client.notesPlaceholder')}
               className="min-h-[150px]"
             />
             <div className="flex justify-end gap-2">
-              <Button variant="outline" onClick={() => setIsEditNoteDialogOpen(false)}>Cancel</Button>
+              <Button variant="outline" onClick={() => setIsEditNoteDialogOpen(false)}>{t('action.cancel')}</Button>
               <Button onClick={handleEditNote} className="bg-forest-500 hover:bg-forest-600">
-                Update Note
+                {t('client.updateNote')}
               </Button>
             </div>
           </div>
@@ -682,18 +689,18 @@ const ClientProfilePage = () => {
       <AlertDialog open={isDeleteNoteDialogOpen} onOpenChange={setIsDeleteNoteDialogOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+            <AlertDialogTitle>{t('sessions.confirmDelete.title')}</AlertDialogTitle>
             <AlertDialogDescription>
-              This will permanently delete this note and cannot be undone.
+              {t('sessions.confirmDelete.description')}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel onClick={() => setEditingNoteIndex(null)}>Cancel</AlertDialogCancel>
+            <AlertDialogCancel onClick={() => setEditingNoteIndex(null)}>{t('sessions.confirmDelete.cancel')}</AlertDialogCancel>
             <AlertDialogAction 
               onClick={handleDeleteNote}
               className="bg-red-500 hover:bg-red-600"
             >
-              Delete
+              {t('sessions.confirmDelete.confirm')}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
@@ -703,9 +710,9 @@ const ClientProfilePage = () => {
       <Dialog open={isAddSessionDialogOpen} onOpenChange={setIsAddSessionDialogOpen}>
         <DialogContent className="sm:max-w-[500px]">
           <DialogHeader>
-            <DialogTitle>Schedule a Session</DialogTitle>
+            <DialogTitle>{t('client.scheduleSession')}</DialogTitle>
             <DialogDescription>
-              Schedule a new session with {client.name}.
+              {t('client.scheduleSessionWith').replace('{name}', client.name)}
             </DialogDescription>
           </DialogHeader>
           <SessionForm 
@@ -719,9 +726,9 @@ const ClientProfilePage = () => {
       <Dialog open={isEditSessionDialogOpen} onOpenChange={setIsEditSessionDialogOpen}>
         <DialogContent className="sm:max-w-[500px]">
           <DialogHeader>
-            <DialogTitle>Edit Session</DialogTitle>
+            <DialogTitle>{t('sessions.editSession')}</DialogTitle>
             <DialogDescription>
-              Edit session details for {client.name}.
+              {t('client.editSessionFor').replace('{name}', client.name)}
             </DialogDescription>
           </DialogHeader>
           {sessionToEdit && (
@@ -741,18 +748,18 @@ const ClientProfilePage = () => {
       <AlertDialog open={isDeleteSessionDialogOpen} onOpenChange={setIsDeleteSessionDialogOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+            <AlertDialogTitle>{t('sessions.confirmDelete.title')}</AlertDialogTitle>
             <AlertDialogDescription>
-              This will permanently delete this session and cannot be undone.
+              {t('sessions.confirmDelete.description')}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel onClick={() => setDeletingSessionId(null)}>Cancel</AlertDialogCancel>
+            <AlertDialogCancel onClick={() => setDeletingSessionId(null)}>{t('sessions.confirmDelete.cancel')}</AlertDialogCancel>
             <AlertDialogAction 
               onClick={confirmDeleteSession}
               className="bg-red-500 hover:bg-red-600"
             >
-              Delete
+              {t('sessions.confirmDelete.confirm')}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
