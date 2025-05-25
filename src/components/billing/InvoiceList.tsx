@@ -14,77 +14,74 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { MoreHorizontal, FileText, Trash2 } from "lucide-react";
+import { MoreHorizontal, FileText } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { InvoiceDetails } from "./InvoiceDetails";
-import { useInvoices, useDeleteInvoice, useUpdateInvoice } from "@/services/invoicesService";
-import { format } from "date-fns";
+
+// Sample data for invoices
+const invoices = [
+  {
+    id: "INV-001",
+    client: "Sarah Johnson",
+    date: "May 01, 2025",
+    amount: "$450.00",
+    status: "paid",
+    dueDate: "May 15, 2025"
+  },
+  {
+    id: "INV-002",
+    client: "Michael Chen",
+    date: "May 05, 2025",
+    amount: "$800.00",
+    status: "pending",
+    dueDate: "May 20, 2025"
+  },
+  {
+    id: "INV-003",
+    client: "Emma Davis",
+    date: "Apr 28, 2025",
+    amount: "$600.00",
+    status: "paid",
+    dueDate: "May 12, 2025"
+  },
+  {
+    id: "INV-004",
+    client: "Robert Wilson",
+    date: "Apr 15, 2025",
+    amount: "$1,200.00",
+    status: "overdue",
+    dueDate: "Apr 30, 2025"
+  },
+  {
+    id: "INV-005",
+    client: "Jennifer Lopez",
+    date: "May 10, 2025",
+    amount: "$450.00",
+    status: "pending",
+    dueDate: "May 25, 2025"
+  }
+];
 
 export const InvoiceList: React.FC = () => {
   const { t } = useLanguage();
-  const { data: invoices = [], isLoading } = useInvoices();
-  const deleteInvoiceMutation = useDeleteInvoice();
-  const updateInvoiceMutation = useUpdateInvoice();
-  
-  const [selectedInvoice, setSelectedInvoice] = useState<any>(null);
+  const [invoiceData, setInvoiceData] = useState(invoices);
+  const [selectedInvoice, setSelectedInvoice] = useState<(typeof invoices)[0] | null>(null);
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
-  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-  const [invoiceToDelete, setInvoiceToDelete] = useState<string | null>(null);
   
-  const handleViewInvoice = (invoice: any) => {
+  const handleViewInvoice = (invoice: typeof invoices[0]) => {
     setSelectedInvoice(invoice);
     setIsDetailsOpen(true);
   };
   
   const handleStatusChange = (invoiceId: string, newStatus: string) => {
-    updateInvoiceMutation.mutate({
-      id: invoiceId,
-      invoiceData: { status: newStatus }
-    });
-  };
-
-  const handleDeleteClick = (invoiceId: string) => {
-    setInvoiceToDelete(invoiceId);
-    setDeleteDialogOpen(true);
-  };
-
-  const confirmDelete = () => {
-    if (invoiceToDelete) {
-      deleteInvoiceMutation.mutate(invoiceToDelete);
-      setDeleteDialogOpen(false);
-      setInvoiceToDelete(null);
-    }
-  };
-
-  if (isLoading) {
-    return (
-      <div className="bg-white rounded-md border shadow-sm p-8 text-center">
-        <p className="text-gray-500">{t('common.loading')}</p>
-      </div>
+    setInvoiceData(prevInvoices => 
+      prevInvoices.map(invoice => 
+        invoice.id === invoiceId ? { ...invoice, status: newStatus } : invoice
+      )
     );
-  }
-
-  if (invoices.length === 0) {
-    return (
-      <div className="bg-white rounded-md border shadow-sm p-8 text-center">
-        <FileText className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-        <p className="text-gray-500 mb-2">{t('billing.noInvoices')}</p>
-        <p className="text-sm text-gray-400">{t('billing.createFirstInvoice')}</p>
-      </div>
-    );
-  }
+  };
   
   return (
     <>
@@ -102,18 +99,16 @@ export const InvoiceList: React.FC = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {invoices.map((invoice) => (
+            {invoiceData.map((invoice) => (
               <TableRow key={invoice.id}>
                 <TableCell className="font-medium flex items-center gap-2">
                   <FileText className="h-4 w-4 text-gray-500" />
-                  INV-{invoice.id.slice(-6).toUpperCase()}
+                  {invoice.id}
                 </TableCell>
-                <TableCell>{invoice.clients?.name || 'Unknown Client'}</TableCell>
-                <TableCell>{format(new Date(invoice.issue_date), 'MMM dd, yyyy')}</TableCell>
-                <TableCell>
-                  {invoice.due_date ? format(new Date(invoice.due_date), 'MMM dd, yyyy') : '-'}
-                </TableCell>
-                <TableCell>${invoice.amount.toFixed(2)}</TableCell>
+                <TableCell>{invoice.client}</TableCell>
+                <TableCell>{invoice.date}</TableCell>
+                <TableCell>{invoice.dueDate}</TableCell>
+                <TableCell>{invoice.amount}</TableCell>
                 <TableCell>
                   <Badge className={
                     invoice.status === "paid" ? "bg-forest-100 text-forest-800 hover:bg-forest-200" :
@@ -139,13 +134,6 @@ export const InvoiceList: React.FC = () => {
                           {t('billing.markAsPaid')}
                         </DropdownMenuItem>
                       )}
-                      <DropdownMenuItem 
-                        onClick={() => handleDeleteClick(invoice.id)}
-                        className="text-red-600 hover:text-red-700"
-                      >
-                        <Trash2 className="h-4 w-4 mr-2" />
-                        {t('billing.deleteInvoice')}
-                      </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </TableCell>
@@ -160,25 +148,7 @@ export const InvoiceList: React.FC = () => {
         open={isDetailsOpen} 
         onOpenChange={setIsDetailsOpen}
         onStatusChange={handleStatusChange}
-        onDelete={handleDeleteClick}
       />
-
-      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>{t('billing.deleteConfirm')}</AlertDialogTitle>
-            <AlertDialogDescription>
-              {t('billing.deleteWarning')}
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>{t('common.cancel')}</AlertDialogCancel>
-            <AlertDialogAction onClick={confirmDelete} className="bg-red-600 hover:bg-red-700">
-              {t('common.delete')}
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
     </>
   );
 };
