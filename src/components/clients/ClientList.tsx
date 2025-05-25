@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { 
   Card, 
@@ -45,7 +44,9 @@ export const ClientList: React.FC = () => {
   const { t } = useLanguage();
   const [isAddSessionDialogOpen, setIsAddSessionDialogOpen] = useState(false);
   const [isAddNoteDialogOpen, setIsAddNoteDialogOpen] = useState(false);
+  const [isEditClientDialogOpen, setIsEditClientDialogOpen] = useState(false);
   const [selectedClientId, setSelectedClientId] = useState<string | null>(null);
+  const [selectedClient, setSelectedClient] = useState<Client | null>(null);
   const [note, setNote] = useState("");
   const [filterOptions, setFilterOptions] = useState<FilterOptions>({});
   const updateClient = useUpdateClient();
@@ -100,6 +101,11 @@ export const ClientList: React.FC = () => {
     setSelectedClientId(clientId);
     setIsAddNoteDialogOpen(true);
     setNote("");
+  };
+
+  const handleEditClient = (client: Client) => {
+    setSelectedClient(client);
+    setIsEditClientDialogOpen(true);
   };
 
   const handleSaveNote = () => {
@@ -256,6 +262,9 @@ export const ClientList: React.FC = () => {
                           <DropdownMenuItem onClick={() => handleViewProfile(client.id)}>
                             {t('client.viewProfile')}
                           </DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => handleEditClient(client)}>
+                            {t('client.edit')}
+                          </DropdownMenuItem>
                           <DropdownMenuItem onClick={() => handleScheduleSession(client.id)}>
                             {t('sessions.schedule')}
                           </DropdownMenuItem>
@@ -309,6 +318,21 @@ export const ClientList: React.FC = () => {
               </Button>
             </div>
           </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Edit Client Dialog */}
+      <Dialog open={isEditClientDialogOpen} onOpenChange={setIsEditClientDialogOpen}>
+        <DialogContent className="sm:max-w-[500px]">
+          <DialogHeader>
+            <DialogTitle>{t('client.edit')}</DialogTitle>
+          </DialogHeader>
+          {selectedClient && (
+            <EditClientForm 
+              client={selectedClient}
+              onSubmit={() => setIsEditClientDialogOpen(false)} 
+            />
+          )}
         </DialogContent>
       </Dialog>
     </Card>
