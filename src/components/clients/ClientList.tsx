@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { 
   Card, 
@@ -30,6 +31,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { SessionForm } from "@/components/sessions/SessionForm";
 import { ClientForm } from "@/components/clients/ClientForm";
+import { EditClientForm } from "@/components/clients/EditClientForm";
 import { useToast } from "@/hooks/use-toast";
 import { Textarea } from "@/components/ui/textarea";
 import { useUpdateClient } from "@/services/clientsService";
