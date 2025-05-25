@@ -1,4 +1,3 @@
-
 {
       "app": {
         "name": "Coachlytic",
@@ -204,7 +203,7 @@
         "update": "Oturumu Güncelle",
         "updating": "Güncelleniyor...",
         "cancel": "İptal",
-        "status": "Durum",
+        "statusLabel": "Durum",
         "selectStatus": "Durum seçin",
         "pickDate": "Bir tarih ve saat seçin",
         "editSession": "Oturumu Düzenle",
@@ -351,7 +350,7 @@
         "invoiceCreated": "Fatura başarıyla oluşturuldu",
         "statusUpdated": "Durum Güncellendi",
         "invoiceMarkedAsPaid": "Fatura ödenmiş olarak işaretlendi",
-        "status": "Durum",
+        "statusLabel": "Durum",
         "invoice": "Fatura",
         "issueDate": "Düzenleme Tarihi",
         "viewInvoice": "Faturayı Görüntüle",

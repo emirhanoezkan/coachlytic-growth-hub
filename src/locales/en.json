@@ -1,4 +1,3 @@
-
 {
       "app": {
         "name": "Coachlytic",
@@ -204,7 +203,7 @@
         "update": "Update Session",
         "updating": "Updating...",
         "cancel": "Cancel",
-        "status": "Status",
+        "statusLabel": "Status",
         "selectStatus": "Select status",
         "pickDate": "Pick a date and time",
         "editSession": "Edit Session",
@@ -351,7 +350,7 @@
         "invoiceCreated": "Invoice created successfully",
         "statusUpdated": "Status Updated",
         "invoiceMarkedAsPaid": "Invoice has been marked as paid",
-        "status": "Status",
+        "statusLabel": "Status",
         "invoice": "Invoice",
         "issueDate": "Issue Date",
         "viewInvoice": "View Invoice",

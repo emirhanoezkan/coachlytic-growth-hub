@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import {
   Table,
@@ -110,7 +109,7 @@ export const SessionList: React.FC = () => {
               <TableHead>{t('sessions.date')}</TableHead>
               <TableHead>{t('sessions.time')}</TableHead>
               <TableHead>{t('sessions.duration')}</TableHead>
-              <TableHead>{t('sessions.status')}</TableHead>
+              <TableHead>{t('sessions.statusLabel')}</TableHead>
               <TableHead></TableHead>
             </TableRow>
           </TableHeader>
