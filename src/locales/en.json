@@ -366,6 +366,7 @@
         "markAsPaid": "Mark as Paid",
         "sendReminder": "Send Reminder",
         "selectStatus": "Select status",
+        "noInvoices": "No invoices found",
         "statuses": {
           "paid": "Paid",
           "pending": "Pending",

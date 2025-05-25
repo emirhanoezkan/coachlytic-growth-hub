@@ -366,6 +366,7 @@
         "markAsPaid": "Ödenmiş Olarak İşaretle",
         "sendReminder": "Hatırlatıcı Gönder",
         "selectStatus": "Durum seçin",
+        "noInvoices": "Fatura bulunamadı",
         "statuses": {
           "paid": "Ödendi",
           "pending": "Beklemede",
