@@ -178,7 +178,8 @@
         "status": "Status",
         "category": "Category",
         "categoryPlaceholder": "Select category",
-        "sessions": "Sessions"
+        "sessions": "Sessions",
+        "noPrograms": "No programs found"
       },
       "sessions": {
         "title": "Sessions",

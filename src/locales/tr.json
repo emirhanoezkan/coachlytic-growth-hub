@@ -178,7 +178,8 @@
         "status": "Durum",
         "category": "Kategori",
         "categoryPlaceholder": "Kategori seçin",
-        "sessions": "Oturumlar"
+        "sessions": "Oturumlar",
+        "noPrograms": "Program bulunamadı"
       },
       "sessions": {
         "title": "Oturumlar",
