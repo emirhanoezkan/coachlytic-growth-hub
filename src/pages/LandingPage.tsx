@@ -51,9 +51,9 @@ const LandingPage = () => {
             <div className="relative">
               <div className="bg-white rounded-xl shadow-2xl overflow-hidden">
                 <img 
-                  src="/coaching-dashboard.jpg" 
-                  alt="Coachlytic Dashboard" 
-                  className="w-full object-cover"
+                  src="/lovable-uploads/41b3e6af-44c1-4f3d-b5bd-c985f7b47d14.png" 
+                  alt="Professional coaching session" 
+                  className="w-full h-[400px] object-cover"
                 />
               </div>
             </div>
