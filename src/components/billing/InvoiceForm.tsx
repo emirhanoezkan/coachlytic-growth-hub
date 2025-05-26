@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -22,6 +21,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { useClients } from "@/hooks/useClients";
 import { useInvoices, useDefaultTaxRate } from "@/hooks/useInvoices";
 import { CreateInvoiceData } from "@/services/invoicesService";
+import { formatCurrency, getCurrencySymbol } from "@/utils/currency";
 
 interface InvoiceFormProps {
   onSubmit: () => void;
@@ -35,7 +35,7 @@ interface InvoiceFormProps {
 }
 
 export const InvoiceForm: React.FC<InvoiceFormProps> = ({ onSubmit, initialData = {} }) => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const { clients, isLoading: isLoadingClients } = useClients();
   const { createInvoice, isCreating } = useInvoices();
   const { defaultTaxRate } = useDefaultTaxRate();
@@ -109,6 +109,8 @@ export const InvoiceForm: React.FC<InvoiceFormProps> = ({ onSubmit, initialData 
     displayTax = subtotal * (taxRate / 100);
     displayTotal = subtotal + displayTax;
   }
+
+  const currencySymbol = getCurrencySymbol(language);
 
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
@@ -253,7 +255,7 @@ export const InvoiceForm: React.FC<InvoiceFormProps> = ({ onSubmit, initialData 
                   />
                 </div>
                 <div className="col-span-3">
-                  <Label htmlFor={`item-rate-${index}`} className="text-xs">{t('billing.rate')}</Label>
+                  <Label htmlFor={`item-rate-${index}`} className="text-xs">{t('billing.rate')} ({currencySymbol})</Label>
                   <Input 
                     id={`item-rate-${index}`} 
                     type="number" 
@@ -284,15 +286,15 @@ export const InvoiceForm: React.FC<InvoiceFormProps> = ({ onSubmit, initialData 
           <div className="border-t pt-3 mt-4">
             <div className="flex justify-between text-sm">
               <span>{t('billing.subtotal')}</span>
-              <span>${displaySubtotal.toFixed(2)}</span>
+              <span>{formatCurrency(displaySubtotal, language)}</span>
             </div>
             <div className="flex justify-between text-sm mt-1">
               <span>{t('billing.tax')} ({taxRate}%)</span>
-              <span>${displayTax.toFixed(2)}</span>
+              <span>{formatCurrency(displayTax, language)}</span>
             </div>
             <div className="flex justify-between font-bold mt-2 text-lg">
               <span>{t('billing.total')}</span>
-              <span>${displayTotal.toFixed(2)}</span>
+              <span>{formatCurrency(displayTotal, language)}</span>
             </div>
           </div>
         </div>

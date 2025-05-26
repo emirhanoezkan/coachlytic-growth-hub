@@ -10,3 +10,11 @@ export const formatCurrency = (amount: number, language: 'en' | 'tr'): string =>
     maximumFractionDigits: 2,
   }).format(amount);
 };
+
+export const getCurrencySymbol = (language: 'en' | 'tr'): string => {
+  return language === 'tr' ? '₺' : '$';
+};
+
+export const getCurrencyPlaceholder = (language: 'en' | 'tr'): string => {
+  return language === 'tr' ? '₺0,00' : '$0.00';
+};

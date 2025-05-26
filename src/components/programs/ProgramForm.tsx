@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -7,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useAddProgram, useUpdateProgram, ProgramFormData } from "@/services/programsService";
 import { useForm } from "react-hook-form";
+import { getCurrencyPlaceholder, getCurrencySymbol } from "@/utils/currency";
 
 interface ProgramFormProps {
   onSubmit: () => void;
@@ -31,6 +31,9 @@ export const ProgramForm: React.FC<ProgramFormProps> = ({ onSubmit, initialData 
     }
   });
 
+  const currencySymbol = getCurrencySymbol(language);
+  const currencyPlaceholder = getCurrencyPlaceholder(language);
+
   const onFormSubmit = (data: ProgramFormData) => {
     if (isEditing && initialData?.id) {
       updateProgram({ id: initialData.id, programData: data }, {
@@ -45,10 +48,6 @@ export const ProgramForm: React.FC<ProgramFormProps> = ({ onSubmit, initialData 
         }
       });
     }
-  };
-
-  const getCurrencyPlaceholder = () => {
-    return language === 'tr' ? '₺0,00' : '$0.00';
   };
 
   return (
@@ -107,12 +106,12 @@ export const ProgramForm: React.FC<ProgramFormProps> = ({ onSubmit, initialData 
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="price">{t('programs.price')}</Label>
+          <Label htmlFor="price">{t('programs.price')} ({currencySymbol})</Label>
           <Input 
             id="price" 
             type="number" 
             step="0.01"
-            placeholder={getCurrencyPlaceholder()} 
+            placeholder={currencyPlaceholder} 
             {...register('price', { 
               valueAsNumber: true,
               min: 0

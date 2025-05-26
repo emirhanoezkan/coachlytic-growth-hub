@@ -32,9 +32,10 @@ import { InvoiceDetails } from "./InvoiceDetails";
 import { EditInvoiceDialog } from "./EditInvoiceDialog";
 import { useInvoices } from "@/hooks/useInvoices";
 import { format } from "date-fns";
+import { formatCurrency } from "@/utils/currency";
 
 export const InvoiceList: React.FC = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const { invoices, isLoading, updateStatus, deleteInvoice } = useInvoices();
   const [selectedInvoice, setSelectedInvoice] = useState<any>(null);
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
@@ -48,7 +49,7 @@ export const InvoiceList: React.FC = () => {
       id: invoice.id,
       client: invoice.client?.name || 'Unknown Client',
       date: format(new Date(invoice.issue_date), "MMM dd, yyyy"),
-      amount: `$${invoice.amount.toFixed(2)}`,
+      amount: formatCurrency(invoice.amount, language),
       status: invoice.status,
       dueDate: invoice.due_date ? format(new Date(invoice.due_date), "MMM dd, yyyy") : 'No due date',
     };
@@ -120,7 +121,7 @@ export const InvoiceList: React.FC = () => {
                   <TableCell>
                     {invoice.due_date ? format(new Date(invoice.due_date), "MMM dd, yyyy") : 'No due date'}
                   </TableCell>
-                  <TableCell>${invoice.amount.toFixed(2)}</TableCell>
+                  <TableCell>{formatCurrency(invoice.amount, language)}</TableCell>
                   <TableCell>
                     <Badge className={
                       invoice.status === "paid" ? "bg-forest-100 text-forest-800 hover:bg-forest-200" :

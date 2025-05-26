@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import {
   Dialog,
@@ -28,6 +27,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { useClients } from "@/hooks/useClients";
 import { useInvoices } from "@/hooks/useInvoices";
 import { UpdateInvoiceData } from "@/services/invoicesService";
+import { formatCurrency, getCurrencySymbol } from "@/utils/currency";
 
 interface EditInvoiceDialogProps {
   invoice: any;
@@ -40,7 +40,7 @@ export const EditInvoiceDialog: React.FC<EditInvoiceDialogProps> = ({
   open,
   onOpenChange
 }) => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const { clients, isLoading: isLoadingClients } = useClients();
   const { updateInvoice, isUpdating } = useInvoices();
   
@@ -120,6 +120,8 @@ export const EditInvoiceDialog: React.FC<EditInvoiceDialogProps> = ({
     displayTax = subtotal * (taxRate / 100);
     displayTotal = subtotal + displayTax;
   }
+
+  const currencySymbol = getCurrencySymbol(language);
 
   if (!invoice) return null;
 
@@ -265,7 +267,7 @@ export const EditInvoiceDialog: React.FC<EditInvoiceDialogProps> = ({
                     />
                   </div>
                   <div className="col-span-3">
-                    <Label className="text-xs">{t('billing.rate')}</Label>
+                    <Label className="text-xs">{t('billing.rate')} ({currencySymbol})</Label>
                     <Input 
                       type="number" 
                       min="0" 
@@ -295,15 +297,15 @@ export const EditInvoiceDialog: React.FC<EditInvoiceDialogProps> = ({
             <div className="border-t pt-3 mt-4">
               <div className="flex justify-between text-sm">
                 <span>{t('billing.subtotal')}</span>
-                <span>${displaySubtotal.toFixed(2)}</span>
+                <span>{formatCurrency(displaySubtotal, language)}</span>
               </div>
               <div className="flex justify-between text-sm mt-1">
                 <span>{t('billing.tax')} ({taxRate}%)</span>
-                <span>${displayTax.toFixed(2)}</span>
+                <span>{formatCurrency(displayTax, language)}</span>
               </div>
               <div className="flex justify-between font-bold mt-2 text-lg">
                 <span>{t('billing.total')}</span>
-                <span>${displayTotal.toFixed(2)}</span>
+                <span>{formatCurrency(displayTotal, language)}</span>
               </div>
             </div>
           </div>
