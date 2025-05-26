@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import {
   Card,
@@ -25,9 +24,10 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import { formatCurrency } from "@/utils/currency";
 
 export const ProgramList: React.FC = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const { data: programs = [], isLoading, error } = usePrograms();
   const { mutate: deleteProgram } = useDeleteProgram();
   
@@ -118,7 +118,7 @@ export const ProgramList: React.FC = () => {
                 </div>
                 <div className="flex items-center">
                   <DollarSign className="h-4 w-4 mr-2 text-gray-500" />
-                  <span>${program.price || "-"}</span>
+                  <span>{program.price ? formatCurrency(program.price, language) : "-"}</span>
                 </div>
               </div>
             </CardContent>
