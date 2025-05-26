@@ -99,7 +99,7 @@ export const ClientForm: React.FC<ClientFormProps> = ({ onSubmit, initialData })
             <SelectContent>
               <SelectGroup>
                 {programs.length === 0 && !programsLoading ? (
-                  <SelectItem value="" disabled>
+                  <SelectItem value="no-programs" disabled>
                     {t('programs.noPrograms')}
                   </SelectItem>
                 ) : (

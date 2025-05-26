@@ -73,7 +73,7 @@ export const InvoiceForm: React.FC<InvoiceFormProps> = ({ onSubmit, initialData 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!selectedClient) {
+    if (!selectedClient || selectedClient === 'no-clients') {
       return;
     }
 
@@ -122,9 +122,9 @@ export const InvoiceForm: React.FC<InvoiceFormProps> = ({ onSubmit, initialData 
             <SelectContent>
               <SelectGroup>
                 {isLoadingClients ? (
-                  <SelectItem value="" disabled>Loading clients...</SelectItem>
+                  <SelectItem value="loading" disabled>Loading clients...</SelectItem>
                 ) : clients.length === 0 ? (
-                  <SelectItem value="" disabled>No clients found</SelectItem>
+                  <SelectItem value="no-clients" disabled>No clients found</SelectItem>
                 ) : (
                   clients.map((client) => (
                     <SelectItem key={client.id} value={client.id}>
@@ -314,7 +314,7 @@ export const InvoiceForm: React.FC<InvoiceFormProps> = ({ onSubmit, initialData 
         <Button 
           type="submit" 
           className="bg-forest-500 hover:bg-forest-600"
-          disabled={isCreating || !selectedClient}
+          disabled={isCreating || !selectedClient || selectedClient === 'no-clients'}
         >
           {isCreating ? "Creating..." : t('billing.createInvoice')}
         </Button>
