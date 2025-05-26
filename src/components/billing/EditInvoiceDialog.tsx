@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import {
   Dialog,
@@ -205,7 +206,7 @@ export const EditInvoiceDialog: React.FC<EditInvoiceDialogProps> = ({
           <div className="space-y-4 border-t pt-4">
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <Label htmlFor="taxRate">Tax Rate (%)</Label>
+                <Label htmlFor="taxRate">{t('billing.taxRate')}</Label>
                 <Input
                   id="taxRate"
                   type="number"
@@ -224,7 +225,7 @@ export const EditInvoiceDialog: React.FC<EditInvoiceDialogProps> = ({
                     checked={includesTax}
                     onCheckedChange={setIncludesTax}
                   />
-                  <Label htmlFor="includesTax">Price includes tax</Label>
+                  <Label htmlFor="includesTax">{t('billing.priceIncludesTax')}</Label>
                 </div>
               </div>
             </div>

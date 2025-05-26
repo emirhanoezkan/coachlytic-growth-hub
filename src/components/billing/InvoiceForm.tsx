@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -187,7 +188,7 @@ export const InvoiceForm: React.FC<InvoiceFormProps> = ({ onSubmit, initialData 
         <div className="space-y-4 border-t pt-4">
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="taxRate">Tax Rate (%)</Label>
+              <Label htmlFor="taxRate">{t('billing.taxRate')}</Label>
               <Input
                 id="taxRate"
                 type="number"
@@ -206,10 +207,10 @@ export const InvoiceForm: React.FC<InvoiceFormProps> = ({ onSubmit, initialData 
                   checked={includesTax}
                   onCheckedChange={setIncludesTax}
                 />
-                <Label htmlFor="includesTax">Price includes tax</Label>
+                <Label htmlFor="includesTax">{t('billing.priceIncludesTax')}</Label>
               </div>
               <p className="text-xs text-gray-500 mt-1">
-                {includesTax ? "Tax is included in item prices" : "Tax will be added to item prices"}
+                {includesTax ? t('billing.taxIncludedInPrices') : t('billing.taxAddedToPrices')}
               </p>
             </div>
           </div>
