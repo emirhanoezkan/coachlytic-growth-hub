@@ -350,6 +350,14 @@
           "darkMode": "Dark Mode",
           "darkModeDesc": "Use dark theme for the application"
         },
+        "taxRate": {
+          "title": "Default Tax Rate",
+          "description": "Set your default tax rate for new invoices",
+          "label": "Tax Rate (%)",
+          "placeholder": "Enter tax rate",
+          "saveButton": "Save",
+          "helpText": "This will be the default tax rate when creating new invoices. You can still change it per invoice."
+        },
         "timeFormat": {
           "title": "Time Format",
           "description": "Choose how times are displayed throughout the application",
@@ -408,6 +416,8 @@
         "subtitle": "Manage invoices and payment information",
         "createInvoice": "Create Invoice",
         "newInvoice": "New Invoice",
+        "editInvoice": "Edit Invoice",
+        "deleteInvoice": "Delete Invoice",
         "client": "Client",
         "clientPlaceholder": "Select client",
         "selectClient": "Select client",
@@ -438,6 +448,8 @@
         "cancel": "Cancel",
         "success": "Success",
         "invoiceCreated": "Invoice created successfully",
+        "invoiceUpdated": "Invoice updated successfully",
+        "invoiceDeleted": "Invoice deleted successfully",
         "statusUpdated": "Status Updated",
         "invoiceMarkedAsPaid": "Invoice has been marked as paid",
         "statusLabel": "Status",

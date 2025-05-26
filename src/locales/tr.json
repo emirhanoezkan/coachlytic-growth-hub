@@ -350,6 +350,14 @@
           "darkMode": "Karanlık Mod",
           "darkModeDesc": "Uygulama için karanlık tema kullanın"
         },
+        "taxRate": {
+          "title": "Varsayılan Vergi Oranı",
+          "description": "Yeni faturalar için varsayılan vergi oranınızı belirleyin",
+          "label": "Vergi Oranı (%)",
+          "placeholder": "Vergi oranı girin",
+          "saveButton": "Kaydet",
+          "helpText": "Bu, yeni faturalar oluştururken varsayılan vergi oranı olacaktır. Fatura başına değiştirebilirsiniz."
+        },
         "timeFormat": {
           "title": "Saat Formatı",
           "description": "Uygulama genelinde saatlerin nasıl görüntüleneceğini seçin",
@@ -408,6 +416,8 @@
         "subtitle": "Faturaları ve ödeme bilgilerini yönetin",
         "createInvoice": "Fatura Oluştur",
         "newInvoice": "Yeni Fatura",
+        "editInvoice": "Faturayı Düzenle",
+        "deleteInvoice": "Faturayı Sil",
         "client": "Müşteri",
         "clientPlaceholder": "Müşteri seçin",
         "selectClient": "Müşteri seçin",
@@ -438,6 +448,8 @@
         "cancel": "İptal",
         "success": "Başarılı",
         "invoiceCreated": "Fatura başarıyla oluşturuldu",
+        "invoiceUpdated": "Fatura başarıyla güncellendi",
+        "invoiceDeleted": "Fatura başarıyla silindi",
         "statusUpdated": "Durum Güncellendi",
         "invoiceMarkedAsPaid": "Fatura ödenmiş olarak işaretlendi",
         "statusLabel": "Durum",

@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import {
   Card,
@@ -9,7 +10,7 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Clock, Users, DollarSign, Edit, Trash2 } from "lucide-react";
+import { Clock, Users, Banknote, Edit, Trash2 } from "lucide-react";
 import { usePrograms, useDeleteProgram, Program } from "@/services/programsService";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -117,7 +118,7 @@ export const ProgramList: React.FC = () => {
                   <span>{program.duration || "-"} {t('time.week')}</span>
                 </div>
                 <div className="flex items-center">
-                  <DollarSign className="h-4 w-4 mr-2 text-gray-500" />
+                  <Banknote className="h-4 w-4 mr-2 text-gray-500" />
                   <span>{program.price ? formatCurrency(program.price, language) : "-"}</span>
                 </div>
               </div>
