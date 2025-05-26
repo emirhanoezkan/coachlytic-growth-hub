@@ -1,4 +1,3 @@
-
 {
       "app": {
         "name": "Coachlytic",
@@ -282,7 +281,7 @@
       "documents": {
         "title": "Documents",
         "subtitle": "Manage your coaching resources and materials",
-        "upload": "Document Upload",
+        "upload": "Upload Documents",
         "uploadDesc": "Upload coaching materials and resources for your clients",
         "library": "Document Library",
         "access": "Access and share your coaching documents",

@@ -1,4 +1,3 @@
-
 {
       "app": {
         "name": "Coachlytic",
@@ -117,7 +116,7 @@
         "manage": "Koçluk müşterilerinizi yönetin",
         "filter": "Filtrele",
         "filterClients": "Müşterileri Filtrele",
-        "filterDescription": "Müşterileri durum, program ile filtreyin veya belirli müşterileri arayın",
+        "filterDescription": "Müşterileri durum, program ile filtreleyin veya belirli müşterileri arayın",
         "noClientsFound": "Müşteri bulunamadı",
         "add": "Müşteri Ekle",
         "edit": "Müşteriyi Düzenle",
