@@ -1,9 +1,9 @@
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { SidebarProvider } from "@/components/ui/sidebar-animated";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { Header } from "@/components/layout/Header";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { 
   Card, 
   CardContent, 
@@ -19,11 +19,14 @@ import { useToast } from "@/hooks/use-toast";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Bell, Globe, Lock, Settings, WifiOff } from "lucide-react";
 import { TimeFormatSettings } from "@/components/settings/TimeFormatSettings";
+import { useDefaultTaxRate } from "@/hooks/useInvoices";
 
 const SettingsPage = () => {
   const { t } = useLanguage();
   const { toast } = useToast();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { defaultTaxRate, updateDefaultTaxRate, isUpdating } = useDefaultTaxRate();
+  const [tempTaxRate, setTempTaxRate] = useState(defaultTaxRate);
   
   const [settings, setSettings] = useState({
     emailNotifications: true,
@@ -34,11 +37,19 @@ const SettingsPage = () => {
     darkMode: false
   });
 
+  useEffect(() => {
+    setTempTaxRate(defaultTaxRate);
+  }, [defaultTaxRate]);
+
   const handleSave = () => {
     toast({
       title: "Settings saved",
       description: "Your preferences have been updated successfully."
     });
+  };
+
+  const handleTaxRateSave = () => {
+    updateDefaultTaxRate(tempTaxRate);
   };
 
   return (
@@ -173,6 +184,41 @@ const SettingsPage = () => {
                           </Select>
                         </div>
                       </div>
+                      
+                      {/* Default Tax Rate Setting */}
+                      <Card>
+                        <CardHeader>
+                          <CardTitle>Default Tax Rate</CardTitle>
+                          <CardDescription>Set your default tax rate for new invoices</CardDescription>
+                        </CardHeader>
+                        <CardContent className="space-y-4">
+                          <div className="flex items-center space-x-4">
+                            <div className="flex-1">
+                              <Label htmlFor="defaultTaxRate">Tax Rate (%)</Label>
+                              <Input
+                                id="defaultTaxRate"
+                                type="number"
+                                min="0"
+                                max="100"
+                                step="0.01"
+                                value={tempTaxRate}
+                                onChange={(e) => setTempTaxRate(parseFloat(e.target.value) || 0)}
+                                className="mt-2"
+                              />
+                            </div>
+                            <Button 
+                              onClick={handleTaxRateSave}
+                              disabled={isUpdating || tempTaxRate === defaultTaxRate}
+                              className="bg-forest-500 hover:bg-forest-600"
+                            >
+                              {isUpdating ? "Saving..." : "Save"}
+                            </Button>
+                          </div>
+                          <p className="text-sm text-gray-500">
+                            This will be the default tax rate when creating new invoices. You can still change it per invoice.
+                          </p>
+                        </CardContent>
+                      </Card>
                       
                       {/* Time Format Settings */}
                       <TimeFormatSettings />

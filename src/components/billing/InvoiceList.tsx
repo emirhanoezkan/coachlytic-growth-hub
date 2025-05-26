@@ -19,35 +19,42 @@ import { Badge } from "@/components/ui/badge";
 import { MoreHorizontal, FileText } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { InvoiceDetails } from "./InvoiceDetails";
-
-// Empty invoices array - no sample data
-const invoices: Array<{
-  id: string;
-  client: string;
-  date: string;
-  amount: string;
-  status: string;
-  dueDate: string;
-}> = [];
+import { useInvoices } from "@/hooks/useInvoices";
+import { format } from "date-fns";
 
 export const InvoiceList: React.FC = () => {
   const { t } = useLanguage();
-  const [invoiceData, setInvoiceData] = useState(invoices);
-  const [selectedInvoice, setSelectedInvoice] = useState<(typeof invoices)[0] | null>(null);
+  const { invoices, isLoading, updateStatus } = useInvoices();
+  const [selectedInvoice, setSelectedInvoice] = useState<any>(null);
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
   
-  const handleViewInvoice = (invoice: typeof invoices[0]) => {
-    setSelectedInvoice(invoice);
+  const handleViewInvoice = (invoice: any) => {
+    // Transform the invoice data to match the expected format
+    const transformedInvoice = {
+      id: invoice.id,
+      client: invoice.client?.name || 'Unknown Client',
+      date: format(new Date(invoice.issue_date), "MMM dd, yyyy"),
+      amount: `$${invoice.amount.toFixed(2)}`,
+      status: invoice.status,
+      dueDate: invoice.due_date ? format(new Date(invoice.due_date), "MMM dd, yyyy") : 'No due date',
+    };
+    setSelectedInvoice(transformedInvoice);
     setIsDetailsOpen(true);
   };
   
   const handleStatusChange = (invoiceId: string, newStatus: string) => {
-    setInvoiceData(prevInvoices => 
-      prevInvoices.map(invoice => 
-        invoice.id === invoiceId ? { ...invoice, status: newStatus } : invoice
-      )
-    );
+    updateStatus({ invoiceId, status: newStatus });
   };
+
+  if (isLoading) {
+    return (
+      <div className="bg-white rounded-md border shadow-sm">
+        <div className="p-8 text-center text-gray-500">
+          Loading invoices...
+        </div>
+      </div>
+    );
+  }
   
   return (
     <>
@@ -65,23 +72,25 @@ export const InvoiceList: React.FC = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {invoiceData.length === 0 ? (
+            {invoices.length === 0 ? (
               <TableRow>
                 <TableCell colSpan={7} className="text-center py-8 text-gray-500">
                   {t('billing.noInvoices')}
                 </TableCell>
               </TableRow>
             ) : (
-              invoiceData.map((invoice) => (
+              invoices.map((invoice) => (
                 <TableRow key={invoice.id}>
                   <TableCell className="font-medium flex items-center gap-2">
                     <FileText className="h-4 w-4 text-gray-500" />
-                    {invoice.id}
+                    {invoice.id.split('-')[0]}
                   </TableCell>
-                  <TableCell>{invoice.client}</TableCell>
-                  <TableCell>{invoice.date}</TableCell>
-                  <TableCell>{invoice.dueDate}</TableCell>
-                  <TableCell>{invoice.amount}</TableCell>
+                  <TableCell>{invoice.client?.name || 'Unknown Client'}</TableCell>
+                  <TableCell>{format(new Date(invoice.issue_date), "MMM dd, yyyy")}</TableCell>
+                  <TableCell>
+                    {invoice.due_date ? format(new Date(invoice.due_date), "MMM dd, yyyy") : 'No due date'}
+                  </TableCell>
+                  <TableCell>${invoice.amount.toFixed(2)}</TableCell>
                   <TableCell>
                     <Badge className={
                       invoice.status === "paid" ? "bg-forest-100 text-forest-800 hover:bg-forest-200" :

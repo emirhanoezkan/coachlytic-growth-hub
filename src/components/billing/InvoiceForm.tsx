@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { useToast } from "@/hooks/use-toast";
 import { 
   Select, 
   SelectContent, 
@@ -13,12 +12,16 @@ import {
   SelectTrigger, 
   SelectValue 
 } from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
 import { format } from 'date-fns';
 import { CalendarIcon, Plus, Trash2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useClients } from "@/hooks/useClients";
+import { useInvoices, useDefaultTaxRate } from "@/hooks/useInvoices";
+import { CreateInvoiceData } from "@/services/invoicesService";
 
 interface InvoiceFormProps {
   onSubmit: () => void;
@@ -32,13 +35,26 @@ interface InvoiceFormProps {
 }
 
 export const InvoiceForm: React.FC<InvoiceFormProps> = ({ onSubmit, initialData = {} }) => {
-  const { toast } = useToast();
   const { t } = useLanguage();
+  const { clients, isLoading: isLoadingClients } = useClients();
+  const { createInvoice, isCreating } = useInvoices();
+  const { defaultTaxRate } = useDefaultTaxRate();
+  
+  const [selectedClient, setSelectedClient] = React.useState(initialData.client || '');
   const [items, setItems] = React.useState(initialData.items || [
     { description: "", quantity: 1, rate: 0 }
   ]);
   const [dueDate, setDueDate] = React.useState<Date | undefined>(initialData.dueDate || undefined);
   const [status, setStatus] = React.useState(initialData.status || "pending");
+  const [notes, setNotes] = React.useState(initialData.notes || '');
+  const [taxRate, setTaxRate] = React.useState(defaultTaxRate);
+  const [includesTax, setIncludesTax] = React.useState(false);
+  
+  React.useEffect(() => {
+    if (defaultTaxRate) {
+      setTaxRate(defaultTaxRate);
+    }
+  }, [defaultTaxRate]);
   
   const handleAddItem = () => {
     setItems([...items, { description: "", quantity: 1, rate: 0 }]);
@@ -56,32 +72,66 @@ export const InvoiceForm: React.FC<InvoiceFormProps> = ({ onSubmit, initialData 
   
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    toast({
-      title: t('billing.success'),
-      description: t('billing.invoiceCreated'),
+    
+    if (!selectedClient) {
+      return;
+    }
+
+    const formData: CreateInvoiceData = {
+      client_id: selectedClient,
+      due_date: dueDate?.toISOString(),
+      status,
+      notes: notes || undefined,
+      tax_rate: taxRate,
+      includes_tax: includesTax,
+      items: items.filter(item => item.description.trim() !== ''),
+    };
+
+    createInvoice(formData, {
+      onSuccess: () => {
+        onSubmit();
+      }
     });
-    onSubmit();
   };
 
+  // Calculate display amounts
   const subtotal = items.reduce((sum, item) => sum + (item.quantity * item.rate), 0);
-  const tax = subtotal * 0.1; // 10% tax
-  const total = subtotal + tax;
+  let displaySubtotal: number;
+  let displayTax: number;
+  let displayTotal: number;
+
+  if (includesTax) {
+    displayTotal = subtotal;
+    displaySubtotal = subtotal / (1 + taxRate / 100);
+    displayTax = subtotal - displaySubtotal;
+  } else {
+    displaySubtotal = subtotal;
+    displayTax = subtotal * (taxRate / 100);
+    displayTotal = subtotal + displayTax;
+  }
 
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
       <div className="grid grid-cols-1 gap-4">
         <div className="space-y-2">
           <Label htmlFor="client">{t('billing.client')}</Label>
-          <Select defaultValue={initialData.client || ''}>
+          <Select value={selectedClient} onValueChange={setSelectedClient} required>
             <SelectTrigger id="client">
               <SelectValue placeholder={t('billing.selectClient')} />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
-                <SelectItem value="client1">Sarah Johnson</SelectItem>
-                <SelectItem value="client2">Michael Chen</SelectItem>
-                <SelectItem value="client3">Emma Davis</SelectItem>
-                <SelectItem value="client4">Robert Wilson</SelectItem>
+                {isLoadingClients ? (
+                  <SelectItem value="" disabled>Loading clients...</SelectItem>
+                ) : clients.length === 0 ? (
+                  <SelectItem value="" disabled>No clients found</SelectItem>
+                ) : (
+                  clients.map((client) => (
+                    <SelectItem key={client.id} value={client.id}>
+                      {client.name}
+                    </SelectItem>
+                  ))
+                )}
               </SelectGroup>
             </SelectContent>
           </Select>
@@ -128,6 +178,38 @@ export const InvoiceForm: React.FC<InvoiceFormProps> = ({ onSubmit, initialData 
                 </SelectGroup>
               </SelectContent>
             </Select>
+          </div>
+        </div>
+
+        {/* Tax Configuration */}
+        <div className="space-y-4 border-t pt-4">
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <Label htmlFor="taxRate">Tax Rate (%)</Label>
+              <Input
+                id="taxRate"
+                type="number"
+                min="0"
+                max="100"
+                step="0.01"
+                value={taxRate}
+                onChange={(e) => setTaxRate(parseFloat(e.target.value) || 0)}
+                className="mt-2"
+              />
+            </div>
+            <div className="flex flex-col justify-center">
+              <div className="flex items-center space-x-2">
+                <Switch
+                  id="includesTax"
+                  checked={includesTax}
+                  onCheckedChange={setIncludesTax}
+                />
+                <Label htmlFor="includesTax">Price includes tax</Label>
+              </div>
+              <p className="text-xs text-gray-500 mt-1">
+                {includesTax ? "Tax is included in item prices" : "Tax will be added to item prices"}
+              </p>
+            </div>
           </div>
         </div>
 
@@ -202,15 +284,15 @@ export const InvoiceForm: React.FC<InvoiceFormProps> = ({ onSubmit, initialData 
           <div className="border-t pt-3 mt-4">
             <div className="flex justify-between text-sm">
               <span>{t('billing.subtotal')}</span>
-              <span>${subtotal.toFixed(2)}</span>
+              <span>${displaySubtotal.toFixed(2)}</span>
             </div>
             <div className="flex justify-between text-sm mt-1">
-              <span>{t('billing.tax')}</span>
-              <span>${tax.toFixed(2)}</span>
+              <span>{t('billing.tax')} ({taxRate}%)</span>
+              <span>${displayTax.toFixed(2)}</span>
             </div>
             <div className="flex justify-between font-bold mt-2 text-lg">
               <span>{t('billing.total')}</span>
-              <span>${total.toFixed(2)}</span>
+              <span>${displayTotal.toFixed(2)}</span>
             </div>
           </div>
         </div>
@@ -220,7 +302,8 @@ export const InvoiceForm: React.FC<InvoiceFormProps> = ({ onSubmit, initialData 
           <Textarea 
             id="notes" 
             placeholder={t('billing.invoiceNotes')} 
-            defaultValue={initialData.notes || ''}
+            value={notes}
+            onChange={(e) => setNotes(e.target.value)}
             className="h-20"
           />
         </div>
@@ -228,7 +311,13 @@ export const InvoiceForm: React.FC<InvoiceFormProps> = ({ onSubmit, initialData 
 
       <div className="flex justify-end gap-3 pt-3">
         <Button type="button" variant="outline" onClick={onSubmit}>{t('action.cancel')}</Button>
-        <Button type="submit" className="bg-forest-500 hover:bg-forest-600">{t('billing.createInvoice')}</Button>
+        <Button 
+          type="submit" 
+          className="bg-forest-500 hover:bg-forest-600"
+          disabled={isCreating || !selectedClient}
+        >
+          {isCreating ? "Creating..." : t('billing.createInvoice')}
+        </Button>
       </div>
     </form>
   );
