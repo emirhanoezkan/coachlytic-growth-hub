@@ -217,7 +217,9 @@
         "category": "Category",
         "categoryPlaceholder": "Select category",
         "sessions": "Sessions",
-        "noPrograms": "No programs found"
+        "noPrograms": "No programs found",
+        "deleteConfirm": "Are you sure you want to delete this program?",
+        "deleteWarning": "This action cannot be undone and will remove all associated data."
       },
       "sessions": {
         "title": "Sessions",

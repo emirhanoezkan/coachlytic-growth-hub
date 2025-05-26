@@ -217,7 +217,9 @@
         "category": "Kategori",
         "categoryPlaceholder": "Kategori seçin",
         "sessions": "Oturumlar",
-        "noPrograms": "Program bulunamadı"
+        "noPrograms": "Program bulunamadı",
+        "deleteConfirm": "Bu programı silmek istediğinizden emin misiniz?",
+        "deleteWarning": "Bu işlem geri alınamaz ve tüm ilişkili verileri kaldıracaktır."
       },
       "sessions": {
         "title": "Oturumlar",
