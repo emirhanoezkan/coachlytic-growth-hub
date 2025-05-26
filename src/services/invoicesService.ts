@@ -107,7 +107,7 @@ export const invoicesService = {
       throw invoiceError;
     }
 
-    // Create invoice items using raw SQL to avoid type issues
+    // Create invoice items using direct table insert with type assertion
     const itemsToInsert = data.items.map(item => ({
       invoice_id: invoice.id,
       description: item.description,
@@ -116,27 +116,14 @@ export const invoicesService = {
       amount: item.quantity * item.rate,
     }));
 
-    // Use raw SQL for invoice_items until types are updated
-    for (const item of itemsToInsert) {
-      const { error: itemError } = await supabase.rpc('exec_sql', {
-        sql: `
-          INSERT INTO invoice_items (invoice_id, description, quantity, rate, amount)
-          VALUES ($1, $2, $3, $4, $5)
-        `,
-        params: [item.invoice_id, item.description, item.quantity, item.rate, item.amount]
-      }).catch(async () => {
-        // Fallback: use direct insert if rpc doesn't work
-        const { error } = await supabase
-          .schema('public')
-          .from('invoice_items' as any)
-          .insert(item);
-        if (error) throw error;
-      });
+    // Insert invoice items directly using type assertion
+    const { error: itemsError } = await supabase
+      .from('invoice_items' as any)
+      .insert(itemsToInsert);
 
-      if (itemError) {
-        console.error("Error creating invoice item:", itemError);
-        throw itemError;
-      }
+    if (itemsError) {
+      console.error("Error creating invoice items:", itemsError);
+      throw itemsError;
     }
 
     return invoice;
