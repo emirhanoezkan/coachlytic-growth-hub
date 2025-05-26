@@ -46,100 +46,150 @@ export interface CreateInvoiceData {
 
 export const invoicesService = {
   async getInvoices(): Promise<InvoiceWithItems[]> {
-    const { data: invoices, error } = await supabase
-      .from("invoices")
-      .select(`
-        *,
-        clients!inner(id, name)
-      `)
-      .order("created_at", { ascending: false });
+    try {
+      const { data: invoices, error } = await supabase
+        .from("invoices")
+        .select(`
+          *,
+          clients!inner(id, name)
+        `)
+        .order("created_at", { ascending: false });
 
-    if (error) {
-      console.error("Error fetching invoices:", error);
+      if (error) {
+        console.error("Error fetching invoices:", error);
+        throw new Error(`Failed to fetch invoices: ${error.message}`);
+      }
+
+      return invoices.map(invoice => ({
+        ...invoice,
+        client: Array.isArray(invoice.clients) ? invoice.clients[0] : invoice.clients
+      }));
+    } catch (error) {
+      console.error("Error in getInvoices:", error);
       throw error;
     }
-
-    return invoices.map(invoice => ({
-      ...invoice,
-      client: Array.isArray(invoice.clients) ? invoice.clients[0] : invoice.clients
-    }));
   },
 
   async createInvoice(data: CreateInvoiceData): Promise<Invoice> {
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) throw new Error("Not authenticated");
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        throw new Error("User not authenticated");
+      }
 
-    // Calculate amounts based on tax inclusion
-    let subtotal = data.items.reduce((sum, item) => sum + (item.quantity * item.rate), 0);
-    let taxAmount: number;
-    let totalAmount: number;
+      console.log("Creating invoice with data:", data);
 
-    if (data.includes_tax) {
-      // Price includes tax: derive net amount and tax
-      totalAmount = subtotal;
-      const netAmount = subtotal / (1 + data.tax_rate / 100);
-      taxAmount = subtotal - netAmount;
-      subtotal = netAmount;
-    } else {
-      // Price excludes tax: calculate tax on net amount
-      taxAmount = subtotal * (data.tax_rate / 100);
-      totalAmount = subtotal + taxAmount;
+      // Validate required fields
+      if (!data.client_id || data.client_id === 'no-clients') {
+        throw new Error("Please select a valid client");
+      }
+
+      if (!data.items || data.items.length === 0) {
+        throw new Error("Please add at least one item to the invoice");
+      }
+
+      // Validate items
+      for (const item of data.items) {
+        if (!item.description || item.description.trim() === '') {
+          throw new Error("All items must have a description");
+        }
+        if (item.quantity <= 0) {
+          throw new Error("Item quantity must be greater than 0");
+        }
+        if (item.rate < 0) {
+          throw new Error("Item rate cannot be negative");
+        }
+      }
+
+      // Calculate amounts based on tax inclusion
+      let subtotal = data.items.reduce((sum, item) => sum + (item.quantity * item.rate), 0);
+      let taxAmount: number;
+      let totalAmount: number;
+
+      if (data.includes_tax) {
+        // Price includes tax: derive net amount and tax
+        totalAmount = subtotal;
+        const netAmount = subtotal / (1 + data.tax_rate / 100);
+        taxAmount = subtotal - netAmount;
+        subtotal = netAmount;
+      } else {
+        // Price excludes tax: calculate tax on net amount
+        taxAmount = subtotal * (data.tax_rate / 100);
+        totalAmount = subtotal + taxAmount;
+      }
+
+      console.log("Calculated amounts:", { subtotal, taxAmount, totalAmount });
+
+      // Create the invoice
+      const { data: invoice, error: invoiceError } = await supabase
+        .from("invoices")
+        .insert({
+          user_id: user.id,
+          client_id: data.client_id,
+          amount: totalAmount,
+          due_date: data.due_date,
+          status: data.status,
+          notes: data.notes,
+          tax_rate: data.tax_rate,
+          includes_tax: data.includes_tax,
+        })
+        .select()
+        .single();
+
+      if (invoiceError) {
+        console.error("Error creating invoice:", invoiceError);
+        throw new Error(`Failed to create invoice: ${invoiceError.message}`);
+      }
+
+      console.log("Invoice created successfully:", invoice);
+
+      // Create invoice items
+      const itemsToInsert = data.items.map(item => ({
+        invoice_id: invoice.id,
+        description: item.description,
+        quantity: item.quantity,
+        rate: item.rate,
+        amount: item.quantity * item.rate,
+      }));
+
+      console.log("Creating invoice items:", itemsToInsert);
+
+      // Insert invoice items
+      const { error: itemsError } = await supabase
+        .from('invoice_items')
+        .insert(itemsToInsert);
+
+      if (itemsError) {
+        console.error("Error creating invoice items:", itemsError);
+        // Try to clean up the invoice if items creation failed
+        await supabase.from("invoices").delete().eq("id", invoice.id);
+        throw new Error(`Failed to create invoice items: ${itemsError.message}`);
+      }
+
+      console.log("Invoice items created successfully");
+      return invoice;
+    } catch (error) {
+      console.error("Error in createInvoice:", error);
+      throw error;
     }
-
-    // Create the invoice
-    const { data: invoice, error: invoiceError } = await supabase
-      .from("invoices")
-      .insert({
-        user_id: user.id,
-        client_id: data.client_id,
-        amount: totalAmount,
-        due_date: data.due_date,
-        status: data.status,
-        notes: data.notes,
-        tax_rate: data.tax_rate,
-        includes_tax: data.includes_tax,
-      })
-      .select()
-      .single();
-
-    if (invoiceError) {
-      console.error("Error creating invoice:", invoiceError);
-      throw invoiceError;
-    }
-
-    // Create invoice items using direct table insert with type assertion
-    const itemsToInsert = data.items.map(item => ({
-      invoice_id: invoice.id,
-      description: item.description,
-      quantity: item.quantity,
-      rate: item.rate,
-      amount: item.quantity * item.rate,
-    }));
-
-    // Insert invoice items directly using type assertion
-    const { error: itemsError } = await supabase
-      .from('invoice_items' as any)
-      .insert(itemsToInsert);
-
-    if (itemsError) {
-      console.error("Error creating invoice items:", itemsError);
-      throw itemsError;
-    }
-
-    return invoice;
   },
 
   async updateInvoiceStatus(invoiceId: string, status: string): Promise<void> {
-    const { error } = await supabase
-      .from("invoices")
-      .update({ 
-        status,
-        payment_date: status === "paid" ? new Date().toISOString() : null
-      })
-      .eq("id", invoiceId);
+    try {
+      const { error } = await supabase
+        .from("invoices")
+        .update({ 
+          status,
+          payment_date: status === "paid" ? new Date().toISOString() : null
+        })
+        .eq("id", invoiceId);
 
-    if (error) {
-      console.error("Error updating invoice status:", error);
+      if (error) {
+        console.error("Error updating invoice status:", error);
+        throw new Error(`Failed to update invoice status: ${error.message}`);
+      }
+    } catch (error) {
+      console.error("Error in updateInvoiceStatus:", error);
       throw error;
     }
   },
@@ -160,17 +210,22 @@ export const invoicesService = {
   },
 
   async updateUserDefaultTaxRate(rate: number): Promise<void> {
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) throw new Error("Not authenticated");
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error("User not authenticated");
 
-    // Use raw update to avoid type issues with new column
-    const { error } = await supabase
-      .from("profiles")
-      .update({ default_tax_rate: rate } as any)
-      .eq("id", user.id);
+      // Use raw update to avoid type issues with new column
+      const { error } = await supabase
+        .from("profiles")
+        .update({ default_tax_rate: rate } as any)
+        .eq("id", user.id);
 
-    if (error) {
-      console.error("Error updating default tax rate:", error);
+      if (error) {
+        console.error("Error updating default tax rate:", error);
+        throw new Error(`Failed to update default tax rate: ${error.message}`);
+      }
+    } catch (error) {
+      console.error("Error in updateUserDefaultTaxRate:", error);
       throw error;
     }
   }

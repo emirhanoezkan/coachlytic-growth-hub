@@ -27,11 +27,11 @@ export const useInvoices = () => {
         description: t('billing.invoiceCreated'),
       });
     },
-    onError: (error) => {
+    onError: (error: Error) => {
       console.error("Error creating invoice:", error);
       toast({
         title: "Error",
-        description: "Failed to create invoice. Please try again.",
+        description: error.message || "Failed to create invoice. Please try again.",
         variant: "destructive",
       });
     },
@@ -43,11 +43,11 @@ export const useInvoices = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["invoices"] });
     },
-    onError: (error) => {
+    onError: (error: Error) => {
       console.error("Error updating invoice status:", error);
       toast({
         title: "Error",
-        description: "Failed to update invoice status.",
+        description: error.message || "Failed to update invoice status.",
         variant: "destructive",
       });
     },
@@ -85,11 +85,11 @@ export const useDefaultTaxRate = () => {
         description: "Default tax rate updated successfully.",
       });
     },
-    onError: (error) => {
+    onError: (error: Error) => {
       console.error("Error updating default tax rate:", error);
       toast({
         title: "Error",
-        description: "Failed to update default tax rate.",
+        description: error.message || "Failed to update default tax rate.",
         variant: "destructive",
       });
     },

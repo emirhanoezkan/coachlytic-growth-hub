@@ -57,6 +57,47 @@ export type Database = {
         }
         Relationships: []
       }
+      invoice_items: {
+        Row: {
+          amount: number
+          created_at: string
+          description: string
+          id: string
+          invoice_id: string
+          quantity: number
+          rate: number
+          updated_at: string
+        }
+        Insert: {
+          amount?: number
+          created_at?: string
+          description: string
+          id?: string
+          invoice_id: string
+          quantity?: number
+          rate?: number
+          updated_at?: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          description?: string
+          id?: string
+          invoice_id?: string
+          quantity?: number
+          rate?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "invoice_items_invoice_id_fkey"
+            columns: ["invoice_id"]
+            isOneToOne: false
+            referencedRelation: "invoices"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       invoices: {
         Row: {
           amount: number
@@ -64,11 +105,13 @@ export type Database = {
           created_at: string
           due_date: string | null
           id: string
+          includes_tax: boolean | null
           issue_date: string
           notes: string | null
           payment_date: string | null
           program_id: string | null
           status: string
+          tax_rate: number | null
           updated_at: string
           user_id: string
         }
@@ -78,11 +121,13 @@ export type Database = {
           created_at?: string
           due_date?: string | null
           id?: string
+          includes_tax?: boolean | null
           issue_date?: string
           notes?: string | null
           payment_date?: string | null
           program_id?: string | null
           status?: string
+          tax_rate?: number | null
           updated_at?: string
           user_id: string
         }
@@ -92,11 +137,13 @@ export type Database = {
           created_at?: string
           due_date?: string | null
           id?: string
+          includes_tax?: boolean | null
           issue_date?: string
           notes?: string | null
           payment_date?: string | null
           program_id?: string | null
           status?: string
+          tax_rate?: number | null
           updated_at?: string
           user_id?: string
         }
