@@ -1,4 +1,3 @@
-
 import { supabase } from "@/integrations/supabase/client";
 import type { Tables, TablesInsert, TablesUpdate } from "@/integrations/supabase/types";
 
@@ -38,6 +37,20 @@ export interface CreateInvoiceData {
   tax_rate: number;
   includes_tax: boolean;
   items: Array<{
+    description: string;
+    quantity: number;
+    rate: number;
+  }>;
+}
+
+export interface UpdateInvoiceData {
+  client_id?: string;
+  due_date?: string;
+  status?: string;
+  notes?: string;
+  tax_rate?: number;
+  includes_tax?: boolean;
+  items?: Array<{
     description: string;
     quantity: number;
     rate: number;
@@ -170,6 +183,133 @@ export const invoicesService = {
       return invoice;
     } catch (error) {
       console.error("Error in createInvoice:", error);
+      throw error;
+    }
+  },
+
+  async updateInvoice(invoiceId: string, data: UpdateInvoiceData): Promise<Invoice> {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        throw new Error("User not authenticated");
+      }
+
+      console.log("Updating invoice with data:", data);
+
+      // Calculate amounts if items are provided
+      let updateData: any = {
+        client_id: data.client_id,
+        due_date: data.due_date,
+        status: data.status,
+        notes: data.notes,
+        tax_rate: data.tax_rate,
+        includes_tax: data.includes_tax,
+      };
+
+      if (data.items) {
+        // Calculate amounts based on tax inclusion
+        let subtotal = data.items.reduce((sum, item) => sum + (item.quantity * item.rate), 0);
+        let taxAmount: number;
+        let totalAmount: number;
+
+        if (data.includes_tax) {
+          totalAmount = subtotal;
+          const netAmount = subtotal / (1 + (data.tax_rate || 0) / 100);
+          taxAmount = subtotal - netAmount;
+          subtotal = netAmount;
+        } else {
+          taxAmount = subtotal * ((data.tax_rate || 0) / 100);
+          totalAmount = subtotal + taxAmount;
+        }
+
+        updateData.amount = totalAmount;
+      }
+
+      // Remove undefined values
+      Object.keys(updateData).forEach(key => {
+        if (updateData[key] === undefined) {
+          delete updateData[key];
+        }
+      });
+
+      // Update the invoice
+      const { data: invoice, error: invoiceError } = await supabase
+        .from("invoices")
+        .update(updateData)
+        .eq("id", invoiceId)
+        .eq("user_id", user.id)
+        .select()
+        .single();
+
+      if (invoiceError) {
+        console.error("Error updating invoice:", invoiceError);
+        throw new Error(`Failed to update invoice: ${invoiceError.message}`);
+      }
+
+      // Update invoice items if provided
+      if (data.items) {
+        // Delete existing items
+        const { error: deleteError } = await supabase
+          .from('invoice_items')
+          .delete()
+          .eq('invoice_id', invoiceId);
+
+        if (deleteError) {
+          console.error("Error deleting invoice items:", deleteError);
+          throw new Error(`Failed to delete invoice items: ${deleteError.message}`);
+        }
+
+        // Insert new items
+        const itemsToInsert = data.items.map(item => ({
+          invoice_id: invoiceId,
+          description: item.description,
+          quantity: item.quantity,
+          rate: item.rate,
+          amount: item.quantity * item.rate,
+        }));
+
+        const { error: itemsError } = await supabase
+          .from('invoice_items')
+          .insert(itemsToInsert);
+
+        if (itemsError) {
+          console.error("Error updating invoice items:", itemsError);
+          throw new Error(`Failed to update invoice items: ${itemsError.message}`);
+        }
+      }
+
+      console.log("Invoice updated successfully:", invoice);
+      return invoice;
+    } catch (error) {
+      console.error("Error in updateInvoice:", error);
+      throw error;
+    }
+  },
+
+  async deleteInvoice(invoiceId: string): Promise<void> {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        throw new Error("User not authenticated");
+      }
+
+      console.log("Deleting invoice:", invoiceId);
+
+      // Delete the invoice (items will be cascade deleted due to foreign key)
+      const { error } = await supabase
+        .from("invoices")
+        .delete()
+        .eq("id", invoiceId)
+        .eq("user_id", user.id);
+
+      if (error) {
+        console.error("Error deleting invoice:", error);
+        throw new Error(`Failed to delete invoice: ${error.message}`);
+      }
+
+      console.log("Invoice deleted successfully");
+    } catch (error) {
+      console.error("Error in deleteInvoice:", error);
       throw error;
     }
   },

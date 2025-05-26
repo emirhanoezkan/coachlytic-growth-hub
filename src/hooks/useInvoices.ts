@@ -1,6 +1,5 @@
-
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { invoicesService, CreateInvoiceData } from "@/services/invoicesService";
+import { invoicesService, CreateInvoiceData, UpdateInvoiceData } from "@/services/invoicesService";
 import { useToast } from "@/hooks/use-toast";
 import { useLanguage } from "@/contexts/LanguageContext";
 
@@ -37,6 +36,45 @@ export const useInvoices = () => {
     },
   });
 
+  const updateInvoiceMutation = useMutation({
+    mutationFn: ({ invoiceId, data }: { invoiceId: string; data: UpdateInvoiceData }) =>
+      invoicesService.updateInvoice(invoiceId, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["invoices"] });
+      toast({
+        title: t('billing.success'),
+        description: t('billing.invoiceUpdated'),
+      });
+    },
+    onError: (error: Error) => {
+      console.error("Error updating invoice:", error);
+      toast({
+        title: "Error",
+        description: error.message || "Failed to update invoice. Please try again.",
+        variant: "destructive",
+      });
+    },
+  });
+
+  const deleteInvoiceMutation = useMutation({
+    mutationFn: invoicesService.deleteInvoice,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["invoices"] });
+      toast({
+        title: t('billing.success'),
+        description: t('billing.invoiceDeleted'),
+      });
+    },
+    onError: (error: Error) => {
+      console.error("Error deleting invoice:", error);
+      toast({
+        title: "Error",
+        description: error.message || "Failed to delete invoice. Please try again.",
+        variant: "destructive",
+      });
+    },
+  });
+
   const updateStatusMutation = useMutation({
     mutationFn: ({ invoiceId, status }: { invoiceId: string; status: string }) =>
       invoicesService.updateInvoiceStatus(invoiceId, status),
@@ -59,8 +97,12 @@ export const useInvoices = () => {
     error,
     createInvoice: createInvoiceMutation.mutate,
     isCreating: createInvoiceMutation.isPending,
+    updateInvoice: updateInvoiceMutation.mutate,
+    isUpdating: updateInvoiceMutation.isPending,
+    deleteInvoice: deleteInvoiceMutation.mutate,
+    isDeleting: deleteInvoiceMutation.isPending,
     updateStatus: updateStatusMutation.mutate,
-    isUpdating: updateStatusMutation.isPending,
+    isUpdatingStatus: updateStatusMutation.isPending,
   };
 };
 

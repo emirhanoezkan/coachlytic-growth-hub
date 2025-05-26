@@ -14,19 +14,33 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { MoreHorizontal, FileText } from "lucide-react";
+import { MoreHorizontal, FileText, Edit, Trash2 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { InvoiceDetails } from "./InvoiceDetails";
+import { EditInvoiceDialog } from "./EditInvoiceDialog";
 import { useInvoices } from "@/hooks/useInvoices";
 import { format } from "date-fns";
 
 export const InvoiceList: React.FC = () => {
   const { t } = useLanguage();
-  const { invoices, isLoading, updateStatus } = useInvoices();
+  const { invoices, isLoading, updateStatus, deleteInvoice } = useInvoices();
   const [selectedInvoice, setSelectedInvoice] = useState<any>(null);
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
+  const [editingInvoice, setEditingInvoice] = useState<any>(null);
+  const [isEditOpen, setIsEditOpen] = useState(false);
+  const [deleteInvoiceId, setDeleteInvoiceId] = useState<string | null>(null);
   
   const handleViewInvoice = (invoice: any) => {
     // Transform the invoice data to match the expected format
@@ -40,6 +54,22 @@ export const InvoiceList: React.FC = () => {
     };
     setSelectedInvoice(transformedInvoice);
     setIsDetailsOpen(true);
+  };
+
+  const handleEditInvoice = (invoice: any) => {
+    setEditingInvoice(invoice);
+    setIsEditOpen(true);
+  };
+
+  const handleDeleteInvoice = (invoiceId: string) => {
+    setDeleteInvoiceId(invoiceId);
+  };
+
+  const confirmDelete = () => {
+    if (deleteInvoiceId) {
+      deleteInvoice(deleteInvoiceId);
+      setDeleteInvoiceId(null);
+    }
   };
   
   const handleStatusChange = (invoiceId: string, newStatus: string) => {
@@ -109,13 +139,25 @@ export const InvoiceList: React.FC = () => {
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
                         <DropdownMenuItem onClick={() => handleViewInvoice(invoice)}>
+                          <FileText className="mr-2 h-4 w-4" />
                           {t('billing.viewInvoice')}
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => handleEditInvoice(invoice)}>
+                          <Edit className="mr-2 h-4 w-4" />
+                          {t('billing.editInvoice')}
                         </DropdownMenuItem>
                         {invoice.status !== "paid" && (
                           <DropdownMenuItem onClick={() => handleStatusChange(invoice.id, "paid")}>
                             {t('billing.markAsPaid')}
                           </DropdownMenuItem>
                         )}
+                        <DropdownMenuItem 
+                          onClick={() => handleDeleteInvoice(invoice.id)}
+                          className="text-red-600 hover:text-red-700"
+                        >
+                          <Trash2 className="mr-2 h-4 w-4" />
+                          {t('billing.deleteInvoice')}
+                        </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </TableCell>
@@ -132,6 +174,29 @@ export const InvoiceList: React.FC = () => {
         onOpenChange={setIsDetailsOpen}
         onStatusChange={handleStatusChange}
       />
+
+      <EditInvoiceDialog
+        invoice={editingInvoice}
+        open={isEditOpen}
+        onOpenChange={setIsEditOpen}
+      />
+
+      <AlertDialog open={!!deleteInvoiceId} onOpenChange={() => setDeleteInvoiceId(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>{t('billing.deleteInvoice')}</AlertDialogTitle>
+            <AlertDialogDescription>
+              {t('billing.deleteInvoiceConfirmation')}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>{t('action.cancel')}</AlertDialogCancel>
+            <AlertDialogAction onClick={confirmDelete} className="bg-red-600 hover:bg-red-700">
+              {t('action.delete')}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </>
   );
 };
