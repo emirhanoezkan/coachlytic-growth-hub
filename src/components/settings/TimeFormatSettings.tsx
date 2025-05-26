@@ -1,6 +1,7 @@
 
 import React from "react";
 import { useTimeFormat } from "@/contexts/TimeFormatContext";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { 
@@ -13,6 +14,7 @@ import {
 
 export const TimeFormatSettings: React.FC = () => {
   const { timeFormat, setTimeFormat } = useTimeFormat();
+  const { t } = useLanguage();
 
   const handleFormatChange = (value: string) => {
     setTimeFormat(value as '12h' | '24h');
@@ -21,8 +23,8 @@ export const TimeFormatSettings: React.FC = () => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Time Format</CardTitle>
-        <CardDescription>Choose how times are displayed throughout the application</CardDescription>
+        <CardTitle>{t('settings.timeFormat.title')}</CardTitle>
+        <CardDescription>{t('settings.timeFormat.description')}</CardDescription>
       </CardHeader>
       <CardContent>
         <RadioGroup 
@@ -32,13 +34,13 @@ export const TimeFormatSettings: React.FC = () => {
         >
           <div className="flex items-center space-x-2">
             <RadioGroupItem value="12h" id="12h" />
-            <Label htmlFor="12h" className="cursor-pointer">12-hour (AM/PM)</Label>
-            <span className="text-sm text-gray-500 ml-2">Example: 2:30 PM</span>
+            <Label htmlFor="12h" className="cursor-pointer">{t('settings.timeFormat.12hour')}</Label>
+            <span className="text-sm text-gray-500 ml-2">{t('settings.timeFormat.12hourExample')}</span>
           </div>
           <div className="flex items-center space-x-2">
             <RadioGroupItem value="24h" id="24h" />
-            <Label htmlFor="24h" className="cursor-pointer">24-hour</Label>
-            <span className="text-sm text-gray-500 ml-2">Example: 14:30</span>
+            <Label htmlFor="24h" className="cursor-pointer">{t('settings.timeFormat.24hour')}</Label>
+            <span className="text-sm text-gray-500 ml-2">{t('settings.timeFormat.24hourExample')}</span>
           </div>
         </RadioGroup>
       </CardContent>

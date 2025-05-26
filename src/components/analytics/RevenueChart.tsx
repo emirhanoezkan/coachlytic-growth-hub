@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { useLanguage } from "@/contexts/LanguageContext";
+import { formatCurrency } from "@/utils/currency";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 
 // Sample data for revenue chart - later we can make this dynamic based on period
@@ -32,7 +33,7 @@ interface RevenueChartProps {
 }
 
 export const RevenueChart: React.FC<RevenueChartProps> = ({ period }) => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   
   // Select data based on the period
   const data = period === 'day' 
@@ -87,6 +88,27 @@ export const RevenueChart: React.FC<RevenueChartProps> = ({ period }) => {
       return { ...item, name: item.name.replace('Week', t('time.week')) };
     }
   });
+
+  // Custom tooltip with currency formatting
+  const CustomTooltip = ({ active, payload, label }: any) => {
+    if (active && payload && payload.length) {
+      return (
+        <div className="bg-white p-3 border rounded shadow">
+          <p className="font-medium">{label}</p>
+          {payload.map((entry: any, index: number) => (
+            <p key={index} style={{ color: entry.color }}>
+              {entry.dataKey === 'revenue' ? (
+                `${t('chart.revenue')}: ${formatCurrency(entry.value, language)}`
+              ) : (
+                `${t('chart.sessions')}: ${entry.value}`
+              )}
+            </p>
+          ))}
+        </div>
+      );
+    }
+    return null;
+  };
   
   return (
     <div className="h-[300px]">
@@ -104,7 +126,7 @@ export const RevenueChart: React.FC<RevenueChartProps> = ({ period }) => {
           <XAxis dataKey="name" />
           <YAxis yAxisId="left" orientation="left" stroke="#8884d8" />
           <YAxis yAxisId="right" orientation="right" stroke="#82ca9d" />
-          <Tooltip />
+          <Tooltip content={<CustomTooltip />} />
           <Legend />
           <Bar 
             yAxisId="left" 

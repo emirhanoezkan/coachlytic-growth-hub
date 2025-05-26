@@ -155,6 +155,7 @@
         },
         "success": "Başarılı",
         "clientAdded": "Müşteri başarıyla eklendi",
+        "clientUpdated": "Müşteri başarıyla güncellendi",
         "viewProfile": "Profili Görüntüle",
         "noteCannotBeEmpty": "Not boş olamaz",
         "noteAdded": "Not Eklendi",
@@ -285,7 +286,40 @@
         "access": "Koçluk belgelerinize erişin ve paylaşın",
         "dragDrop": "Dosyaları buraya sürükleyip bırakın veya seçmek için tıklayın",
         "uploadButton": "Belge Yükle",
-        "searchPlaceholder": "Belgeleri ara..."
+        "searchPlaceholder": "Belgeleri ara...",
+        "upload": {
+          "chooseFile": "Dosya seçin",
+          "orDragDrop": "veya sürükleyip bırakın",
+          "fileTypes": "PDF, Word, Excel, PNG, JPG 50MB'a kadar",
+          "uploading": "Yükleniyor...",
+          "uploadDocument": "Belge Yükle",
+          "success": "Belge yüklendi",
+          "successDesc": "{filename} başarıyla yüklendi.",
+          "failed": "Yükleme başarısız"
+        },
+        "list": {
+          "document": "Belge",
+          "type": "Tür",
+          "size": "Boyut",
+          "dateAdded": "Eklenme Tarihi",
+          "download": "İndir",
+          "delete": "Sil",
+          "deleteConfirm": "Bu belgeyi silmek istediğinizden emin misiniz?",
+          "deleteDescription": "Bu işlem geri alınamaz. Belge hesabınızdan kalıcı olarak silinecektir.",
+          "loading": "Belgeler yükleniyor...",
+          "noDocuments": "Henüz belge yüklenmedi",
+          "uploadFirst": "İlk belgenizi yukarıdan yükleyin",
+          "downloadStarted": "İndirme başladı",
+          "downloadingFile": "{filename} indiriliyor",
+          "downloadFailed": "İndirme başarısız",
+          "downloadFailedDesc": "Belge indirilemedi. Lütfen tekrar deneyin.",
+          "documentDeleted": "Belge silindi",
+          "documentDeletedDesc": "Belge başarıyla silindi.",
+          "deleteFailed": "Silme başarısız",
+          "errorLoading": "Belgeler yüklenirken hata oluştu",
+          "unknownError": "Bilinmeyen hata",
+          "unknown": "Bilinmeyen"
+        }
       },
       "settings": {
         "title": "Ayarlar",
@@ -314,9 +348,17 @@
           "darkMode": "Karanlık Mod",
           "darkModeDesc": "Uygulama için karanlık tema kullanın"
         },
+        "timeFormat": {
+          "title": "Saat Formatı",
+          "description": "Uygulama genelinde saatlerin nasıl görüntüleneceğini seçin",
+          "12hour": "12 saatlik (ÖÖ/ÖS)",
+          "24hour": "24 saatlik",
+          "12hourExample": "Örnek: 14:30 ÖS",
+          "24hourExample": "Örnek: 14:30"
+        },
         "integrations": {
-          "title": "Hizmet Entegrasyonları",
-          "description": "Üçüncü taraf hizmetlere bağlanın",
+          "title": "Servis Entegrasyonları",
+          "description": "Üçüncü taraf servislere bağlanın",
           "connect": "{integration} hesabınıza bağlayın",
           "connectButton": "Bağlan"
         },
@@ -326,7 +368,7 @@
           "changePassword": "Şifre Değiştir",
           "changePasswordDesc": "Hesap şifrenizi güncelleyin",
           "2fa": "İki Faktörlü Kimlik Doğrulama",
-          "2faDesc": "Hesabınıza ekstra bir güvenlik katmanı ekleyin",
+          "2faDesc": "Hesabınıza ekstra güvenlik katmanı ekleyin",
           "sessions": "Aktif Oturumlar",
           "sessionsDesc": "Aktif giriş oturumlarınızı yönetin",
           "currentDevice": "Mevcut Cihaz",
@@ -339,18 +381,18 @@
         "title": "Profil",
         "subtitle": "Kişisel bilgilerinizi yönetin",
         "personal": "Kişisel Bilgiler",
-        "update": "Kişisel bilgilerinizi güncelleyin",
+        "update": "Kişisel detaylarınızı güncelleyin",
         "firstName": "Ad",
         "lastName": "Soyad",
         "email": "E-posta Adresi",
         "company": "Şirket",
         "phone": "Telefon Numarası",
-        "changePhoto": "Fotoğrafı Değiştir",
+        "changePhoto": "Fotoğraf Değiştir",
         "save": "Değişiklikleri Kaydet"
       },
       "analytics": {
-        "title": "Analitikler",
-        "subtitle": "Koçluk işletmenize ait içgörüleri ve metrikleri görüntüleyin",
+        "title": "Analiz",
+        "subtitle": "Koçluk işletmeniz için içgörüler ve metrikleri görüntüleyin",
         "day": "Gün",
         "week": "Hafta",
         "month": "Ay",
@@ -368,9 +410,9 @@
         "clientPlaceholder": "Müşteri seçin",
         "selectClient": "Müşteri seçin",
         "invoiceDate": "Fatura Tarihi",
-        "dueDate": "Son Ödeme Tarihi",
-        "selectDueDate": "Son ödeme tarihi seçin",
-        "amount": "Tutar",
+        "dueDate": "Vade Tarihi",
+        "selectDueDate": "Vade tarihi seçin",
+        "amount": "Miktar",
         "amountPlaceholder": "₺0,00",
         "description": "Açıklama",
         "descriptionPlaceholder": "Fatura açıklaması girin",
@@ -408,7 +450,7 @@
         "statuses": {
           "paid": "Ödendi",
           "pending": "Beklemede",
-          "overdue": "Gecikmiş"
+          "overdue": "Vadesi Geçmiş"
         }
       },
       "action": {
@@ -418,6 +460,7 @@
         "save": "Kaydet",
         "cancel": "İptal",
         "update": "Güncelle",
+        "updating": "Güncelleniyor...",
         "create": "Oluştur",
         "search": "Ara",
         "filter": "Filtrele",
@@ -434,7 +477,7 @@
         "processing": "İşleniyor...",
         "saving": "Kaydediliyor...",
         "reset": "Sıfırla",
-        "applyFilter": "Filtreyi Uygula"
+        "applyFilter": "Filtre Uygula"
       },
       "validation": {
         "required": "Bu alan zorunludur",
@@ -451,48 +494,48 @@
         "hero": {
           "badge": "Koç Yönetim Platformu",
           "title": {
-            "part1": "Koçluk Uygulamanızı",
-            "part2": "Akıllı Araçlarla Yükseltin"
+            "part1": "Koçluk Pratiğinizi Yükseltin",
+            "part2": "Akıllı Araçlarla"
           },
-          "description": "Müşteri yönetimini kolaylaştırın, oturumları kolayca planlayın, kişiselleştirilmiş programlar oluşturun ve koçluk işletmenizi hepsi bir arada platformumuzla büyütün.",
+          "description": "Müşteri yönetimini kolaylaştırın, oturumları kolayca planlayın, kişiselleştirilmiş programlar oluşturun ve hepsi bir arada platformumuzla koçluk işletmenizi büyütün.",
           "button": {
             "primary": "Başlayın",
             "secondary": "Daha Fazla Bilgi"
           },
-          "feature1": "Kredi kartı gerekmiyor",
-          "feature2": "14 gün ücretsiz deneme"
+          "feature1": "Kredi kartı gerekmez",
+          "feature2": "14 günlük ücretsiz deneme"
         },
         "features": {
           "title": "Özellikler",
           "heading": "Koçluk işletmenizi yönetmek için ihtiyacınız olan her şey",
-          "subheading": "Özellikle koçların müşterilerine olağanüstü hizmet sunmalarına yardımcı olmak için tasarlanmıştır.",
+          "subheading": "Koçların müşterilerine olağanüstü hizmet sunmasına yardımcı olmak için özel olarak tasarlandı.",
           "clientManagement": {
             "title": "Müşteri Yönetimi",
             "description": "Müşteri bilgilerini düzenleyin, ilerlemeyi takip edin ve kişiselleştirilmiş koçluk için detaylı notlar tutun."
           },
           "scheduling": {
             "title": "Akıllı Planlama",
-            "description": "Kolayca oturum ayarlayın, otomatik hatırlatıcılar gönderin ve takviminizi tek bir yerden yönetin."
+            "description": "Kolayca oturum rezervasyonu yapın, otomatik hatırlatıcılar gönderin ve takviminizi tek yerden yönetin."
           },
           "program": {
             "title": "Program Oluşturucu",
             "description": "Yapılandırılmış modüller, kaynaklar ve takip ile özelleştirilmiş koçluk programları oluşturun."
           },
           "analytics": {
-            "title": "İşletme Analitiği",
-            "description": "Gelir izleme ve müşteri sadakati metrikleri ile koçluk uygulamanız hakkında içgörüler elde edin."
+            "title": "İş Analitiği",
+            "description": "Gelir takibi ve müşteri sadakati metrikleri ile koçluk pratiğinize dair içgörüler edinin."
           }
         },
         "benefits": {
-          "heading": "Koçlar neden Coachlytic'i tercih ediyor",
+          "heading": "Koçlar neden Coachlytic'i seçiyor",
           "subheading": "Platformumuzu koçluk profesyonelleri için tercih edilen seçenek yapan temel avantajları keşfedin.",
           "efficiency": {
-            "title": "Zaman Kazanın",
-            "description": "İdari görevleri otomatikleştirin ve önemli olan şeye - müşterilerinizi koçlamaya odaklanın."
+            "title": "Zaman Tasarrufu",
+            "description": "İdari görevleri otomatikleştirin ve önemli olana - müşterilerinizi koçlamaya odaklanın."
           },
           "engagement": {
             "title": "Katılımı Artırın",
-            "description": "Yapılandırılmış programlar ve düzenli ilerleme takibi ile müşterileri meşgul tutun."
+            "description": "Yapılandırılmış programlar ve düzenli ilerleme takibi ile müşterilerin katılımını sürdürün."
           },
           "delivery": {
             "title": "Profesyonel Teslimat",
@@ -500,31 +543,31 @@
           },
           "financial": {
             "title": "Finansal Kontrol",
-            "description": "Geliri takip edin, faturalamayı yönetin ve koçluk işletmenizi karlı şekilde büyütün."
+            "description": "Geliri takip edin, faturalamayı yönetin ve koçluk işletmenizi karlı bir şekilde büyütün."
           }
         },
         "pricing": {
           "heading": "Basit, şeffaf fiyatlandırma",
-          "subheading": "Koçluk uygulamanıza uygun planı seçin. Tüm planlar temel özelliklerimizi içerir.",
+          "subheading": "Koçluk pratiğinize uygun planı seçin. Tüm planlar temel özelliklerimizi içerir.",
           "basic": {
             "title": "Temel",
-            "price": "₺299",
+            "price": "₺290",
             "period": "ay",
             "feature1": "25 müşteriye kadar",
             "feature2": "Temel planlama",
             "feature3": "E-posta desteği",
-            "button": "Temel'i Başlat"
+            "button": "Temel Başlat"
           },
           "pro": {
             "title": "Profesyonel",
-            "price": "₺599",
+            "price": "₺590",
             "period": "ay",
             "badge": "En Popüler",
             "feature1": "100 müşteriye kadar",
             "feature2": "Gelişmiş planlama",
             "feature3": "Program oluşturucu",
             "feature4": "Öncelikli destek",
-            "button": "Profesyonel'i Başlat"
+            "button": "Profesyonel Başlat"
           },
           "enterprise": {
             "title": "Kurumsal",
@@ -533,31 +576,31 @@
             "feature2": "Özel entegrasyonlar",
             "feature3": "Özel destek",
             "feature4": "Gelişmiş analitik",
-            "button": "Satış ile İletişime Geç"
+            "button": "Satış Ekibiyle İletişim"
           }
         },
         "testimonials": {
           "badge": "Başarı Hikayeleri",
-          "heading": "Dünya çapında koçlar tarafından güvenilir",
+          "heading": "Dünya çapında koçlar tarafından güveniliyor",
           "person1": {
-            "name": "Ayşe Yılmaz",
+            "name": "Alexandra Johnson",
             "role": "Yaşam Koçu",
-            "quote": "Coachlytic'i kullanmaya başladıktan sonra, idari görevlere daha az zaman harcayarak müşteri tabanımı ikiye katladım. Platform işletmemi dönüştürdü."
+            "quote": "Coachlytic kullanmaya başladığımdan beri, idari görevlere daha az zaman harcarken müşteri tabanımı iki katına çıkardım. Platform işimi dönüştürdü."
           },
           "person2": {
-            "name": "Mehmet Kaya",
+            "name": "Samuel Liu",
             "role": "İş Koçu",
-            "quote": "Program oluşturucular özelliği, müşterilerim için yapılandırılmış yolculuklar oluşturmama yardımcı oluyor. Müşteri sonuçları ve memnuniyeti konusunda büyük bir fark yarattı."
+            "quote": "Program oluşturucu özelliği müşterilerim için yapılandırılmış yolculuklar oluşturmama yardımcı oluyor. Müşteri sonuçları ve memnuniyetinde büyük fark yarattı."
           },
           "person3": {
-            "name": "Zeynep Demir",
+            "name": "Maria Torres",
             "role": "Sağlık Koçu",
-            "quote": "Müşteri izleme ve analitik özellikleri, daha kişiselleştirilmiş koçluk hizmetleri sunmama yardımcı oluyor. Müşterilerim profesyonel deneyimi seviyorlar."
+            "quote": "Müşteri takibi ve analitik özellikleri daha kişiselleştirilmiş koçluk hizmetleri sunmama yardımcı oluyor. Müşterilerim profesyonel deneyimi seviyor."
           }
         },
         "cta": {
           "heading": "Koçluk işletmenizi büyütmeye hazır mısınız?",
-          "subheading": "Güçlü platformumuzla uygulamalarını ölçeklendiren binlerce koça katılın.",
+          "subheading": "Güçlü platformumuzla pratiğini ölçeklendiren binlerce koça katılın.",
           "button": "Yolculuğunuza başlayın"
         },
         "footer": {
@@ -567,10 +610,10 @@
           "pricing": "Fiyatlandırma",
           "support": "Destek",
           "helpCenter": "Yardım Merkezi",
-          "contact": "Bize Ulaşın",
+          "contact": "İletişim",
           "legal": "Yasal",
           "privacy": "Gizlilik Politikası",
-          "terms": "Kullanım Koşulları",
+          "terms": "Hizmet Şartları",
           "copyright": "© 2025 Coachlytic. Tüm hakları saklıdır."
         }
       },

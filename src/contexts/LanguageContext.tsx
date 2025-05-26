@@ -23,11 +23,20 @@ interface LanguageContextType {
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
+const STORAGE_KEY = 'coachlytic_language';
+
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [language, setLanguage] = useState<Language>('en');
   
   useEffect(() => {
     const loadLanguage = async () => {
+      // First try localStorage
+      const savedLanguage = localStorage.getItem(STORAGE_KEY) as Language;
+      if (savedLanguage && (savedLanguage === 'en' || savedLanguage === 'tr')) {
+        setLanguage(savedLanguage);
+      }
+      
+      // Then try to get from Supabase if user is logged in
       const { data: { user } } = await supabase.auth.getUser();
       if (user) {
         const { data, error } = await supabase
@@ -37,7 +46,9 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
           .single();
         
         if (data?.language && !error) {
-          setLanguage(data.language as Language);
+          const dbLanguage = data.language as Language;
+          setLanguage(dbLanguage);
+          localStorage.setItem(STORAGE_KEY, dbLanguage);
         }
       }
     };
@@ -50,44 +61,42 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     tr: trTranslations,
   };
 
-  // Enhanced translation function that handles nested paths and provides better fallbacks
+  // Enhanced translation function with fallback and development warnings
   const t = (key: string): string => {
     try {
       const currentTranslations = translations[language];
       if (!currentTranslations) {
         if (process.env.NODE_ENV === 'development') {
-          console.warn(`No translations loaded for language: ${language}`);
+          console.warn(`No translations loaded for language: ${language}, falling back to English`);
         }
-        return `[MISSING_TRANSLATION: ${key}]`;
-      }
-
-      // Split the key by dots to handle nested translations
-      const parts = key.split('.');
-      let result: string | TranslationFile | undefined = currentTranslations;
-      
-      // Navigate through the nested structure
-      for (const part of parts) {
-        if (typeof result !== 'object' || result === null || !result.hasOwnProperty(part)) {
-          if (process.env.NODE_ENV === 'development') {
-            console.warn(`Translation path broken at '${part}' for key '${key}'. Expected an object with property '${part}', but got ${typeof result}.`);
-          }
+        const fallbackTranslations = translations['en'];
+        if (!fallbackTranslations) {
           return `[MISSING_TRANSLATION: ${key}]`;
         }
-        result = result[part] as string | TranslationFile; // Type assertion
+        return getNestedTranslation(fallbackTranslations, key) || `[MISSING_TRANSLATION: ${key}]`;
       }
-      
-      // If we found a string, return it
-      if (typeof result === 'string') {
+
+      const result = getNestedTranslation(currentTranslations, key);
+      if (result) {
         return result;
       }
-      
-      // If we found an object or undefined/null, return the missing translation string
-      if (process.env.NODE_ENV === 'development') {
-        console.warn(`No string found for key '${key}'. Expected a string, but got ${typeof result}.`);
+
+      // Fallback to English
+      const fallbackResult = getNestedTranslation(translations['en'], key);
+      if (fallbackResult) {
+        if (process.env.NODE_ENV === 'development') {
+          console.warn(`Translation missing for key '${key}' in ${language}, using English fallback`);
+        }
+        return fallbackResult;
       }
+      
+      // Log missing translations in development
+      if (process.env.NODE_ENV === 'development') {
+        console.warn(`Missing translation for key '${key}' in both ${language} and English`);
+      }
+      
       return `[MISSING_TRANSLATION: ${key}]`;
     } catch (error) {
-      // Log the error and return the missing translation string
       if (process.env.NODE_ENV === 'development') {
         console.error(`Error getting translation for key '${key}':`, error);
       }
@@ -95,19 +104,42 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     }
   };
 
-  const saveLanguagePreference = async (newLanguage: Language) => {
-    const { data: { user } } = await supabase.auth.getUser();
-    if (user) {
-      await supabase
-        .from('profiles')
-        .upsert({
-          id: user.id,
-          language: newLanguage,
-          updated_at: new Date().toISOString(),
-        });
+  const getNestedTranslation = (translations: TranslationFile, key: string): string | null => {
+    const parts = key.split('.');
+    let result: string | TranslationFile | undefined = translations;
+    
+    for (const part of parts) {
+      if (typeof result !== 'object' || result === null || !result.hasOwnProperty(part)) {
+        return null;
+      }
+      result = result[part] as string | TranslationFile;
     }
     
+    return typeof result === 'string' ? result : null;
+  };
+
+  const saveLanguagePreference = async (newLanguage: Language) => {
+    // Save to localStorage immediately
+    localStorage.setItem(STORAGE_KEY, newLanguage);
     setLanguage(newLanguage);
+    
+    // Try to save to Supabase if user is logged in
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        await supabase
+          .from('profiles')
+          .upsert({
+            id: user.id,
+            language: newLanguage,
+            updated_at: new Date().toISOString(),
+          });
+      }
+    } catch (error) {
+      if (process.env.NODE_ENV === 'development') {
+        console.warn('Failed to save language preference to Supabase:', error);
+      }
+    }
   };
 
   return (

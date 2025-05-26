@@ -14,7 +14,7 @@ interface ProgramFormProps {
 }
 
 export const ProgramForm: React.FC<ProgramFormProps> = ({ onSubmit, initialData }) => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const { mutate: addProgram, isPending: isAddPending } = useAddProgram();
   const { mutate: updateProgram, isPending: isUpdatePending } = useUpdateProgram();
   
@@ -45,6 +45,10 @@ export const ProgramForm: React.FC<ProgramFormProps> = ({ onSubmit, initialData 
         }
       });
     }
+  };
+
+  const getCurrencyPlaceholder = () => {
+    return language === 'tr' ? '₺0,00' : '$0.00';
   };
 
   return (
@@ -107,7 +111,8 @@ export const ProgramForm: React.FC<ProgramFormProps> = ({ onSubmit, initialData 
           <Input 
             id="price" 
             type="number" 
-            placeholder={t('programs.pricePlaceholder')} 
+            step="0.01"
+            placeholder={getCurrencyPlaceholder()} 
             {...register('price', { 
               valueAsNumber: true,
               min: 0
