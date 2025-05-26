@@ -281,14 +281,14 @@
       "documents": {
         "title": "Belgeler",
         "subtitle": "Koçluk kaynaklarınızı ve materyallerinizi yönetin",
-        "upload": "Belge Yükleme",
+        "uploadTitle": "Belge Yükleme",
         "uploadDesc": "Müşterileriniz için koçluk materyalleri ve kaynakları yükleyin",
         "library": "Belge Kütüphanesi",
         "access": "Koçluk belgelerinize erişin ve paylaşın",
         "dragDrop": "Dosyaları buraya sürükleyip bırakın veya seçmek için tıklayın",
         "uploadButton": "Belge Yükle",
         "searchPlaceholder": "Belgeleri ara...",
-        "upload": {
+        "uploader": {
           "chooseFile": "Dosya seçin",
           "orDragDrop": "veya sürükleyip bırakın",
           "fileTypes": "PDF, Word, Excel, PNG, JPG 50MB'a kadar",

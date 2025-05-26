@@ -58,8 +58,8 @@ export const DocumentUploader = () => {
       }, {
         onSuccess: () => {
           toast({
-            title: t('documents.upload.success'),
-            description: t('documents.upload.successDesc').replace('{filename}', file.name),
+            title: t('documents.uploader.success'),
+            description: t('documents.uploader.successDesc').replace('{filename}', file.name),
           });
           setFile(null);
           setProgress(0);
@@ -67,7 +67,7 @@ export const DocumentUploader = () => {
         onError: (error) => {
           toast({
             variant: "destructive",
-            title: t('documents.upload.failed'),
+            title: t('documents.uploader.failed'),
             description: error.message,
           });
         }
@@ -94,7 +94,7 @@ export const DocumentUploader = () => {
             <Upload className="mx-auto h-12 w-12 text-gray-400" />
             <div className="mt-2">
               <label htmlFor="file-upload" className="cursor-pointer text-forest-600 hover:text-forest-500">
-                <span>{t('documents.upload.chooseFile')}</span>
+                <span>{t('documents.uploader.chooseFile')}</span>
                 <input 
                   id="file-upload" 
                   name="file-upload" 
@@ -103,10 +103,10 @@ export const DocumentUploader = () => {
                   onChange={handleFileChange} 
                 />
               </label>
-              <span className="text-gray-500"> {t('documents.upload.orDragDrop')}</span>
+              <span className="text-gray-500"> {t('documents.uploader.orDragDrop')}</span>
             </div>
             <p className="text-xs text-gray-500 mt-1">
-              {t('documents.upload.fileTypes')}
+              {t('documents.uploader.fileTypes')}
             </p>
           </div>
         ) : (
@@ -135,7 +135,7 @@ export const DocumentUploader = () => {
             {isUploading && (
               <div>
                 <div className="flex justify-between text-xs text-gray-500 mb-1">
-                  <span>{t('documents.upload.uploading')}</span>
+                  <span>{t('documents.uploader.uploading')}</span>
                   <span>{Math.round(progress)}%</span>
                 </div>
                 <Progress value={progress} className="h-1" />
@@ -149,7 +149,7 @@ export const DocumentUploader = () => {
         <div className="flex justify-end">
           <Button onClick={handleUpload} className="bg-forest-500 hover:bg-forest-600">
             <Upload className="mr-2 h-4 w-4" />
-            {t('documents.upload.uploadDocument')}
+            {t('documents.uploader.uploadDocument')}
           </Button>
         </div>
       )}

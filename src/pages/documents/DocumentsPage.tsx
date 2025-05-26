@@ -34,7 +34,7 @@ const DocumentsPage = () => {
               
               <Card>
                 <CardHeader>
-                  <CardTitle>{t('documents.upload')}</CardTitle>
+                  <CardTitle>{t('documents.uploadTitle')}</CardTitle>
                   <CardDescription>
                     {t('documents.uploadDesc')}
                   </CardDescription>

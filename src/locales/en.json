@@ -281,14 +281,14 @@
       "documents": {
         "title": "Documents",
         "subtitle": "Manage your coaching resources and materials",
-        "upload": "Upload Documents",
+        "uploadTitle": "Upload Documents",
         "uploadDesc": "Upload coaching materials and resources for your clients",
         "library": "Document Library",
         "access": "Access and share your coaching documents",
         "dragDrop": "Drag and drop files here, or click to select",
         "uploadButton": "Upload Document",
         "searchPlaceholder": "Search documents...",
-        "upload": {
+        "uploader": {
           "chooseFile": "Choose a file",
           "orDragDrop": "or drag and drop",
           "fileTypes": "PDF, Word, Excel, PNG, JPG up to 50MB",
