@@ -148,35 +148,36 @@ export const DocumentsList = () => {
   return (
     <>
       <div className="border rounded-md overflow-hidden">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>{t('documents.list.document')}</TableHead>
-              <TableHead>{t('documents.list.type')}</TableHead>
-              <TableHead>{t('documents.list.size')}</TableHead>
-              <TableHead>{t('documents.list.dateAdded')}</TableHead>
-              <TableHead></TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {documents.map((document) => (
-              <TableRow key={document.id || document.name}>
-                <TableCell>
-                  <div className="flex items-center space-x-3">
-                    {getFileIcon(document.type)}
-                    <span className="font-medium truncate max-w-[200px]">
-                      {formatFileName(document.name)}
-                    </span>
-                  </div>
-                </TableCell>
-                <TableCell>{document.type.split('/').pop() || t('documents.list.unknown')}</TableCell>
-                <TableCell>{formatFileSize(document.size)}</TableCell>
-                <TableCell>{formatDate(document.created_at)}</TableCell>
-                <TableCell>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-                        <MoreHorizontal className="h-4 w-4" />
+        <div className="overflow-x-auto"> {/* Added horizontal scroll wrapper */}
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="py-2 px-2 sm:py-3 sm:px-4">{t('documents.list.document')}</TableHead>
+                <TableHead className="hidden sm:table-cell py-2 px-2 sm:py-3 sm:px-4">{t('documents.list.type')}</TableHead>
+                <TableHead className="hidden md:table-cell py-2 px-2 sm:py-3 sm:px-4">{t('documents.list.size')}</TableHead>
+                <TableHead className="hidden sm:table-cell py-2 px-2 sm:py-3 sm:px-4">{t('documents.list.dateAdded')}</TableHead>
+                <TableHead className="py-2 px-2 sm:py-3 sm:px-4"></TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {documents.map((document) => (
+                <TableRow key={document.id || document.name}>
+                  <TableCell className="py-2 px-2 sm:py-3 sm:px-4">
+                    <div className="flex items-center space-x-2 sm:space-x-3">
+                      {getFileIcon(document.type)}
+                      <span className="font-medium truncate max-w-[150px] xs:max-w-[180px] sm:max-w-[200px] md:max-w-xs lg:max-w-sm">
+                        {formatFileName(document.name)}
+                      </span>
+                    </div>
+                  </TableCell>
+                  <TableCell className="hidden sm:table-cell py-2 px-2 sm:py-3 sm:px-4">{document.type.split('/').pop() || t('documents.list.unknown')}</TableCell>
+                  <TableCell className="hidden md:table-cell py-2 px-2 sm:py-3 sm:px-4">{formatFileSize(document.size)}</TableCell>
+                  <TableCell className="hidden sm:table-cell py-2 px-2 sm:py-3 sm:px-4">{formatDate(document.created_at)}</TableCell>
+                  <TableCell className="py-2 px-2 sm:py-3 sm:px-4">
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" size="icon" className="h-7 w-7 sm:h-8 sm:w-8 p-0"> {/* Adjusted button size */}
+                          <MoreHorizontal className="h-3.5 w-3.5 sm:h-4 sm:w-4" /> {/* Adjusted icon size */}
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">

@@ -296,7 +296,7 @@ const ClientProfilePage = () => {
                     {t('client.backToClients')}
                   </Button>
                 </div>
-                <div className="flex gap-2">
+                <div className="flex flex-wrap gap-2"> {/* Added flex-wrap */}
                   <Button 
                     variant="outline" 
                     size="sm" 
@@ -440,7 +440,7 @@ const ClientProfilePage = () => {
                                     <div key={session.id} className="bg-gray-50 border rounded-lg p-4">
                                       <div className="flex justify-between">
                                         <div>
-                                          <p className="font-medium">{session.title}</p>
+                                          <p className="font-medium truncate max-w-xs">{session.title}</p> {/* Added truncate and max-width */}
                                           <p className="text-sm text-gray-500">
                                             {format(new Date(session.date), 'MMM dd, yyyy - HH:mm')} · {session.duration} {t('client.min')}
                                           </p>
@@ -510,7 +510,7 @@ const ClientProfilePage = () => {
                                   <div className="flex justify-between">
                                     <div>
                                       <div className="flex items-center gap-2">
-                                        <h4 className="font-medium">{session.title}</h4>
+                                        <h4 className="font-medium truncate max-w-[150px] sm:max-w-xs">{session.title}</h4> {/* Added truncate and max-width */}
                                         <Badge className={
                                           session.status === "scheduled" ? "bg-lavender-100 text-lavender-800" :
                                           session.status === "completed" ? "bg-forest-100 text-forest-800" :

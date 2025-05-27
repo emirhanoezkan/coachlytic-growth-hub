@@ -1,8 +1,14 @@
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+  /*
+    The following styles were removed as they are better handled by Tailwind CSS
+    utility classes on a per-component or per-page basis:
+    - max-width: 1280px;
+    - margin: 0 auto;
+    - padding: 2rem;
+    - text-align: center;
+    Layouts are now primarily controlled by Tailwind classes in components like
+    LandingPage.tsx, Navbar.tsx, and DashboardLayout.tsx.
+  */
 }
 
 .logo {

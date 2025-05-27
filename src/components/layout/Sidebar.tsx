@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom"; // Added Link
 import { 
   AreaChart, 
   Users, 
@@ -12,12 +12,16 @@ import {
 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { 
-  SidebarBody, 
-  SidebarLink,
-} from "@/components/ui/sidebar-animated";
+  SidebarBody,
+  // We will use a modified SidebarLink or handle click directly for SheetClose
+} from "@/components/ui/sidebar-animated"; 
 import { motion } from "framer-motion";
 
-export function Sidebar() {
+interface SidebarProps {
+  onLinkClick?: () => void; // Callback for when a link is clicked
+}
+
+export function Sidebar({ onLinkClick }: SidebarProps) {
   const { t } = useLanguage();
   const { pathname } = useLocation();
   
@@ -64,7 +68,8 @@ export function Sidebar() {
   );
 
   const Logo = () => (
-    <div className="font-display flex space-x-2 items-center text-sm py-1 relative z-20">
+    // Added px-4 for alignment similar to links, and py-4 for a bit more space
+    <div className="font-display flex space-x-2 items-center text-sm py-4 px-4 relative z-20"> 
       <LogoIcon />
       <motion.span
         initial={{ opacity: 0 }}
@@ -75,21 +80,42 @@ export function Sidebar() {
       </motion.span>
     </div>
   );
+  
+  // Custom Link component to handle onLinkClick and active state
+  const CustomSidebarLink = ({ link }: { link: typeof routes[0] }) => (
+    <Link
+      to={link.href}
+      onClick={onLinkClick} // Close sheet on click
+      className={`flex items-center space-x-3 rounded-md px-4 py-2.5 text-sm font-medium transition-colors
+                  ${pathname === link.href 
+                    ? "bg-neutral-200 dark:bg-neutral-700 text-neutral-900 dark:text-neutral-50" 
+                    : "text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-700/50 hover:text-neutral-900 dark:hover:text-neutral-50"}`}
+    >
+      {link.icon}
+      <span>{link.label}</span>
+    </Link>
+  );
 
   return (
-    <SidebarBody className="justify-between gap-10 border-r border-neutral-200 dark:border-neutral-700 w-auto max-w-[200px] md:max-w-[250px]">
-      <div className="flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
+    // Removed max-w and w-auto for Sheet compatibility, added classes for hiding on mobile
+    // The parent SheetContent will control the width on mobile.
+    // Desktop width is controlled by the div wrapper in DashboardLayout.
+    <SidebarBody className="flex flex-col justify-between gap-10 border-r border-neutral-200 dark:border-neutral-700 h-full">
+      {/* Removed overflow-x-hidden as SheetContent might handle scrolling or it's not needed */}
+      <div className="flex flex-col flex-1 overflow-y-auto"> 
         <Logo />
-        <div className="mt-8 flex flex-col gap-2">
+        <div className="mt-8 flex flex-col gap-1 px-2"> {/* Reduced gap slightly, added padding for links */}
           {routes.map((link, idx) => (
-            <SidebarLink 
-              key={idx} 
-              link={link} 
-              className={pathname === link.href ? "bg-neutral-200 dark:bg-neutral-700 rounded-md px-2" : "px-2"}
-            />
+            <CustomSidebarLink key={idx} link={link} />
           ))}
         </div>
       </div>
+      {/* User profile / settings link can be added here if needed in the future */}
+      {/* Example:
+      <div className="p-4 border-t border-neutral-200 dark:border-neutral-700">
+        User Profile Links
+      </div>
+      */}
     </SidebarBody>
   );
 }

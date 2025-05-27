@@ -204,60 +204,63 @@ export const ClientList: React.FC = () => {
             </p>
           </div>
         ) : (
-          <div className="rounded-md border overflow-hidden">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>{t('client.name')}</TableHead>
-                  <TableHead>{t('client.program')}</TableHead>
-                  <TableHead>{t('chart.progress')}</TableHead>
-                  <TableHead>{t('client.status')}</TableHead>
-                  <TableHead>{t('sessions.title')}</TableHead>
-                  <TableHead>{t('sessions.next')}</TableHead>
-                  <TableHead></TableHead>
+          <div className="rounded-md border overflow-hidden"> {/* Existing border and rounding */}
+            <div className="overflow-x-auto"> {/* Added horizontal scroll wrapper */}
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                  <TableHead className="py-2 px-2 sm:py-3 sm:px-4">{t('client.name')}</TableHead>
+                  <TableHead className="hidden md:table-cell py-2 px-2 sm:py-3 sm:px-4">{t('client.program')}</TableHead> {/* Hidden on sm, visible md+ */}
+                  <TableHead className="py-2 px-2 sm:py-3 sm:px-4">{t('chart.progress')}</TableHead>
+                  <TableHead className="py-2 px-2 sm:py-3 sm:px-4">{t('client.status')}</TableHead>
+                  <TableHead className="hidden lg:table-cell py-2 px-2 sm:py-3 sm:px-4">{t('sessions.title')}</TableHead> {/* Hidden on md, visible lg+ */}
+                  <TableHead className="hidden sm:table-cell py-2 px-2 sm:py-3 sm:px-4">{t('sessions.next')}</TableHead> {/* Hidden on xs, visible sm+ */}
+                  <TableHead className="py-2 px-2 sm:py-3 sm:px-4"></TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {filteredClients.map((client) => (
                   <TableRow key={client.id}>
-                    <TableCell>
+                    <TableCell className="py-2 px-2 sm:py-3 sm:px-4">
                       <div>
                         <div className="font-medium cursor-pointer hover:underline" onClick={() => handleViewProfile(client.id)}>
                           {client.name}
                         </div>
-                        <div className="text-sm text-gray-500">{client.email}</div>
+                        <div className="text-sm text-gray-500 truncate max-w-[100px] sm:max-w-[150px]">{client.email}</div> {/* Truncate email */}
                       </div>
                     </TableCell>
-                    <TableCell>{client.program || "-"}</TableCell>
-                    <TableCell>
-                      <div className="w-full max-w-24">
+                    <TableCell className="hidden md:table-cell py-2 px-2 sm:py-3 sm:px-4">{client.program || "-"}</TableCell>
+                    <TableCell className="py-2 px-2 sm:py-3 sm:px-4">
+                      <div className="w-full max-w-20 sm:max-w-24"> {/* Adjusted max-width for progress */}
                         <div className="flex items-center justify-between mb-1">
-                          <span className="text-xs font-medium">{client.progress}%</span>
+                          {/* Removed % text on smallest screens, relying on bar */}
+                          <span className="text-xs font-medium hidden sm:inline">{client.progress}%</span>
                         </div>
-                        <Progress value={client.progress} className={
+                        <Progress value={client.progress} className={`h-1.5 sm:h-2 ${
                           client.progress >= 75 ? "bg-forest-500" :
                           client.progress >= 50 ? "bg-forest-300" :
                           client.progress >= 25 ? "bg-yellow-400" :
                           "bg-red-500"
-                        } />
+                        }`} />
                       </div>
                     </TableCell>
-                    <TableCell>
-                      <Badge className={
+                    <TableCell className="py-2 px-2 sm:py-3 sm:px-4">
+                      <Badge className={cn(
+                        "text-xs px-1.5 py-0.5 sm:px-2 sm:py-1", // Adjusted badge padding
                         client.status === "Active" ? "bg-forest-100 text-forest-800 hover:bg-forest-200" :
                         client.status === "At Risk" ? "bg-red-100 text-red-800 hover:bg-red-200" :
                         "bg-yellow-100 text-yellow-800 hover:bg-yellow-200"
-                      }>
+                      )}>
                         {client.status}
                       </Badge>
                     </TableCell>
-                    <TableCell>{client.sessions}</TableCell>
-                    <TableCell>{formatDate(client.next_session)}</TableCell>
-                    <TableCell>
+                    <TableCell className="hidden lg:table-cell py-2 px-2 sm:py-3 sm:px-4">{client.sessions}</TableCell>
+                    <TableCell className="hidden sm:table-cell py-2 px-2 sm:py-3 sm:px-4">{formatDate(client.next_session)}</TableCell>
+                    <TableCell className="py-2 px-2 sm:py-3 sm:px-4">
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-                            <MoreHorizontal className="h-4 w-4" />
+                          <Button variant="ghost" size="icon" className="h-7 w-7 sm:h-8 sm:w-8 p-0"> {/* Adjusted button size */}
+                            <MoreHorizontal className="h-3.5 w-3.5 sm:h-4 sm:w-4" /> {/* Adjusted icon size */}
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
@@ -281,6 +284,7 @@ export const ClientList: React.FC = () => {
               </TableBody>
             </Table>
           </div>
+        </div>
         )}
       </CardContent>
 

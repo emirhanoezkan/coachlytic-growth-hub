@@ -101,16 +101,17 @@ export const SessionList: React.FC = () => {
   return (
     <>
       <div className="rounded-md border overflow-hidden bg-white">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>{t('sessions.client')}</TableHead>
-              <TableHead>{t('sessions.title')}</TableHead>
-              <TableHead>{t('sessions.date')}</TableHead>
-              <TableHead>{t('sessions.time')}</TableHead>
-              <TableHead>{t('sessions.duration')}</TableHead>
-              <TableHead>{t('sessions.statusLabel')}</TableHead>
-              <TableHead></TableHead>
+        <div className="overflow-x-auto"> {/* Added horizontal scroll wrapper */}
+          <Table>
+            <TableHeader>
+              <TableRow>
+              <TableHead className="py-2 px-2 sm:py-3 sm:px-4">{t('sessions.client')}</TableHead>
+              <TableHead className="hidden md:table-cell py-2 px-2 sm:py-3 sm:px-4">{t('sessions.title')}</TableHead>
+              <TableHead className="py-2 px-2 sm:py-3 sm:px-4">{t('sessions.date')}</TableHead>
+              <TableHead className="hidden sm:table-cell py-2 px-2 sm:py-3 sm:px-4">{t('sessions.time')}</TableHead>
+              <TableHead className="hidden lg:table-cell py-2 px-2 sm:py-3 sm:px-4">{t('sessions.duration')}</TableHead>
+              <TableHead className="py-2 px-2 sm:py-3 sm:px-4">{t('sessions.statusLabel')}</TableHead>
+              <TableHead className="py-2 px-2 sm:py-3 sm:px-4"></TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -118,25 +119,28 @@ export const SessionList: React.FC = () => {
               const sessionDate = new Date(session.date);
               return (
                 <TableRow key={session.id}>
-                  <TableCell className="font-medium">{session.clients?.name || "Unknown Client"}</TableCell>
-                  <TableCell>{session.title}</TableCell>
-                  <TableCell>{format(sessionDate, 'MMM dd, yyyy')}</TableCell>
-                  <TableCell>{formatTime(sessionDate)}</TableCell>
-                  <TableCell>{session.duration} {t('time.min')}</TableCell>
-                  <TableCell>
-                    <Badge className={
+                  <TableCell className="font-medium py-2 px-2 sm:py-3 sm:px-4 truncate max-w-[100px] sm:max-w-[150px]">
+                    {session.clients?.name || t('dashboard.unnamed')}
+                  </TableCell>
+                  <TableCell className="hidden md:table-cell py-2 px-2 sm:py-3 sm:px-4 truncate max-w-[150px]">{session.title}</TableCell>
+                  <TableCell className="py-2 px-2 sm:py-3 sm:px-4">{format(sessionDate, 'MMM dd, yyyy')}</TableCell>
+                  <TableCell className="hidden sm:table-cell py-2 px-2 sm:py-3 sm:px-4">{formatTime(sessionDate)}</TableCell>
+                  <TableCell className="hidden lg:table-cell py-2 px-2 sm:py-3 sm:px-4">{session.duration} {t('time.min')}</TableCell>
+                  <TableCell className="py-2 px-2 sm:py-3 sm:px-4">
+                    <Badge className={cn(
+                      "text-xs px-1.5 py-0.5 sm:px-2 sm:py-1",
                       session.status === "scheduled" ? "bg-lavender-100 text-lavender-800 hover:bg-lavender-200" :
                       session.status === "completed" ? "bg-forest-100 text-forest-800 hover:bg-forest-200" :
                       "bg-red-100 text-red-800 hover:bg-red-200"
-                    }>
+                    )}>
                       {t(`sessions.status.${session.status}`)}
                     </Badge>
                   </TableCell>
-                  <TableCell>
+                  <TableCell className="py-2 px-2 sm:py-3 sm:px-4">
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-                          <MoreHorizontal className="h-4 w-4" />
+                        <Button variant="ghost" size="icon" className="h-7 w-7 sm:h-8 sm:w-8 p-0">
+                          <MoreHorizontal className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
@@ -170,6 +174,7 @@ export const SessionList: React.FC = () => {
           </TableBody>
         </Table>
       </div>
+    </div>
       
       {/* Edit Session Dialog */}
       <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>

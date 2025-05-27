@@ -140,7 +140,7 @@ export const InvoiceForm: React.FC<InvoiceFormProps> = ({ onSubmit, initialData 
           </Select>
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4"> {/* Stack on small screens */}
           <div>
             <Label>{t('billing.dueDate')}</Label>
             <Popover>
@@ -186,7 +186,7 @@ export const InvoiceForm: React.FC<InvoiceFormProps> = ({ onSubmit, initialData 
 
         {/* Tax Configuration */}
         <div className="space-y-4 border-t pt-4">
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4"> {/* Stack on small screens */}
             <div>
               <Label htmlFor="taxRate">{t('billing.taxRate')}</Label>
               <Input
@@ -233,8 +233,9 @@ export const InvoiceForm: React.FC<InvoiceFormProps> = ({ onSubmit, initialData 
           
           <div className="space-y-3">
             {items.map((item, index) => (
-              <div key={index} className="grid grid-cols-12 gap-2 items-end border p-2 rounded-md">
-                <div className="col-span-6">
+              <div key={index} className="grid grid-cols-1 sm:grid-cols-12 gap-x-2 gap-y-3 items-end border p-3 rounded-md">
+                {/* Description takes full width on mobile, then configured span on sm+ */}
+                <div className="col-span-full sm:col-span-6">
                   <Label htmlFor={`item-desc-${index}`} className="text-xs">{t('billing.description')}</Label>
                   <Input 
                     id={`item-desc-${index}`} 
@@ -244,7 +245,8 @@ export const InvoiceForm: React.FC<InvoiceFormProps> = ({ onSubmit, initialData 
                     className="mt-1"
                   />
                 </div>
-                <div className="col-span-2">
+                {/* Quantity and Rate in a subgrid for mobile, then configured span on sm+ */}
+                <div className="col-span-full sm:col-span-2 grid">
                   <Label htmlFor={`item-qty-${index}`} className="text-xs">{t('billing.quantity')}</Label>
                   <Input 
                     id={`item-qty-${index}`} 
@@ -255,7 +257,7 @@ export const InvoiceForm: React.FC<InvoiceFormProps> = ({ onSubmit, initialData 
                     className="mt-1"
                   />
                 </div>
-                <div className="col-span-3">
+                <div className="col-span-full sm:col-span-3 grid">
                   <Label htmlFor={`item-rate-${index}`} className="text-xs">{t('billing.rate')} ({currencySymbol})</Label>
                   <Input 
                     id={`item-rate-${index}`} 
@@ -267,16 +269,18 @@ export const InvoiceForm: React.FC<InvoiceFormProps> = ({ onSubmit, initialData 
                     className="mt-1"
                   />
                 </div>
-                <div className="col-span-1 flex justify-center">
+                {/* Delete button takes full width on mobile, then configured span on sm+ and different alignment */}
+                <div className="col-span-full sm:col-span-1 flex justify-end sm:justify-center">
                   {items.length > 1 && (
                     <Button 
                       type="button" 
                       variant="ghost" 
                       size="sm"
                       onClick={() => handleRemoveItem(index)} 
-                      className="text-red-500 hover:text-red-700 hover:bg-red-50 h-9 w-9 p-0"
+                      className="text-red-500 hover:text-red-700 hover:bg-red-50 h-9 w-full sm:w-9 p-0"
                     >
                       <Trash2 className="h-4 w-4" />
+                      <span className="sm:hidden ml-2">{t('action.remove')}</span> {/* Show text on mobile */}
                     </Button>
                   )}
                 </div>

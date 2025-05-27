@@ -90,16 +90,17 @@ export const InvoiceList: React.FC = () => {
   return (
     <>
       <div className="bg-white rounded-md border shadow-sm">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>{t('billing.invoice')}</TableHead>
-              <TableHead>{t('billing.client')}</TableHead>
-              <TableHead>{t('billing.issueDate')}</TableHead>
-              <TableHead>{t('billing.dueDate')}</TableHead>
-              <TableHead>{t('billing.amount')}</TableHead>
-              <TableHead>{t('billing.statusLabel')}</TableHead>
-              <TableHead></TableHead>
+        <div className="overflow-x-auto"> {/* Added horizontal scroll wrapper */}
+          <Table>
+            <TableHeader>
+              <TableRow>
+              <TableHead className="py-2 px-2 sm:py-3 sm:px-4">{t('billing.invoice')}</TableHead>
+              <TableHead className="hidden md:table-cell py-2 px-2 sm:py-3 sm:px-4">{t('billing.client')}</TableHead>
+              <TableHead className="py-2 px-2 sm:py-3 sm:px-4">{t('billing.issueDate')}</TableHead>
+              <TableHead className="hidden lg:table-cell py-2 px-2 sm:py-3 sm:px-4">{t('billing.dueDate')}</TableHead>
+              <TableHead className="py-2 px-2 sm:py-3 sm:px-4">{t('billing.amount')}</TableHead>
+              <TableHead className="hidden sm:table-cell py-2 px-2 sm:py-3 sm:px-4">{t('billing.statusLabel')}</TableHead>
+              <TableHead className="py-2 px-2 sm:py-3 sm:px-4"></TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -112,30 +113,31 @@ export const InvoiceList: React.FC = () => {
             ) : (
               invoices.map((invoice) => (
                 <TableRow key={invoice.id}>
-                  <TableCell className="font-medium flex items-center gap-2">
-                    <FileText className="h-4 w-4 text-gray-500" />
-                    {invoice.id.split('-')[0]}
+                  <TableCell className="font-medium flex items-center gap-2 py-2 px-2 sm:py-3 sm:px-4 truncate max-w-[80px] sm:max-w-[120px]">
+                    <FileText className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-gray-500 flex-shrink-0" />
+                    <span className="truncate">{invoice.id.split('-')[0]}</span>
                   </TableCell>
-                  <TableCell>{invoice.client?.name || 'Unknown Client'}</TableCell>
-                  <TableCell>{format(new Date(invoice.issue_date), "MMM dd, yyyy")}</TableCell>
-                  <TableCell>
+                  <TableCell className="hidden md:table-cell py-2 px-2 sm:py-3 sm:px-4 truncate max-w-[150px]">{invoice.client?.name || 'Unknown Client'}</TableCell>
+                  <TableCell className="py-2 px-2 sm:py-3 sm:px-4">{format(new Date(invoice.issue_date), "MMM dd, yyyy")}</TableCell>
+                  <TableCell className="hidden lg:table-cell py-2 px-2 sm:py-3 sm:px-4">
                     {invoice.due_date ? format(new Date(invoice.due_date), "MMM dd, yyyy") : 'No due date'}
                   </TableCell>
-                  <TableCell>{formatCurrency(invoice.amount, language)}</TableCell>
-                  <TableCell>
-                    <Badge className={
+                  <TableCell className="py-2 px-2 sm:py-3 sm:px-4">{formatCurrency(invoice.amount, language)}</TableCell>
+                  <TableCell className="hidden sm:table-cell py-2 px-2 sm:py-3 sm:px-4">
+                    <Badge className={cn(
+                      "text-xs px-1.5 py-0.5 sm:px-2 sm:py-1",
                       invoice.status === "paid" ? "bg-forest-100 text-forest-800 hover:bg-forest-200" :
                       invoice.status === "pending" ? "bg-lavender-100 text-lavender-800 hover:bg-lavender-200" :
                       "bg-red-100 text-red-800 hover:bg-red-200"
-                    }>
+                    )}>
                       {t(`billing.statuses.${invoice.status}`)}
                     </Badge>
                   </TableCell>
-                  <TableCell>
+                  <TableCell className="py-2 px-2 sm:py-3 sm:px-4">
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-                          <MoreHorizontal className="h-4 w-4" />
+                        <Button variant="ghost" size="icon" className="h-7 w-7 sm:h-8 sm:w-8 p-0">
+                          <MoreHorizontal className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
@@ -168,6 +170,7 @@ export const InvoiceList: React.FC = () => {
           </TableBody>
         </Table>
       </div>
+    </div>
       
       <InvoiceDetails 
         invoice={selectedInvoice} 

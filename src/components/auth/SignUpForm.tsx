@@ -68,7 +68,7 @@ export function SignUpForm() {
         </p>
       </div>
       <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4"> {/* Stack on xs, side-by-side sm+ */}
           <div className="space-y-2">
             <Label htmlFor="firstName">{t('auth.first_name')}</Label>
             <Input

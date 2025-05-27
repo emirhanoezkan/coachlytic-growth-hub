@@ -98,8 +98,8 @@ export const ProgramList: React.FC = () => {
           <Card key={program.id}>
             <CardHeader>
               <div className="flex justify-between items-start">
-                <CardTitle>{program.name}</CardTitle>
-                <Badge className="bg-forest-100 text-forest-800 hover:bg-forest-200">
+                <CardTitle className="truncate">{program.name}</CardTitle> {/* Added truncate */}
+                <Badge className="bg-forest-100 text-forest-800 hover:bg-forest-200 flex-shrink-0"> {/* Added flex-shrink-0 to badge */}
                   {program.sessions_count} {t('programs.sessions')}
                 </Badge>
               </div>
@@ -108,18 +108,19 @@ export const ProgramList: React.FC = () => {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-3 gap-4 text-sm">
-                <div className="flex items-center">
-                  <Clock className="h-4 w-4 mr-2 text-gray-500" />
-                  <span>{program.sessions_count} {t('programs.sessions')}</span>
+              {/* Changed to flex layout for better wrapping on small screens */}
+              <div className="flex flex-wrap gap-x-4 gap-y-2 text-sm">
+                <div className="flex items-center min-w-[calc(50%-0.5rem)] sm:min-w-0"> {/* Ensure items can take ~half width on xs */}
+                  <Clock className="h-4 w-4 mr-2 text-gray-500 flex-shrink-0" />
+                  <span className="truncate">{program.sessions_count} {t('programs.sessions')}</span>
                 </div>
-                <div className="flex items-center">
-                  <Users className="h-4 w-4 mr-2 text-gray-500" />
-                  <span>{program.duration || "-"} {t('time.week')}</span>
+                <div className="flex items-center min-w-[calc(50%-0.5rem)] sm:min-w-0">
+                  <Users className="h-4 w-4 mr-2 text-gray-500 flex-shrink-0" />
+                  <span className="truncate">{program.duration || "-"} {t('time.week')}</span>
                 </div>
-                <div className="flex items-center">
-                  <Banknote className="h-4 w-4 mr-2 text-gray-500" />
-                  <span>{program.price ? formatCurrency(program.price, language) : "-"}</span>
+                <div className="flex items-center min-w-[calc(50%-0.5rem)] sm:min-w-0">
+                  <Banknote className="h-4 w-4 mr-2 text-gray-500 flex-shrink-0" />
+                  <span className="truncate">{program.price ? formatCurrency(program.price, language) : "-"}</span>
                 </div>
               </div>
             </CardContent>

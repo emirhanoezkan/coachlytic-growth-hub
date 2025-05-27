@@ -69,22 +69,23 @@ const SettingsPage = () => {
               </div>
               
               <Tabs defaultValue="notifications">
-                <TabsList className="grid grid-cols-4 max-w-lg">
-                  <TabsTrigger value="notifications" className="flex items-center">
-                    <Bell className="mr-2 h-4 w-4" />
-                    {t('settings.tabs.notifications')}
+                {/* Responsive TabsList: 2 columns on small screens, 4 on sm and up. Removed max-w-lg to allow flex wrapping. */}
+                <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 gap-2">
+                  <TabsTrigger value="notifications" className="flex items-center justify-center sm:justify-start text-xs sm:text-sm py-2">
+                    <Bell className="mr-1 sm:mr-2 h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                    <span className="truncate">{t('settings.tabs.notifications')}</span>
                   </TabsTrigger>
-                  <TabsTrigger value="preferences" className="flex items-center">
-                    <Settings className="mr-2 h-4 w-4" />
-                    {t('settings.tabs.preferences')}
+                  <TabsTrigger value="preferences" className="flex items-center justify-center sm:justify-start text-xs sm:text-sm py-2">
+                    <Settings className="mr-1 sm:mr-2 h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                    <span className="truncate">{t('settings.tabs.preferences')}</span>
                   </TabsTrigger>
-                  <TabsTrigger value="integrations" className="flex items-center">
-                    <Globe className="mr-2 h-4 w-4" />
-                    {t('settings.tabs.integrations')}
+                  <TabsTrigger value="integrations" className="flex items-center justify-center sm:justify-start text-xs sm:text-sm py-2">
+                    <Globe className="mr-1 sm:mr-2 h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                    <span className="truncate">{t('settings.tabs.integrations')}</span>
                   </TabsTrigger>
-                  <TabsTrigger value="security" className="flex items-center">
-                    <Lock className="mr-2 h-4 w-4" />
-                    {t('settings.tabs.security')}
+                  <TabsTrigger value="security" className="flex items-center justify-center sm:justify-start text-xs sm:text-sm py-2">
+                    <Lock className="mr-1 sm:mr-2 h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                    <span className="truncate">{t('settings.tabs.security')}</span>
                   </TabsTrigger>
                 </TabsList>
                 
@@ -96,8 +97,9 @@ const SettingsPage = () => {
                     </CardHeader>
                     <CardContent className="space-y-6">
                       <div className="space-y-4">
-                        <div className="flex items-center justify-between">
-                          <div>
+                        {/* Email Notifications */}
+                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-4">
+                          <div className="flex-grow">
                             <Label htmlFor="email-notifications">{t('settings.notifications.email')}</Label>
                             <p className="text-sm text-gray-500">{t('settings.notifications.emailDesc')}</p>
                           </div>
@@ -105,11 +107,13 @@ const SettingsPage = () => {
                             id="email-notifications" 
                             checked={settings.emailNotifications}
                             onCheckedChange={(checked) => setSettings({...settings, emailNotifications: checked})}
+                            className="flex-shrink-0"
                           />
                         </div>
                         
-                        <div className="flex items-center justify-between">
-                          <div>
+                        {/* Reminder Notifications */}
+                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-4">
+                          <div className="flex-grow">
                             <Label htmlFor="reminder-notifications">{t('settings.notifications.reminders')}</Label>
                             <p className="text-sm text-gray-500">{t('settings.notifications.remindersDesc')}</p>
                           </div>
@@ -117,11 +121,13 @@ const SettingsPage = () => {
                             id="reminder-notifications" 
                             checked={settings.reminderNotifications}
                             onCheckedChange={(checked) => setSettings({...settings, reminderNotifications: checked})}
+                            className="flex-shrink-0"
                           />
                         </div>
                         
-                        <div className="flex items-center justify-between">
-                          <div>
+                        {/* Marketing Communications */}
+                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-4">
+                          <div className="flex-grow">
                             <Label htmlFor="marketing-communications">{t('settings.notifications.marketing')}</Label>
                             <p className="text-sm text-gray-500">{t('settings.notifications.marketingDesc')}</p>
                           </div>
@@ -129,6 +135,7 @@ const SettingsPage = () => {
                             id="marketing-communications" 
                             checked={settings.marketingCommunications}
                             onCheckedChange={(checked) => setSettings({...settings, marketingCommunications: checked})}
+                            className="flex-shrink-0"
                           />
                         </div>
                       </div>
@@ -193,8 +200,9 @@ const SettingsPage = () => {
                           <CardDescription>{t('settings.taxRate.description')}</CardDescription>
                         </CardHeader>
                         <CardContent className="space-y-4">
-                          <div className="flex items-center space-x-4">
-                            <div className="flex-1">
+                          {/* Responsive layout for tax rate input and button */}
+                          <div className="flex flex-col xs:flex-row xs:items-end xs:space-x-4 space-y-3 xs:space-y-0">
+                            <div className="flex-grow space-y-2">
                               <Label htmlFor="defaultTaxRate">{t('settings.taxRate.label')}</Label>
                               <Input
                                 id="defaultTaxRate"
@@ -204,14 +212,13 @@ const SettingsPage = () => {
                                 step="0.01"
                                 value={tempTaxRate}
                                 onChange={(e) => setTempTaxRate(parseFloat(e.target.value) || 0)}
-                                className="mt-2"
                                 placeholder={t('settings.taxRate.placeholder')}
                               />
                             </div>
                             <Button 
                               onClick={handleTaxRateSave}
                               disabled={isUpdating || tempTaxRate === defaultTaxRate}
-                              className="bg-forest-500 hover:bg-forest-600"
+                              className="bg-forest-500 hover:bg-forest-600 w-full xs:w-auto flex-shrink-0"
                             >
                               {isUpdating ? t('action.saving') : t('settings.taxRate.saveButton')}
                             </Button>
@@ -251,14 +258,16 @@ const SettingsPage = () => {
                     <CardContent>
                       <div className="space-y-4">
                         {["Google Calendar", "Microsoft Outlook", "Zoom", "Stripe", "Slack"].map((integration) => (
-                          <div key={integration} className="flex items-center justify-between border-b pb-4">
-                            <div>
+                          <div key={integration} className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-4 border-b pb-4">
+                            <div className="flex-grow">
                               <h4 className="font-medium">{integration}</h4>
                               <p className="text-sm text-gray-500">
                                 {t('settings.integrations.connect').replace('{integration}', integration)}
                               </p>
                             </div>
-                            <Button variant="outline">{t('settings.integrations.connectButton')}</Button>
+                            <Button variant="outline" className="w-full sm:w-auto flex-shrink-0">
+                              {t('settings.integrations.connectButton')}
+                            </Button>
                           </div>
                         ))}
                       </div>

@@ -8,6 +8,7 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { TimeFormatProvider } from "@/contexts/TimeFormatContext";
 import ProtectedRoute from "@/components/auth/ProtectedRoute";
+import DashboardLayout from "@/components/layout/DashboardLayout"; // Import DashboardLayout
 import AuthPage from "@/pages/auth/AuthPage";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
@@ -37,16 +38,16 @@ const App = () => (
                 <Route path="/" element={<LandingPage />} />
                 <Route path="/auth" element={<AuthPage />} />
                 <Route element={<ProtectedRoute />}>
-                  <Route path="/dashboard" element={<Index />} />
-                  <Route path="/clients" element={<ClientsPage />} />
-                  <Route path="/clients/:id" element={<ClientProfilePage />} />
-                  <Route path="/sessions" element={<SessionsPage />} />
-                  <Route path="/programs" element={<ProgramsPage />} />
-                  <Route path="/documents" element={<DocumentsPage />} />
-                  <Route path="/analytics" element={<AnalyticsPage />} />
-                  <Route path="/billing" element={<BillingPage />} />
-                  <Route path="/profile" element={<ProfilePage />} />
-                  <Route path="/settings" element={<SettingsPage />} />
+                  <Route path="/dashboard" element={<DashboardLayout><Index /></DashboardLayout>} />
+                  <Route path="/clients" element={<DashboardLayout><ClientsPage /></DashboardLayout>} />
+                  <Route path="/clients/:id" element={<DashboardLayout><ClientProfilePage /></DashboardLayout>} />
+                  <Route path="/sessions" element={<DashboardLayout><SessionsPage /></DashboardLayout>} />
+                  <Route path="/programs" element={<DashboardLayout><ProgramsPage /></DashboardLayout>} />
+                  <Route path="/documents" element={<DashboardLayout><DocumentsPage /></DashboardLayout>} />
+                  <Route path="/analytics" element={<DashboardLayout><AnalyticsPage /></DashboardLayout>} />
+                  <Route path="/billing" element={<DashboardLayout><BillingPage /></DashboardLayout>} />
+                  <Route path="/profile" element={<DashboardLayout><ProfilePage /></DashboardLayout>} />
+                  <Route path="/settings" element={<DashboardLayout><SettingsPage /></DashboardLayout>} />
                 </Route>
                 <Route path="*" element={<NotFound />} />
               </Routes>
