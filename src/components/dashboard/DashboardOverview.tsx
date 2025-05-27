@@ -41,7 +41,7 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({ period }) 
       changeType: "increase",
     },
     {
-      title: t('analytics.retention'), // Remapped from dashboard.clientRetention
+      title: t('analytics.retention'),
       value: "85%",
       icon: User,
       change: "-3%",
@@ -56,13 +56,12 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({ period }) 
     },
   ];
 
-  // Translate the period
   const translatedPeriod = t(`time.${period}`);
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-4 md:space-y-6">
       {/* Stats Row */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
         {stats.map((stat) => (
           <StatsCard
             key={stat.title}
@@ -76,11 +75,11 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({ period }) 
       </div>
 
       {/* Revenue and Retention Charts */}
-      <div className="grid gap-4 grid-cols-1 lg:grid-cols-2">
+      <div className="grid gap-3 md:gap-4 grid-cols-1 lg:grid-cols-2">
         <Card>
-          <CardHeader>
-            <CardTitle>{t('analytics.revenue')}</CardTitle> 
-            <CardDescription>{t('dashboard.revenueDescription')} {translatedPeriod}</CardDescription>
+          <CardHeader className="pb-3 md:pb-6">
+            <CardTitle className="text-base md:text-lg">{t('analytics.revenue')}</CardTitle> 
+            <CardDescription className="text-sm">{t('dashboard.revenueDescription')} {translatedPeriod}</CardDescription>
           </CardHeader>
           <CardContent>
             <RevenueChart period={period} />
@@ -88,9 +87,9 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({ period }) 
         </Card>
 
         <Card>
-          <CardHeader>
-            <CardTitle>{t('dashboard.clientRetentionCardTitle')}</CardTitle>
-            <CardDescription>{t('dashboard.clientRetentionCardDescription')} {translatedPeriod}</CardDescription>
+          <CardHeader className="pb-3 md:pb-6">
+            <CardTitle className="text-base md:text-lg">{t('dashboard.clientRetentionCardTitle')}</CardTitle>
+            <CardDescription className="text-sm">{t('dashboard.clientRetentionCardDescription')} {translatedPeriod}</CardDescription>
           </CardHeader>
           <CardContent>
             <ClientRetentionChart period={period} />
@@ -99,11 +98,11 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({ period }) 
       </div>
 
       {/* Client Dashboard Sections */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 md:gap-6">
         <Card>
-          <CardHeader>
-            <CardTitle>{t('dashboard.clientHealthCardTitle')}</CardTitle>
-            <CardDescription>{t('dashboard.clientStatusDescription')}</CardDescription>
+          <CardHeader className="pb-3 md:pb-6">
+            <CardTitle className="text-base md:text-lg">{t('dashboard.clientHealthCardTitle')}</CardTitle>
+            <CardDescription className="text-sm">{t('dashboard.clientStatusDescription')}</CardDescription>
           </CardHeader>
           <CardContent>
             <ClientHealthSection />
@@ -111,9 +110,9 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({ period }) 
         </Card>
         
         <Card>
-          <CardHeader>
-            <CardTitle>{t('dashboard.upcomingSessionsCardTitle')}</CardTitle>
-            <CardDescription>{t('dashboard.todayAppointmentsCardDescription')}</CardDescription>
+          <CardHeader className="pb-3 md:pb-6">
+            <CardTitle className="text-base md:text-lg">{t('dashboard.upcomingSessionsCardTitle')}</CardTitle>
+            <CardDescription className="text-sm">{t('dashboard.todayAppointmentsCardDescription')}</CardDescription>
           </CardHeader>
           <CardContent>
             <UpcomingSessionsSection />
