@@ -112,10 +112,16 @@ export const MobileSidebar = ({
     <>
       <div
         className={cn(
-          "h-10 px-4 py-4 flex flex-row md:hidden items-center justify-between bg-neutral-100 dark:bg-neutral-800 w-full"
+          "h-14 px-4 py-2 flex flex-row md:hidden items-center justify-between bg-neutral-100 dark:bg-neutral-800 w-full border-b border-neutral-200 dark:border-neutral-700"
         )}
       >
-        <div className="flex justify-end z-20 w-full">
+        <div className="flex justify-between items-center z-20 w-full">
+          <div className="font-display flex space-x-2 items-center text-sm">
+            <div className="h-5 w-6 bg-forest-500 dark:bg-lavender-400 rounded-br-lg rounded-tr-sm rounded-tl-lg rounded-bl-sm flex-shrink-0" />
+            <span className="font-medium text-forest-600 dark:text-white whitespace-pre">
+              Coachlytic
+            </span>
+          </div>
           <Menu
             className="text-neutral-800 dark:text-neutral-200 cursor-pointer"
             onClick={() => setOpen(!open)}
@@ -132,18 +138,26 @@ export const MobileSidebar = ({
                 ease: "easeInOut",
               }}
               className={cn(
-                "fixed h-full w-full inset-0 bg-white dark:bg-neutral-900 p-10 z-[100] flex flex-col justify-between",
+                "fixed h-full w-full inset-0 bg-white dark:bg-neutral-900 p-6 z-[100] flex flex-col",
                 className
               )}
               {...props as any}
             >
-              <div
-                className="absolute right-10 top-10 z-50 text-neutral-800 dark:text-neutral-200 cursor-pointer"
-                onClick={() => setOpen(!open)}
-              >
-                <X />
+              <div className="flex justify-between items-center mb-6">
+                <div className="font-display flex space-x-2 items-center text-lg">
+                  <div className="h-6 w-7 bg-forest-500 dark:bg-lavender-400 rounded-br-lg rounded-tr-sm rounded-tl-lg rounded-bl-sm flex-shrink-0" />
+                  <span className="font-medium text-forest-600 dark:text-white">
+                    Coachlytic
+                  </span>
+                </div>
+                <X
+                  className="text-neutral-800 dark:text-neutral-200 cursor-pointer"
+                  onClick={() => setOpen(!open)}
+                />
               </div>
-              {children}
+              <div className="flex-1 overflow-y-auto">
+                {children}
+              </div>
             </motion.div>
           )}
         </AnimatePresence>
@@ -160,14 +174,23 @@ export const SidebarLink = ({
   link: Links;
   className?: string;
 }) => {
-  const { open, animate } = useSidebar();
+  const { open, animate, setOpen } = useSidebar();
+  
+  const handleClick = () => {
+    // Close mobile sidebar when link is clicked
+    if (window.innerWidth < 768) {
+      setOpen(false);
+    }
+  };
+  
   return (
     <Link
       to={link.href}
       className={cn(
-        "flex items-center justify-start gap-2 group/sidebar py-2",
+        "flex items-center justify-start gap-2 group/sidebar py-3 px-2 rounded-md transition-colors hover:bg-neutral-200 dark:hover:bg-neutral-700",
         className
       )}
+      onClick={handleClick}
       {...props}
     >
       {link.icon}

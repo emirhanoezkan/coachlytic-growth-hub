@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useLocation } from "react-router-dom";
 import { 
@@ -76,7 +77,7 @@ export function Sidebar() {
   );
 
   return (
-    <SidebarBody className="justify-between gap-10 border-r border-neutral-200 dark:border-neutral-700 w-auto max-w-[200px]">
+    <SidebarBody className="justify-between gap-10 border-r border-neutral-200 dark:border-neutral-700 w-auto max-w-[200px] md:max-w-[250px]">
       <div className="flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
         <Logo />
         <div className="mt-8 flex flex-col gap-2">
