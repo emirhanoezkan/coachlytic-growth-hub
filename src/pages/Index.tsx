@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { SidebarProvider } from "@/components/ui/sidebar-animated";
 import { Sidebar } from "@/components/layout/Sidebar";
-import { Header } from "@/components/layout/Header";
+import { MobileHeader } from "@/components/layout/MobileHeader";
 import { DashboardOverview } from "@/components/dashboard/DashboardOverview";
 import { SessionDateSelector } from "@/components/sessions/SessionDateSelector";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -19,18 +19,22 @@ const Index = () => {
         <Sidebar />
         
         <div className="flex-1 flex flex-col overflow-hidden min-w-0">
-          <Header />
+          <MobileHeader />
           
-          <main className="flex-1 overflow-auto p-3 md:p-6 bg-slate-50">
-            <div className="max-w-7xl mx-auto space-y-4 md:space-y-6">
-              <div className="flex flex-col space-y-3 md:space-y-0 md:flex-row md:items-center md:justify-between">
+          <main className="flex-1 overflow-auto p-2 sm:p-4 md:p-6 bg-slate-50">
+            <div className="max-w-7xl mx-auto space-y-3 sm:space-y-4 md:space-y-6">
+              <div className="flex flex-col space-y-2 sm:space-y-3 md:space-y-0 md:flex-row md:items-center md:justify-between">
                 <div className="space-y-1">
-                  <h1 className="text-xl md:text-2xl lg:text-3xl font-display font-semibold text-gray-900">{t('dashboard.welcomeTitle')}</h1>
-                  <p className="text-gray-500 text-sm md:text-base">{t('dashboard.welcomeSubtitle')}</p>
+                  <h1 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-display font-semibold text-gray-900">
+                    {t('dashboard.welcomeTitle')}
+                  </h1>
+                  <p className="text-gray-500 text-xs sm:text-sm md:text-base">
+                    {t('dashboard.welcomeSubtitle')}
+                  </p>
                 </div>
                 <div className="flex-shrink-0">
-                  <Tabs value={period} onValueChange={setPeriod} className="w-full md:w-[200px]">
-                    <TabsList className="grid w-full grid-cols-3 h-9">
+                  <Tabs value={period} onValueChange={setPeriod} className="w-full sm:w-[180px] md:w-[200px]">
+                    <TabsList className="grid w-full grid-cols-3 h-8 sm:h-9">
                       <TabsTrigger value="day" className="text-xs">{t('time.day')}</TabsTrigger>
                       <TabsTrigger value="week" className="text-xs">{t('time.week')}</TabsTrigger>
                       <TabsTrigger value="month" className="text-xs">{t('time.month')}</TabsTrigger>

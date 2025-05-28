@@ -1,20 +1,15 @@
 
-import React, { ReactNode } from 'react';
-import { 
-  Card, 
-  CardContent, 
-  CardHeader, 
-  CardTitle 
-} from "@/components/ui/card";
+import React from 'react';
+import { Card, CardContent } from "@/components/ui/card";
+import { ArrowUp, ArrowDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface StatsCardProps {
   title: string;
-  value: string | number;
-  icon?: ReactNode;
-  description?: string;
-  change?: string;
-  changeType?: "increase" | "decrease";
+  value: string;
+  icon: React.ReactNode;
+  change: string;
+  changeType: "increase" | "decrease";
   className?: string;
 }
 
@@ -22,34 +17,39 @@ export const StatsCard: React.FC<StatsCardProps> = ({
   title,
   value,
   icon,
-  description,
   change,
   changeType,
   className
 }) => {
   return (
-    <Card className={cn("overflow-hidden", className)}>
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="text-sm font-medium text-muted-foreground">{title}</CardTitle>
-        {icon && <div className="text-muted-foreground">{icon}</div>}
-      </CardHeader>
-      <CardContent>
-        <div className="text-2xl font-bold">{value}</div>
-        {(description || change) && (
-          <div className="mt-2 flex items-center text-xs">
-            {change && changeType && (
-              <span className={cn(
-                "mr-2 font-medium",
-                changeType === "increase" ? "text-forest-500" : "text-red-500"
-              )}>
-                {changeType === "increase" ? '↑' : '↓'} {change.replace(/[+-]/, '')}
-              </span>
-            )}
-            {description && (
-              <span className="text-muted-foreground">{description}</span>
-            )}
+    <Card className={cn("hover-card", className)}>
+      <CardContent className="p-3 sm:p-4 md:p-6">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-2">
+            <div className="p-1.5 sm:p-2 bg-forest-100 rounded-lg">
+              {icon}
+            </div>
           </div>
-        )}
+          <div className={cn(
+            "flex items-center text-xs sm:text-sm",
+            changeType === "increase" ? "text-green-600" : "text-red-600"
+          )}>
+            {changeType === "increase" ? (
+              <ArrowUp className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
+            ) : (
+              <ArrowDown className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
+            )}
+            {change}
+          </div>
+        </div>
+        <div className="mt-2 sm:mt-4">
+          <div className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900">
+            {value}
+          </div>
+          <p className="text-xs sm:text-sm text-gray-600 mt-1 line-clamp-2">
+            {title}
+          </p>
+        </div>
       </CardContent>
     </Card>
   );
