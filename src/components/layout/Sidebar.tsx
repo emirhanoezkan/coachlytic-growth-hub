@@ -12,7 +12,6 @@ import {
 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { 
-  SidebarProvider,
   SidebarBody, 
   SidebarLink,
 } from "@/components/ui/sidebar-animated";
@@ -78,23 +77,19 @@ export function Sidebar() {
   );
 
   return (
-    <div className="hidden md:block">
-      <SidebarProvider>
-        <SidebarBody className="justify-between gap-10 border-r border-neutral-200 dark:border-neutral-700 w-auto max-w-[200px] lg:max-w-[250px]">
-          <div className="flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
-            <Logo />
-            <div className="mt-8 flex flex-col gap-2">
-              {routes.map((link, idx) => (
-                <SidebarLink 
-                  key={idx} 
-                  link={link} 
-                  className={pathname === link.href ? "bg-neutral-200 dark:bg-neutral-700 rounded-md px-2" : "px-2"}
-                />
-              ))}
-            </div>
-          </div>
-        </SidebarBody>
-      </SidebarProvider>
-    </div>
+    <SidebarBody className="justify-between gap-10 border-r border-neutral-200 dark:border-neutral-700 w-auto max-w-[200px] md:max-w-[250px]">
+      <div className="flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
+        <Logo />
+        <div className="mt-8 flex flex-col gap-2">
+          {routes.map((link, idx) => (
+            <SidebarLink 
+              key={idx} 
+              link={link} 
+              className={pathname === link.href ? "bg-neutral-200 dark:bg-neutral-700 rounded-md px-2" : "px-2"}
+            />
+          ))}
+        </div>
+      </div>
+    </SidebarBody>
   );
 }

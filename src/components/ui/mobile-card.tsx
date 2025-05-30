@@ -58,13 +58,13 @@ export const MobileCard: React.FC<MobileCardProps> = ({
   };
 
   return (
-    <Card className={cn("w-full touch-manipulation", className)}>
-      <CardHeader className="pb-3 sm:pb-4">
+    <Card className={cn("w-full", className)}>
+      <CardHeader className="pb-2 sm:pb-4">
         <div className="flex items-start justify-between">
-          <div className="flex-1 min-w-0 pr-2">
+          <div className="flex-1 min-w-0">
             <CardTitle 
               className={cn(
-                "text-base sm:text-lg font-medium line-clamp-2 leading-tight",
+                "text-sm sm:text-base font-medium truncate",
                 onClick && "cursor-pointer hover:underline"
               )}
               onClick={onClick}
@@ -72,18 +72,18 @@ export const MobileCard: React.FC<MobileCardProps> = ({
               {title}
             </CardTitle>
             {subtitle && (
-              <p className="text-sm text-muted-foreground mt-1 line-clamp-2 leading-tight">
+              <p className="text-xs sm:text-sm text-muted-foreground mt-1 line-clamp-2">
                 {subtitle}
               </p>
             )}
           </div>
           {(actions || onClick) && (
-            <div className="flex items-center gap-1 ml-2 flex-shrink-0">
+            <div className="flex items-center gap-1 ml-2">
               {onClick && (
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="h-10 w-10 p-0 touch-manipulation"
+                  className="h-8 w-8 p-0"
                   onClick={onClick}
                 >
                   <ChevronRight className="h-4 w-4" />
@@ -92,19 +92,16 @@ export const MobileCard: React.FC<MobileCardProps> = ({
               {actions && (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="sm" className="h-10 w-10 p-0 touch-manipulation">
+                    <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
                       <MoreHorizontal className="h-4 w-4" />
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="w-48">
+                  <DropdownMenuContent align="end">
                     {actions.map((action, index) => (
                       <DropdownMenuItem
                         key={index}
                         onClick={action.onClick}
-                        className={cn(
-                          "cursor-pointer py-3 text-sm",
-                          action.variant === "destructive" && "text-red-600 focus:text-red-600"
-                        )}
+                        className={action.variant === "destructive" ? "text-red-600" : ""}
                       >
                         {action.label}
                       </DropdownMenuItem>
@@ -119,13 +116,13 @@ export const MobileCard: React.FC<MobileCardProps> = ({
       <CardContent className="pt-0">
         <div className="space-y-3">
           {status && (
-            <Badge className={cn(getStatusVariantClass(statusVariant), "text-xs")} variant="secondary">
+            <Badge className={getStatusVariantClass(statusVariant)} variant="secondary">
               {status}
             </Badge>
           )}
           
           {progress !== undefined && (
-            <div className="space-y-2">
+            <div className="space-y-1">
               <div className="flex justify-between text-xs text-muted-foreground">
                 <span>Progress</span>
                 <span>{progress}%</span>
@@ -135,7 +132,7 @@ export const MobileCard: React.FC<MobileCardProps> = ({
           )}
           
           {(primaryInfo || secondaryInfo) && (
-            <div className="flex flex-col space-y-2 sm:flex-row sm:justify-between sm:space-y-0 text-sm">
+            <div className="flex flex-col sm:flex-row sm:justify-between gap-2 text-xs sm:text-sm">
               {primaryInfo && <div className="font-medium">{primaryInfo}</div>}
               {secondaryInfo && <div className="text-muted-foreground">{secondaryInfo}</div>}
             </div>
