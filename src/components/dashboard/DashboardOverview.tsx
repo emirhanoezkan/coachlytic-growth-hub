@@ -59,15 +59,15 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({ period }) 
   const translatedPeriod = t(`time.${period}`);
 
   return (
-    <div className="space-y-3 sm:space-y-4 md:space-y-6">
-      {/* Stats Row - Mobile: 2x2 grid, Tablet+: 4 columns */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3 md:gap-4">
+    <div className="space-y-4 sm:space-y-6">
+      {/* Stats Row - Mobile: 2x2 grid, Desktop: 4 columns */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         {stats.map((stat) => (
           <StatsCard
             key={stat.title}
             title={stat.title}
             value={stat.value}
-            icon={<stat.icon className="h-3 w-3 sm:h-4 sm:w-4" />}
+            icon={<stat.icon className="h-4 w-4 sm:h-5 sm:w-5" />}
             change={stat.change}
             changeType={stat.changeType}
           />
@@ -75,26 +75,26 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({ period }) 
       </div>
 
       {/* Revenue and Retention Charts - Mobile: stacked, Desktop: side by side */}
-      <div className="grid gap-3 sm:gap-4 md:gap-6 grid-cols-1 lg:grid-cols-2">
-        <Card>
-          <CardHeader className="pb-2 sm:pb-3 md:pb-6">
-            <CardTitle className="text-sm sm:text-base md:text-lg">{t('analytics.revenue')}</CardTitle> 
-            <CardDescription className="text-xs sm:text-sm">{t('dashboard.revenueDescription')} {translatedPeriod}</CardDescription>
+      <div className="grid gap-4 sm:gap-6 grid-cols-1 lg:grid-cols-2">
+        <Card className="h-full">
+          <CardHeader className="pb-3 sm:pb-4">
+            <CardTitle className="text-base sm:text-lg md:text-xl">{t('analytics.revenue')}</CardTitle> 
+            <CardDescription className="text-sm">{t('dashboard.revenueDescription')} {translatedPeriod}</CardDescription>
           </CardHeader>
-          <CardContent className="p-2 sm:p-4 md:p-6 pt-0">
-            <div className="h-48 sm:h-64 md:h-80">
+          <CardContent className="p-4 sm:p-6 pt-0">
+            <div className="h-64 sm:h-72 md:h-80 w-full">
               <RevenueChart period={period} />
             </div>
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader className="pb-2 sm:pb-3 md:pb-6">
-            <CardTitle className="text-sm sm:text-base md:text-lg">{t('dashboard.clientRetentionCardTitle')}</CardTitle>
-            <CardDescription className="text-xs sm:text-sm">{t('dashboard.clientRetentionCardDescription')} {translatedPeriod}</CardDescription>
+        <Card className="h-full">
+          <CardHeader className="pb-3 sm:pb-4">
+            <CardTitle className="text-base sm:text-lg md:text-xl">{t('dashboard.clientRetentionCardTitle')}</CardTitle>
+            <CardDescription className="text-sm">{t('dashboard.clientRetentionCardDescription')} {translatedPeriod}</CardDescription>
           </CardHeader>
-          <CardContent className="p-2 sm:p-4 md:p-6 pt-0">
-            <div className="h-48 sm:h-64 md:h-80">
+          <CardContent className="p-4 sm:p-6 pt-0">
+            <div className="h-64 sm:h-72 md:h-80 w-full">
               <ClientRetentionChart period={period} />
             </div>
           </CardContent>
@@ -102,23 +102,23 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({ period }) 
       </div>
 
       {/* Client Dashboard Sections - Mobile: stacked, Desktop: side by side */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 md:gap-6">
-        <Card>
-          <CardHeader className="pb-2 sm:pb-3 md:pb-6">
-            <CardTitle className="text-sm sm:text-base md:text-lg">{t('dashboard.clientHealthCardTitle')}</CardTitle>
-            <CardDescription className="text-xs sm:text-sm">{t('dashboard.clientStatusDescription')}</CardDescription>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+        <Card className="h-full">
+          <CardHeader className="pb-3 sm:pb-4">
+            <CardTitle className="text-base sm:text-lg md:text-xl">{t('dashboard.clientHealthCardTitle')}</CardTitle>
+            <CardDescription className="text-sm">{t('dashboard.clientStatusDescription')}</CardDescription>
           </CardHeader>
-          <CardContent className="p-2 sm:p-4 md:p-6 pt-0">
+          <CardContent className="p-4 sm:p-6 pt-0">
             <ClientHealthSection />
           </CardContent>
         </Card>
         
-        <Card>
-          <CardHeader className="pb-2 sm:pb-3 md:pb-6">
-            <CardTitle className="text-sm sm:text-base md:text-lg">{t('dashboard.upcomingSessionsCardTitle')}</CardTitle>
-            <CardDescription className="text-xs sm:text-sm">{t('dashboard.todayAppointmentsCardDescription')}</CardDescription>
+        <Card className="h-full">
+          <CardHeader className="pb-3 sm:pb-4">
+            <CardTitle className="text-base sm:text-lg md:text-xl">{t('dashboard.upcomingSessionsCardTitle')}</CardTitle>
+            <CardDescription className="text-sm">{t('dashboard.todayAppointmentsCardDescription')}</CardDescription>
           </CardHeader>
-          <CardContent className="p-2 sm:p-4 md:p-6 pt-0">
+          <CardContent className="p-4 sm:p-6 pt-0">
             <UpcomingSessionsSection />
           </CardContent>
         </Card>
