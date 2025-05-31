@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useDocuments, useDeleteDocument, getDocumentUrl } from "@/services/documentsService";
 import {
@@ -146,15 +147,15 @@ export const DocumentsList = () => {
   
   return (
     <>
-      <div className="border rounded-md overflow-x-auto">
+      <div className="border rounded-md overflow-hidden">
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="min-w-[200px]">{t('documents.list.document')}</TableHead>
-              <TableHead className="min-w-[100px]">{t('documents.list.type')}</TableHead>
-              <TableHead className="min-w-[80px]">{t('documents.list.size')}</TableHead>
-              <TableHead className="min-w-[120px]">{t('documents.list.dateAdded')}</TableHead>
-              <TableHead className="w-[50px]"></TableHead>
+              <TableHead>{t('documents.list.document')}</TableHead>
+              <TableHead>{t('documents.list.type')}</TableHead>
+              <TableHead>{t('documents.list.size')}</TableHead>
+              <TableHead>{t('documents.list.dateAdded')}</TableHead>
+              <TableHead></TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -178,7 +179,7 @@ export const DocumentsList = () => {
                         <MoreHorizontal className="h-4 w-4" />
                       </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" className="bg-background">
+                    <DropdownMenuContent align="end">
                       <DropdownMenuItem onClick={() => handleDownload(document)}>
                         <Download className="mr-2 h-4 w-4" />
                         <span>{t('documents.list.download')}</span>
