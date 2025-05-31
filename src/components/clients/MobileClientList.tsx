@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { MobileCard } from "@/components/ui/mobile-card";
 import { Button } from "@/components/ui/button";
@@ -71,11 +70,11 @@ export const MobileClientList: React.FC = () => {
   const getStatusVariant = (status: string) => {
     switch (status) {
       case "Active":
-        return "success";
+        return "default";
       case "At Risk":
         return "destructive";
       default:
-        return "warning";
+        return "secondary";
     }
   };
 

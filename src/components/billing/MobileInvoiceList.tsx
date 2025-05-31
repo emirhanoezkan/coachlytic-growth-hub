@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { MobileCard } from "@/components/ui/mobile-card";
 import { Badge } from "@/components/ui/badge";
@@ -65,9 +64,9 @@ export const MobileInvoiceList: React.FC = () => {
   const getStatusVariant = (status: string) => {
     switch (status) {
       case "paid":
-        return "success";
+        return "default";
       case "pending":
-        return "warning";
+        return "secondary";
       default:
         return "destructive";
     }
