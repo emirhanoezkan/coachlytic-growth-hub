@@ -1,10 +1,11 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { SidebarProvider } from "@/components/ui/sidebar-animated";
 import { Sidebar } from "@/components/layout/Sidebar";
-import { Header } from "@/components/layout/Header";
+import { EnhancedHeader } from "@/components/layout/EnhancedHeader";
 import { DocumentUploader } from "@/components/documents/DocumentUploader";
 import { DocumentsList } from "@/components/documents/DocumentsList";
+import { MobileDocumentsList } from "@/components/documents/MobileDocumentsList";
 import {
   Card,
   CardContent,
@@ -16,14 +17,15 @@ import { useLanguage } from "@/contexts/LanguageContext";
 
 const DocumentsPage = () => {
   const { t } = useLanguage();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <SidebarProvider>
+    <SidebarProvider open={sidebarOpen} setOpen={setSidebarOpen}>
       <div className="min-h-screen flex w-full">
         <Sidebar />
         
         <div className="flex-1 flex flex-col overflow-hidden min-w-0">
-          <Header />
+          <EnhancedHeader />
           
           <main className="flex-1 overflow-auto p-3 md:p-6 bg-slate-50">
             <div className="max-w-7xl mx-auto space-y-4 md:space-y-6">
@@ -52,7 +54,15 @@ const DocumentsPage = () => {
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <DocumentsList />
+                  {/* Show mobile list on small screens, desktop table on larger screens */}
+                  <div className="md:hidden">
+                    <MobileDocumentsList />
+                  </div>
+                  <div className="hidden md:block">
+                    <div className="overflow-x-auto">
+                      <DocumentsList />
+                    </div>
+                  </div>
                 </CardContent>
               </Card>
             </div>

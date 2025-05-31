@@ -1,21 +1,8 @@
+
 import { useState } from "react";
 import { useDocuments, useDeleteDocument, getDocumentUrl } from "@/services/documentsService";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Button } from "@/components/ui/button";
-import { MoreHorizontal, Download, Trash2, FileText, FileImage } from "lucide-react";
+import { MobileCard } from "@/components/ui/mobile-card";
+import { FileText, FileImage } from "lucide-react";
 import { format } from "date-fns";
 import { useToast } from "@/hooks/use-toast";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -30,7 +17,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 
-export const DocumentsList = () => {
+export const MobileDocumentsList = () => {
   const { data: documents = [], isLoading, error } = useDocuments();
   const deleteDocument = useDeleteDocument();
   const { toast } = useToast();
@@ -146,57 +133,27 @@ export const DocumentsList = () => {
   
   return (
     <>
-      <div className="border rounded-md overflow-x-auto">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead className="min-w-[200px]">{t('documents.list.document')}</TableHead>
-              <TableHead className="min-w-[100px]">{t('documents.list.type')}</TableHead>
-              <TableHead className="min-w-[80px]">{t('documents.list.size')}</TableHead>
-              <TableHead className="min-w-[120px]">{t('documents.list.dateAdded')}</TableHead>
-              <TableHead className="w-[50px]"></TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {documents.map((document) => (
-              <TableRow key={document.id || document.name}>
-                <TableCell>
-                  <div className="flex items-center space-x-3">
-                    {getFileIcon(document.type)}
-                    <span className="font-medium truncate max-w-[200px]">
-                      {formatFileName(document.name)}
-                    </span>
-                  </div>
-                </TableCell>
-                <TableCell>{document.type.split('/').pop() || t('documents.list.unknown')}</TableCell>
-                <TableCell>{formatFileSize(document.size)}</TableCell>
-                <TableCell>{formatDate(document.created_at)}</TableCell>
-                <TableCell>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-                        <MoreHorizontal className="h-4 w-4" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end" className="bg-background">
-                      <DropdownMenuItem onClick={() => handleDownload(document)}>
-                        <Download className="mr-2 h-4 w-4" />
-                        <span>{t('documents.list.download')}</span>
-                      </DropdownMenuItem>
-                      <DropdownMenuItem 
-                        onClick={() => setDocumentToDelete(document.name)}
-                        className="text-red-500 hover:text-red-600 focus:text-red-600"
-                      >
-                        <Trash2 className="mr-2 h-4 w-4" />
-                        <span>{t('documents.list.delete')}</span>
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+      <div className="space-y-3">
+        {documents.map((document) => (
+          <MobileCard
+            key={document.id || document.name}
+            title={formatFileName(document.name)}
+            subtitle={`${document.type.split('/').pop() || t('documents.list.unknown')} • ${formatFileSize(document.size)}`}
+            icon={getFileIcon(document.type)}
+            primaryInfo={formatDate(document.created_at)}
+            actions={[
+              {
+                label: t('documents.list.download'),
+                onClick: () => handleDownload(document)
+              },
+              {
+                label: t('documents.list.delete'),
+                onClick: () => setDocumentToDelete(document.name),
+                variant: "destructive"
+              }
+            ]}
+          />
+        ))}
       </div>
       
       <AlertDialog open={!!documentToDelete} onOpenChange={(open) => !open && setDocumentToDelete(null)}>

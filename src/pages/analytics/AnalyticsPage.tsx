@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { SidebarProvider } from "@/components/ui/sidebar-animated";
 import { Sidebar } from "@/components/layout/Sidebar";
-import { Header } from "@/components/layout/Header";
+import { EnhancedHeader } from "@/components/layout/EnhancedHeader";
 import { ClientRetentionChart } from "@/components/analytics/ClientRetentionChart";
 import { RevenueChart } from "@/components/analytics/RevenueChart";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -19,7 +19,7 @@ const AnalyticsPage = () => {
         <Sidebar />
         
         <div className="flex-1 flex flex-col overflow-hidden min-w-0">
-          <Header />
+          <EnhancedHeader />
           
           <main className="flex-1 overflow-auto p-3 md:p-6 bg-slate-50">
             <div className="max-w-7xl mx-auto space-y-4 md:space-y-6">

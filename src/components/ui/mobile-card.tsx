@@ -1,10 +1,8 @@
 
-import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import React, { useState } from 'react';
 import { Badge } from "@/components/ui/badge";
-import { Progress } from "@/components/ui/progress";
-import { MoreHorizontal, ChevronRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { ChevronDown, MoreVertical } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,22 +11,24 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
 
+interface MobileCardAction {
+  label: string;
+  onClick: () => void;
+  variant?: "default" | "destructive";
+}
+
 interface MobileCardProps {
   title: string;
   subtitle?: string;
   status?: string;
-  statusVariant?: "default" | "success" | "warning" | "destructive";
+  statusVariant?: "default" | "secondary" | "destructive" | "outline" | "warning" | "success";
   progress?: number;
   primaryInfo?: React.ReactNode;
-  secondaryInfo?: React.ReactNode;
-  actions?: Array<{
-    label: string;
-    onClick: () => void;
-    variant?: "default" | "destructive";
-  }>;
+  secondaryInfo?: string;
+  icon?: React.ReactNode;
   onClick?: () => void;
+  actions?: MobileCardAction[];
   className?: string;
-  children?: React.ReactNode;
 }
 
 export const MobileCard: React.FC<MobileCardProps> = ({
@@ -39,108 +39,133 @@ export const MobileCard: React.FC<MobileCardProps> = ({
   progress,
   primaryInfo,
   secondaryInfo,
-  actions,
+  icon,
   onClick,
-  className,
-  children
+  actions = [],
+  className
 }) => {
-  const getStatusVariantClass = (variant: string) => {
-    switch (variant) {
-      case "success":
-        return "bg-forest-100 text-forest-800 hover:bg-forest-200";
-      case "warning":
-        return "bg-yellow-100 text-yellow-800 hover:bg-yellow-200";
-      case "destructive":
-        return "bg-red-100 text-red-800 hover:bg-red-200";
-      default:
-        return "bg-gray-100 text-gray-800 hover:bg-gray-200";
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const handleCardClick = (e: React.MouseEvent) => {
+    if (onClick) {
+      e.stopPropagation();
+      onClick();
     }
   };
 
+  const handleActionClick = (action: MobileCardAction, e: React.MouseEvent) => {
+    e.stopPropagation();
+    action.onClick();
+  };
+
   return (
-    <Card className={cn("w-full", className)}>
-      <CardHeader className="pb-2 sm:pb-4">
-        <div className="flex items-start justify-between">
+    <div 
+      className={cn(
+        "bg-white rounded-lg border shadow-sm p-4 min-h-[44px]",
+        onClick && "cursor-pointer hover:shadow-md transition-shadow",
+        className
+      )}
+      onClick={handleCardClick}
+    >
+      <div className="flex items-start justify-between gap-3">
+        <div className="flex items-start gap-3 flex-1 min-w-0">
+          {icon && (
+            <div className="flex-shrink-0 mt-1">
+              {icon}
+            </div>
+          )}
+          
           <div className="flex-1 min-w-0">
-            <CardTitle 
-              className={cn(
-                "text-sm sm:text-base font-medium truncate",
-                onClick && "cursor-pointer hover:underline"
+            <div className="flex items-center gap-2 mb-1">
+              <h3 className="font-medium text-gray-900 truncate">{title}</h3>
+              {status && (
+                <Badge variant={statusVariant} className="text-xs flex-shrink-0">
+                  {status}
+                </Badge>
               )}
-              onClick={onClick}
-            >
-              {title}
-            </CardTitle>
+            </div>
+            
             {subtitle && (
-              <p className="text-xs sm:text-sm text-muted-foreground mt-1 line-clamp-2">
-                {subtitle}
-              </p>
+              <p className="text-sm text-gray-500 truncate mb-2">{subtitle}</p>
+            )}
+            
+            {primaryInfo && (
+              <div className="mb-1">
+                {primaryInfo}
+              </div>
+            )}
+            
+            {progress !== undefined && (
+              <div className="mb-2">
+                <div className="flex justify-between text-xs text-gray-500 mb-1">
+                  <span>Progress</span>
+                  <span>{progress}%</span>
+                </div>
+                <div className="w-full bg-gray-200 rounded-full h-2">
+                  <div 
+                    className="bg-forest-500 h-2 rounded-full transition-all duration-300"
+                    style={{ width: `${progress}%` }}
+                  />
+                </div>
+              </div>
+            )}
+            
+            {secondaryInfo && (
+              <p className="text-xs text-gray-400">{secondaryInfo}</p>
             )}
           </div>
-          {(actions || onClick) && (
-            <div className="flex items-center gap-1 ml-2">
-              {onClick && (
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="h-8 w-8 p-0"
-                  onClick={onClick}
-                >
-                  <ChevronRight className="h-4 w-4" />
-                </Button>
-              )}
-              {actions && (
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-                      <MoreHorizontal className="h-4 w-4" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    {actions.map((action, index) => (
-                      <DropdownMenuItem
-                        key={index}
-                        onClick={action.onClick}
-                        className={action.variant === "destructive" ? "text-red-600" : ""}
-                      >
-                        {action.label}
-                      </DropdownMenuItem>
-                    ))}
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              )}
-            </div>
-          )}
         </div>
-      </CardHeader>
-      <CardContent className="pt-0">
-        <div className="space-y-3">
-          {status && (
-            <Badge className={getStatusVariantClass(statusVariant)} variant="secondary">
-              {status}
-            </Badge>
-          )}
-          
-          {progress !== undefined && (
-            <div className="space-y-1">
-              <div className="flex justify-between text-xs text-muted-foreground">
-                <span>Progress</span>
-                <span>{progress}%</span>
+        
+        {actions.length > 0 && (
+          <div className="flex items-center gap-1 flex-shrink-0">
+            {actions.length <= 2 ? (
+              // Show buttons directly for 1-2 actions
+              <div className="flex gap-1">
+                {actions.map((action, index) => (
+                  <Button
+                    key={index}
+                    variant={action.variant === "destructive" ? "destructive" : "outline"}
+                    size="sm"
+                    className="h-8 px-2 text-xs min-h-[44px] md:min-h-[32px]"
+                    onClick={(e) => handleActionClick(action, e)}
+                  >
+                    {action.label}
+                  </Button>
+                ))}
               </div>
-              <Progress value={progress} className="h-2" />
-            </div>
-          )}
-          
-          {(primaryInfo || secondaryInfo) && (
-            <div className="flex flex-col sm:flex-row sm:justify-between gap-2 text-xs sm:text-sm">
-              {primaryInfo && <div className="font-medium">{primaryInfo}</div>}
-              {secondaryInfo && <div className="text-muted-foreground">{secondaryInfo}</div>}
-            </div>
-          )}
-          
-          {children}
-        </div>
-      </CardContent>
-    </Card>
+            ) : (
+              // Use dropdown for 3+ actions
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    className="h-8 w-8 p-0 min-h-[44px] min-w-[44px] md:min-h-[32px] md:min-w-[32px]"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <MoreVertical className="h-4 w-4" />
+                    <span className="sr-only">Open menu</span>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="bg-background">
+                  {actions.map((action, index) => (
+                    <DropdownMenuItem
+                      key={index}
+                      onClick={(e) => handleActionClick(action, e)}
+                      className={cn(
+                        "cursor-pointer min-h-[44px]",
+                        action.variant === "destructive" && "text-red-600 hover:text-red-700 focus:text-red-700"
+                      )}
+                    >
+                      {action.label}
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
   );
 };
