@@ -11,6 +11,7 @@ import {
   FileText
 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useSidebar } from "@/components/ui/sidebar-animated"; // Added import
 import { 
   SidebarBody, 
   SidebarLink,
@@ -20,7 +21,8 @@ import { motion } from "framer-motion";
 export function Sidebar() {
   const { t } = useLanguage();
   const { pathname } = useLocation();
-  
+  const { open, setOpen } = useSidebar(); // Accessed sidebar state
+
   const routes = [
     {
       label: t('app.dashboard'),
@@ -76,11 +78,21 @@ export function Sidebar() {
     </div>
   );
 
+  const sidebarBodyBaseClasses = "justify-between gap-10 h-full bg-background"; // Added bg-background
+  const responsiveClasses = `${
+    open
+      ? "fixed top-0 left-0 z-40 h-screen p-4 overflow-y-auto transition-transform translate-x-0 w-[200px]"
+      : "fixed top-0 left-0 z-40 h-screen p-4 overflow-y-auto transition-transform -translate-x-full w-[200px]"
+  } sm:translate-x-0 sm:static sm:h-auto sm:z-auto sm:p-0 sm:overflow-y-visible sm:w-auto sm:max-w-[200px] md:max-w-[250px] sm:border-r sm:border-neutral-200 sm:dark:border-neutral-700`;
+  const overlayClasses = open ? "fixed inset-0 bg-black/50 z-30 sm:hidden" : "hidden";
+
   return (
-    <SidebarBody className="justify-between gap-10 border-r border-neutral-200 dark:border-neutral-700 w-auto max-w-[200px] md:max-w-[250px]">
-      <div className="flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
-        <Logo />
-        <div className="mt-8 flex flex-col gap-2">
+    <>
+      <div onClick={() => setOpen(false)} className={overlayClasses}></div>
+      <SidebarBody className={`${sidebarBodyBaseClasses} ${responsiveClasses}`}>
+        <div className="flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
+          <Logo />
+          <div className="mt-8 flex flex-col gap-2">
           {routes.map((link, idx) => (
             <SidebarLink 
               key={idx} 
@@ -88,8 +100,9 @@ export function Sidebar() {
               className={pathname === link.href ? "bg-neutral-200 dark:bg-neutral-700 rounded-md px-2" : "px-2"}
             />
           ))}
+          </div>
         </div>
-      </div>
-    </SidebarBody>
+      </SidebarBody>
+    </>
   );
 }
