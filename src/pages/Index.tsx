@@ -21,7 +21,7 @@ const Index = () => {
         <div className="flex-1 flex flex-col overflow-hidden min-w-0">
           <MobileHeader />
           
-          <main className="flex-1 overflow-auto p-2 sm:p-4 md:p-6 bg-slate-50">
+          <main className="flex-1 overflow-auto p-2 sm:p-4 md:p-6 bg-slate-50 pt-12 sm:pt-14">
             <div className="max-w-7xl mx-auto space-y-3 sm:space-y-4 md:space-y-6">
               <div className="flex flex-col space-y-2 sm:space-y-3 md:space-y-0 md:flex-row md:items-center md:justify-between">
                 <div className="space-y-1">
