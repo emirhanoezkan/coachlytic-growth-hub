@@ -21,7 +21,7 @@ interface MobileCardProps {
   title: string;
   subtitle?: string;
   status?: string;
-  statusVariant?: "default" | "secondary" | "destructive" | "outline" | "warning" | "success";
+  statusVariant?: "default" | "secondary" | "destructive" | "outline";
   progress?: number;
   primaryInfo?: React.ReactNode;
   secondaryInfo?: string;
