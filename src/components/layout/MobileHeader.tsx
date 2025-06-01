@@ -23,7 +23,7 @@ export const MobileHeader = () => {
   const { setOpen } = useSidebar();
 
   return (
-    <header className="sticky top-0 z-50 flex h-12 sm:h-14 items-center justify-between border-b bg-background px-3 sm:px-6 shrink-0">
+    <header className="sticky top-0 z-30 flex h-12 sm:h-14 items-center justify-between border-b bg-background px-3 sm:px-6 shrink-0">
       {/* Mobile menu trigger - visible only on mobile */}
       <div className="flex items-center gap-2 sm:hidden">
         <Button
