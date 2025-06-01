@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Bell, Settings, User, Menu, Search, MoreHorizontal } from "lucide-react";
+import { Bell, Settings, User, Menu, Search, MoreHorizontal, Globe } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,6 +8,9 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -18,9 +21,15 @@ import { useAuth } from "@/contexts/AuthContext";
 import { MobileSidebar } from "./MobileSidebar";
 
 export const ResponsiveMobileHeader = () => {
-  const { t } = useLanguage();
+  const { t, language, setLanguage } = useLanguage();
   const { signOut } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  // Define languages with their codes, names, and flags
+  const languages = [
+    { code: 'en', name: 'English', localName: 'English', flag: '🇺🇸' },
+    { code: 'tr', name: 'Turkish', localName: 'Türkçe', flag: '🇹🇷' },
+  ];
 
   return (
     <>
@@ -103,6 +112,27 @@ export const ResponsiveMobileHeader = () => {
               <DropdownMenuContent align="end" className="w-48">
                 <DropdownMenuLabel>{t('app.settings')}</DropdownMenuLabel>
                 <DropdownMenuSeparator />
+                
+                {/* Language Selection Submenu */}
+                <DropdownMenuSub>
+                  <DropdownMenuSubTrigger>
+                    <Globe className="mr-2 h-4 w-4" />
+                    <span>{t('app.language')}</span>
+                  </DropdownMenuSubTrigger>
+                  <DropdownMenuSubContent>
+                    {languages.map((lang) => (
+                      <DropdownMenuItem
+                        key={lang.code}
+                        onClick={() => setLanguage(lang.code as 'en' | 'tr')}
+                        className={`flex items-center gap-2 ${language === lang.code ? 'font-bold' : ''}`}
+                      >
+                        <span>{lang.flag}</span>
+                        <span>{language === 'en' ? lang.name : lang.localName}</span>
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuSubContent>
+                </DropdownMenuSub>
+                
                 <DropdownMenuItem>
                   <Search className="mr-2 h-4 w-4" />
                   <span>Search</span>
@@ -118,6 +148,13 @@ export const ResponsiveMobileHeader = () => {
                     <span>Profile</span>
                   </Link>
                 </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link to="/settings" className="cursor-pointer flex w-full">
+                    <Settings className="mr-2 h-4 w-4" />
+                    <span>{t('app.settings')}</span>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={() => signOut && signOut()} className="cursor-pointer">
                   <span>{t('app.logout')}</span>
                 </DropdownMenuItem>
