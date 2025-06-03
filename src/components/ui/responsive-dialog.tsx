@@ -21,6 +21,7 @@ interface ResponsiveDialogProps {
   footer?: React.ReactNode;
   fullScreenOnMobile?: boolean;
   className?: string;
+  size?: 'sm' | 'md' | 'lg' | 'xl';
 }
 
 export const ResponsiveDialog: React.FC<ResponsiveDialogProps> = ({
@@ -31,29 +32,38 @@ export const ResponsiveDialog: React.FC<ResponsiveDialogProps> = ({
   children,
   footer,
   fullScreenOnMobile = true,
-  className
+  className,
+  size = 'md'
 }) => {
+  const sizeClasses = {
+    sm: "sm:max-w-sm",
+    md: "sm:max-w-md",
+    lg: "sm:max-w-lg", 
+    xl: "sm:max-w-xl"
+  };
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent 
         className={cn(
           // Mobile-first: full screen on mobile with proper spacing
-          fullScreenOnMobile && "h-screen w-screen max-w-none rounded-none sm:h-auto sm:w-auto sm:max-w-lg sm:rounded-lg",
-          // Desktop: normal dialog with better sizing
-          !fullScreenOnMobile && "w-[calc(100vw-1.5rem)] max-w-lg sm:w-auto",
-          "p-0 gap-0 flex flex-col",
+          fullScreenOnMobile && "h-screen w-screen max-w-none rounded-none sm:h-auto sm:w-auto sm:rounded-lg",
+          // Desktop: responsive sizing based on size prop
+          !fullScreenOnMobile && "w-[calc(100vw-1rem)] max-w-[calc(100vw-1rem)]",
+          sizeClasses[size],
+          "p-0 gap-0 flex flex-col max-h-screen",
           className
         )}
       >
         {/* Header with close button for mobile */}
-        <DialogHeader className="p-4 sm:p-6 border-b flex-shrink-0">
+        <DialogHeader className="p-3 sm:p-4 lg:p-6 border-b flex-shrink-0">
           <div className="flex items-start justify-between">
-            <div className="flex-1 min-w-0 pr-2">
-              <DialogTitle className="text-lg sm:text-xl font-semibold text-left">
+            <div className="flex-1 min-w-0 pr-3">
+              <DialogTitle className="text-base sm:text-lg lg:text-xl font-semibold text-left">
                 {title}
               </DialogTitle>
               {description && (
-                <DialogDescription className="text-sm text-muted-foreground mt-2 text-left">
+                <DialogDescription className="text-xs sm:text-sm text-muted-foreground mt-1 sm:mt-2 text-left">
                   {description}
                 </DialogDescription>
               )}
@@ -61,22 +71,22 @@ export const ResponsiveDialog: React.FC<ResponsiveDialogProps> = ({
             <Button
               variant="ghost"
               size="sm"
-              className="h-10 w-10 p-0 flex-shrink-0 sm:hidden"
+              className="h-8 w-8 sm:h-10 sm:w-10 p-0 flex-shrink-0 sm:hidden"
               onClick={() => onOpenChange(false)}
             >
-              <X className="h-5 w-5" />
+              <X className="h-4 w-4 sm:h-5 sm:w-5" />
             </Button>
           </div>
         </DialogHeader>
         
         {/* Content with proper scrolling */}
-        <div className="flex-1 overflow-auto p-4 sm:p-6">
+        <div className="flex-1 overflow-auto p-3 sm:p-4 lg:p-6">
           {children}
         </div>
         
         {/* Footer */}
         {footer && (
-          <DialogFooter className="p-4 sm:p-6 border-t flex-shrink-0 gap-3">
+          <DialogFooter className="p-3 sm:p-4 lg:p-6 border-t flex-shrink-0 gap-2 sm:gap-3">
             {footer}
           </DialogFooter>
         )}

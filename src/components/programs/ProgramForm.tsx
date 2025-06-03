@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -52,51 +53,52 @@ export const ProgramForm: React.FC<ProgramFormProps> = ({ onSubmit, initialData 
 
   return (
     <form onSubmit={handleSubmit(onFormSubmit)} className="space-y-4">
-      <div className="grid grid-cols-1 gap-4">
+      <div className="space-y-4">
         <div className="space-y-2">
-          <Label htmlFor="name">{t('programs.name')}</Label>
+          <Label htmlFor="name" className="text-sm font-medium">{t('programs.name')}</Label>
           <Input 
             id="name" 
             placeholder={t('programs.namePlaceholder')} 
+            className={`h-11 ${errors.name ? "border-red-500" : ""}`}
             {...register('name', { required: true })} 
-            className={errors.name ? "border-red-500" : ""}
           />
           {errors.name && <p className="text-sm text-red-500">{t('validation.required')}</p>}
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="description">{t('programs.description')}</Label>
+          <Label htmlFor="description" className="text-sm font-medium">{t('programs.description')}</Label>
           <Textarea 
             id="description" 
             placeholder={t('programs.descriptionPlaceholder')} 
-            className="min-h-[100px]"
+            className="min-h-[80px] resize-none"
             {...register('description')}
           />
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div className="space-y-2">
-            <Label htmlFor="sessions_count">{t('programs.sessions')}</Label>
+            <Label htmlFor="sessions_count" className="text-sm font-medium">{t('programs.sessions')}</Label>
             <Input 
               id="sessions_count" 
               type="number" 
               placeholder="8" 
+              className={`h-11 ${errors.sessions_count ? "border-red-500" : ""}`}
               {...register('sessions_count', { 
                 required: true,
                 valueAsNumber: true,
                 min: 1
               })}
-              className={errors.sessions_count ? "border-red-500" : ""}
             />
             {errors.sessions_count && <p className="text-sm text-red-500">{t('validation.validNumber')}</p>}
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="duration">{t('programs.duration')}</Label>
+            <Label htmlFor="duration" className="text-sm font-medium">{t('programs.duration')}</Label>
             <Input 
               id="duration" 
               type="number" 
               placeholder="12" 
+              className="h-11"
               {...register('duration', { 
                 valueAsNumber: true,
                 min: 1
@@ -106,12 +108,13 @@ export const ProgramForm: React.FC<ProgramFormProps> = ({ onSubmit, initialData 
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="price">{t('programs.price')} ({currencySymbol})</Label>
+          <Label htmlFor="price" className="text-sm font-medium">{t('programs.price')} ({currencySymbol})</Label>
           <Input 
             id="price" 
             type="number" 
             step="0.01"
             placeholder={currencyPlaceholder} 
+            className="h-11"
             {...register('price', { 
               valueAsNumber: true,
               min: 0
@@ -120,13 +123,13 @@ export const ProgramForm: React.FC<ProgramFormProps> = ({ onSubmit, initialData 
         </div>
       </div>
 
-      <div className="flex justify-end gap-3 pt-4">
-        <Button type="button" variant="outline" onClick={onSubmit}>
+      <div className="flex flex-col sm:flex-row justify-end gap-3 pt-4 border-t">
+        <Button type="button" variant="outline" onClick={onSubmit} className="h-11">
           {t('action.cancel')}
         </Button>
         <Button 
           type="submit" 
-          className="bg-forest-500 hover:bg-forest-600"
+          className="bg-forest-500 hover:bg-forest-600 h-11"
           disabled={isPending}
         >
           {isPending ? t('action.saving') : (isEditing ? t('action.update') : t('action.add'))}

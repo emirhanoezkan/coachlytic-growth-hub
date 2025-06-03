@@ -58,44 +58,47 @@ export const EditClientForm: React.FC<EditClientFormProps> = ({ client, onSubmit
 
   return (
     <form onSubmit={handleSubmit(onFormSubmit)} className="space-y-4">
-      <div className="grid grid-cols-1 gap-4">
+      <div className="space-y-4">
         <div className="space-y-2">
-          <Label htmlFor="name">{t('client.name')}</Label>
+          <Label htmlFor="name" className="text-sm font-medium">{t('client.name')}</Label>
           <Input 
             id="name" 
             placeholder={t('client.namePlaceholder')}
+            className="h-11"
             {...register('name', { required: true })}
           />
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="email">{t('client.email')}</Label>
+          <Label htmlFor="email" className="text-sm font-medium">{t('client.email')}</Label>
           <Input 
             id="email" 
             type="email" 
             placeholder={t('client.emailPlaceholder')}
+            className="h-11"
             {...register('email')}
           />
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="phone">{t('client.phone')}</Label>
+          <Label htmlFor="phone" className="text-sm font-medium">{t('client.phone')}</Label>
           <Input 
             id="phone" 
             type="tel" 
             placeholder={t('client.phonePlaceholder')}
+            className="h-11"
             {...register('phone')}
           />
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="program">{t('client.program')}</Label>
+          <Label htmlFor="program" className="text-sm font-medium">{t('client.program')}</Label>
           <Select 
             value={selectedProgram} 
             onValueChange={(value) => setValue('program', value)}
             disabled={programsLoading}
           >
-            <SelectTrigger id="program">
+            <SelectTrigger id="program" className="h-11">
               <SelectValue placeholder={programsLoading ? t('action.loading') : `${t('client.selectProgram')}...`} />
             </SelectTrigger>
             <SelectContent>
@@ -117,23 +120,23 @@ export const EditClientForm: React.FC<EditClientFormProps> = ({ client, onSubmit
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="notes">{t('client.notes')}</Label>
+          <Label htmlFor="notes" className="text-sm font-medium">{t('client.notes')}</Label>
           <Textarea 
             id="notes" 
             placeholder={t('client.notesPlaceholder')}
-            className="min-h-[100px]"
+            className="min-h-[80px] resize-none"
             {...register('notes')}
           />
         </div>
       </div>
 
-      <div className="flex justify-end gap-3 pt-4">
-        <Button type="button" variant="outline" onClick={onSubmit}>
+      <div className="flex flex-col sm:flex-row justify-end gap-3 pt-4 border-t">
+        <Button type="button" variant="outline" onClick={onSubmit} className="h-11">
           {t('action.cancel')}
         </Button>
         <Button 
           type="submit" 
-          className="bg-forest-500 hover:bg-forest-600"
+          className="bg-forest-500 hover:bg-forest-600 h-11"
           disabled={isPending}
         >
           {isPending ? t('action.updating') : t('action.update')}

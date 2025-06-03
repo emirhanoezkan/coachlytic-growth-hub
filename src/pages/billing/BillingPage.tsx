@@ -45,6 +45,7 @@ const BillingPage = () => {
         open={isAddInvoiceDialogOpen}
         onOpenChange={setIsAddInvoiceDialogOpen}
         title={t('billing.newInvoice')}
+        size="xl"
       >
         <InvoiceForm onSubmit={() => setIsAddInvoiceDialogOpen(false)} />
       </ResponsiveDialog>

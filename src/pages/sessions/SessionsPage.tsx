@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Plus, CalendarDays, List } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { SessionForm } from "@/components/sessions/SessionForm";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { ResponsiveDialog } from "@/components/ui/responsive-dialog";
 import { SessionList } from "@/components/sessions/SessionList";
 import { useLanguage } from "@/contexts/LanguageContext";
 
@@ -57,15 +57,15 @@ const SessionsPage = () => {
         </Tabs>
       </div>
       
-      <Dialog open={isAddSessionDialogOpen} onOpenChange={setIsAddSessionDialogOpen}>
-        <DialogContent className="mx-4 max-w-[calc(100vw-1.5rem)] sm:mx-auto sm:max-w-[500px]">
-          <DialogHeader>
-            <DialogTitle>{t('sessions.new')}</DialogTitle>
-            <DialogDescription>{t('sessions.createDesc')}</DialogDescription>
-          </DialogHeader>
-          <SessionForm onSubmit={() => setIsAddSessionDialogOpen(false)} />
-        </DialogContent>
-      </Dialog>
+      <ResponsiveDialog
+        open={isAddSessionDialogOpen}
+        onOpenChange={setIsAddSessionDialogOpen}
+        title={t('sessions.new')}
+        description={t('sessions.createDesc')}
+        size="lg"
+      >
+        <SessionForm onSubmit={() => setIsAddSessionDialogOpen(false)} />
+      </ResponsiveDialog>
     </ResponsiveLayout>
   );
 };

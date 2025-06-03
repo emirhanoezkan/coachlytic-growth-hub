@@ -114,12 +114,12 @@ export const InvoiceForm: React.FC<InvoiceFormProps> = ({ onSubmit, initialData 
   const currencySymbol = getCurrencySymbol(language);
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5">
-      <div className="grid grid-cols-1 gap-4">
+    <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
+      <div className="space-y-4">
         <div className="space-y-2">
-          <Label htmlFor="client">{t('billing.client')}</Label>
+          <Label htmlFor="client" className="text-sm font-medium">{t('billing.client')}</Label>
           <Select value={selectedClient} onValueChange={setSelectedClient} required>
-            <SelectTrigger id="client">
+            <SelectTrigger id="client" className="h-11">
               <SelectValue placeholder={t('billing.selectClient')} />
             </SelectTrigger>
             <SelectContent>
@@ -140,15 +140,15 @@ export const InvoiceForm: React.FC<InvoiceFormProps> = ({ onSubmit, initialData 
           </Select>
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
-          <div>
-            <Label>{t('billing.dueDate')}</Label>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="space-y-2">
+            <Label className="text-sm font-medium">{t('billing.dueDate')}</Label>
             <Popover>
               <PopoverTrigger asChild>
                 <Button
                   variant="outline"
                   className={cn(
-                    "w-full justify-start text-left font-normal mt-2",
+                    "w-full justify-start text-left font-normal h-11",
                     !dueDate && "text-muted-foreground"
                   )}
                 >
@@ -167,10 +167,10 @@ export const InvoiceForm: React.FC<InvoiceFormProps> = ({ onSubmit, initialData 
             </Popover>
           </div>
           
-          <div>
-            <Label htmlFor="status">{t('billing.statusLabel')}</Label>
+          <div className="space-y-2">
+            <Label htmlFor="status" className="text-sm font-medium">{t('billing.statusLabel')}</Label>
             <Select value={status} onValueChange={setStatus}>
-              <SelectTrigger id="status" className="mt-2">
+              <SelectTrigger id="status" className="h-11">
                 <SelectValue placeholder={t('billing.selectStatus')} />
               </SelectTrigger>
               <SelectContent>
@@ -186,9 +186,9 @@ export const InvoiceForm: React.FC<InvoiceFormProps> = ({ onSubmit, initialData 
 
         {/* Tax Configuration */}
         <div className="space-y-4 border-t pt-4">
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <Label htmlFor="taxRate">{t('billing.taxRate')}</Label>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="taxRate" className="text-sm font-medium">{t('billing.taxRate')}</Label>
               <Input
                 id="taxRate"
                 type="number"
@@ -197,34 +197,34 @@ export const InvoiceForm: React.FC<InvoiceFormProps> = ({ onSubmit, initialData 
                 step="0.01"
                 value={taxRate}
                 onChange={(e) => setTaxRate(parseFloat(e.target.value) || 0)}
-                className="mt-2"
+                className="h-11"
               />
             </div>
-            <div className="flex flex-col justify-center">
+            <div className="flex flex-col justify-center space-y-2">
               <div className="flex items-center space-x-2">
                 <Switch
                   id="includesTax"
                   checked={includesTax}
                   onCheckedChange={setIncludesTax}
                 />
-                <Label htmlFor="includesTax">{t('billing.priceIncludesTax')}</Label>
+                <Label htmlFor="includesTax" className="text-sm">{t('billing.priceIncludesTax')}</Label>
               </div>
-              <p className="text-xs text-gray-500 mt-1">
+              <p className="text-xs text-gray-500">
                 {includesTax ? t('billing.taxIncludedInPrices') : t('billing.taxAddedToPrices')}
               </p>
             </div>
           </div>
         </div>
 
-        <div className="space-y-3 mt-3">
-          <div className="flex justify-between items-center">
-            <Label>{t('billing.invoiceItems')}</Label>
+        <div className="space-y-3">
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center space-y-2 sm:space-y-0">
+            <Label className="text-sm font-medium">{t('billing.invoiceItems')}</Label>
             <Button 
               type="button" 
               variant="outline" 
               size="sm" 
               onClick={handleAddItem} 
-              className="text-forest-600 border-forest-300 hover:bg-forest-50"
+              className="text-forest-600 border-forest-300 hover:bg-forest-50 w-full sm:w-auto"
             >
               <Plus className="h-4 w-4 mr-1" />
               {t('billing.addItem')}
@@ -233,67 +233,74 @@ export const InvoiceForm: React.FC<InvoiceFormProps> = ({ onSubmit, initialData 
           
           <div className="space-y-3">
             {items.map((item, index) => (
-              <div key={index} className="grid grid-cols-12 gap-2 items-end border p-2 rounded-md">
-                <div className="col-span-6">
-                  <Label htmlFor={`item-desc-${index}`} className="text-xs">{t('billing.description')}</Label>
-                  <Input 
-                    id={`item-desc-${index}`} 
-                    value={item.description} 
-                    onChange={(e) => handleItemChange(index, "description", e.target.value)} 
-                    placeholder={t('billing.serviceDescription')} 
-                    className="mt-1"
-                  />
-                </div>
-                <div className="col-span-2">
-                  <Label htmlFor={`item-qty-${index}`} className="text-xs">{t('billing.quantity')}</Label>
-                  <Input 
-                    id={`item-qty-${index}`} 
-                    type="number" 
-                    min="1" 
-                    value={item.quantity} 
-                    onChange={(e) => handleItemChange(index, "quantity", parseInt(e.target.value))} 
-                    className="mt-1"
-                  />
-                </div>
-                <div className="col-span-3">
-                  <Label htmlFor={`item-rate-${index}`} className="text-xs">{t('billing.rate')} ({currencySymbol})</Label>
-                  <Input 
-                    id={`item-rate-${index}`} 
-                    type="number" 
-                    min="0" 
-                    step="0.01" 
-                    value={item.rate} 
-                    onChange={(e) => handleItemChange(index, "rate", parseFloat(e.target.value))} 
-                    className="mt-1"
-                  />
-                </div>
-                <div className="col-span-1 flex justify-center">
+              <div key={index} className="border p-3 rounded-md space-y-3">
+                {/* Mobile-first stacked layout for invoice items */}
+                <div className="space-y-3">
+                  <div className="space-y-2">
+                    <Label htmlFor={`item-desc-${index}`} className="text-xs font-medium">{t('billing.description')}</Label>
+                    <Input 
+                      id={`item-desc-${index}`} 
+                      value={item.description} 
+                      onChange={(e) => handleItemChange(index, "description", e.target.value)} 
+                      placeholder={t('billing.serviceDescription')} 
+                      className="h-10"
+                    />
+                  </div>
+                  
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="space-y-2">
+                      <Label htmlFor={`item-qty-${index}`} className="text-xs font-medium">{t('billing.quantity')}</Label>
+                      <Input 
+                        id={`item-qty-${index}`} 
+                        type="number" 
+                        min="1" 
+                        value={item.quantity} 
+                        onChange={(e) => handleItemChange(index, "quantity", parseInt(e.target.value))} 
+                        className="h-10"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor={`item-rate-${index}`} className="text-xs font-medium">{t('billing.rate')} ({currencySymbol})</Label>
+                      <Input 
+                        id={`item-rate-${index}`} 
+                        type="number" 
+                        min="0" 
+                        step="0.01" 
+                        value={item.rate} 
+                        onChange={(e) => handleItemChange(index, "rate", parseFloat(e.target.value))} 
+                        className="h-10"
+                      />
+                    </div>
+                  </div>
+                  
                   {items.length > 1 && (
-                    <Button 
-                      type="button" 
-                      variant="ghost" 
-                      size="sm"
-                      onClick={() => handleRemoveItem(index)} 
-                      className="text-red-500 hover:text-red-700 hover:bg-red-50 h-9 w-9 p-0"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
+                    <div className="flex justify-end">
+                      <Button 
+                        type="button" 
+                        variant="ghost" 
+                        size="sm"
+                        onClick={() => handleRemoveItem(index)} 
+                        className="text-red-500 hover:text-red-700 hover:bg-red-50 h-10 w-10 p-0"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
                   )}
                 </div>
               </div>
             ))}
           </div>
           
-          <div className="border-t pt-3 mt-4">
+          <div className="border-t pt-3 space-y-2">
             <div className="flex justify-between text-sm">
               <span>{t('billing.subtotal')}</span>
               <span>{formatCurrency(displaySubtotal, language)}</span>
             </div>
-            <div className="flex justify-between text-sm mt-1">
+            <div className="flex justify-between text-sm">
               <span>{t('billing.tax')} ({taxRate}%)</span>
               <span>{formatCurrency(displayTax, language)}</span>
             </div>
-            <div className="flex justify-between font-bold mt-2 text-lg">
+            <div className="flex justify-between font-bold text-base sm:text-lg border-t pt-2">
               <span>{t('billing.total')}</span>
               <span>{formatCurrency(displayTotal, language)}</span>
             </div>
@@ -301,22 +308,24 @@ export const InvoiceForm: React.FC<InvoiceFormProps> = ({ onSubmit, initialData 
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="notes">{t('billing.notes')}</Label>
+          <Label htmlFor="notes" className="text-sm font-medium">{t('billing.notes')}</Label>
           <Textarea 
             id="notes" 
             placeholder={t('billing.invoiceNotes')} 
             value={notes}
             onChange={(e) => setNotes(e.target.value)}
-            className="h-20"
+            className="min-h-[80px] resize-none"
           />
         </div>
       </div>
 
-      <div className="flex justify-end gap-3 pt-3">
-        <Button type="button" variant="outline" onClick={onSubmit}>{t('action.cancel')}</Button>
+      <div className="flex flex-col sm:flex-row justify-end gap-3 pt-3 border-t">
+        <Button type="button" variant="outline" onClick={onSubmit} className="h-11">
+          {t('action.cancel')}
+        </Button>
         <Button 
           type="submit" 
-          className="bg-forest-500 hover:bg-forest-600"
+          className="bg-forest-500 hover:bg-forest-600 h-11"
           disabled={isCreating || !selectedClient || selectedClient === 'no-clients'}
         >
           {isCreating ? "Creating..." : t('billing.createInvoice')}

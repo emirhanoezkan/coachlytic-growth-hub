@@ -44,7 +44,6 @@ const formSchema = z.object({
   status: z.string().optional(),
 });
 
-// Update the interface to include sessionToEdit and isEditing
 interface SessionFormProps {
   onSubmit: () => void;
   preselectedClientId?: string;
@@ -148,21 +147,21 @@ export const SessionForm: React.FC<SessionFormProps> = ({
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
+      <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4 sm:space-y-6">
         {!preselectedClientId && (
           <FormField
             control={form.control}
             name="client_id"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{t('sessions.client')}</FormLabel>
+                <FormLabel className="text-sm font-medium">{t('sessions.client')}</FormLabel>
                 <Select
                   onValueChange={field.onChange}
                   defaultValue={field.value}
                   value={field.value}
                 >
                   <FormControl>
-                    <SelectTrigger>
+                    <SelectTrigger className="h-11">
                       <SelectValue placeholder={t('sessions.selectClient')} />
                     </SelectTrigger>
                   </FormControl>
@@ -185,14 +184,14 @@ export const SessionForm: React.FC<SessionFormProps> = ({
           name="program_id"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>{t('sessions.program')}</FormLabel>
+              <FormLabel className="text-sm font-medium">{t('sessions.program')}</FormLabel>
               <Select
                 onValueChange={field.onChange}
                 defaultValue={field.value}
                 value={field.value}
               >
                 <FormControl>
-                  <SelectTrigger>
+                  <SelectTrigger className="h-11">
                     <SelectValue placeholder={t('sessions.selectProgram')} />
                   </SelectTrigger>
                 </FormControl>
@@ -215,29 +214,30 @@ export const SessionForm: React.FC<SessionFormProps> = ({
           name="title"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>{t('sessions.title')}</FormLabel>
+              <FormLabel className="text-sm font-medium">{t('sessions.title')}</FormLabel>
               <FormControl>
-                <Input placeholder={t('sessions.titlePlaceholder')} {...field} />
+                <Input placeholder={t('sessions.titlePlaceholder')} className="h-11" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {/* Mobile-first stacked layout for date and duration */}
+        <div className="space-y-4">
           <FormField
             control={form.control}
             name="date"
             render={({ field }) => (
               <FormItem className="flex flex-col">
-                <FormLabel>{t('sessions.dateTime')}</FormLabel>
+                <FormLabel className="text-sm font-medium">{t('sessions.dateTime')}</FormLabel>
                 <Popover>
                   <PopoverTrigger asChild>
                     <FormControl>
                       <Button
                         variant="outline"
                         className={cn(
-                          "pl-3 text-left font-normal",
+                          "w-full justify-start text-left font-normal h-11",
                           !field.value && "text-muted-foreground"
                         )}
                       >
@@ -283,7 +283,7 @@ export const SessionForm: React.FC<SessionFormProps> = ({
                             field.onChange(new Date(date));
                           }}
                           value={field.value ? format(field.value, "HH:mm") : ""}
-                          className="w-full"
+                          className="w-full h-10"
                         />
                       </div>
                     </div>
@@ -299,9 +299,9 @@ export const SessionForm: React.FC<SessionFormProps> = ({
             name="duration"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{t('sessions.duration')}</FormLabel>
+                <FormLabel className="text-sm font-medium">{t('sessions.duration')}</FormLabel>
                 <FormControl>
-                  <Input type="number" {...field} />
+                  <Input type="number" className="h-11" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -314,14 +314,14 @@ export const SessionForm: React.FC<SessionFormProps> = ({
           name="location_type"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>{t('sessions.locationType')}</FormLabel>
+              <FormLabel className="text-sm font-medium">{t('sessions.locationType')}</FormLabel>
               <Select
                 onValueChange={field.onChange}
                 defaultValue={field.value}
                 value={field.value}
               >
                 <FormControl>
-                  <SelectTrigger>
+                  <SelectTrigger className="h-11">
                     <SelectValue placeholder={t('sessions.selectLocationType')} />
                   </SelectTrigger>
                 </FormControl>
@@ -342,14 +342,14 @@ export const SessionForm: React.FC<SessionFormProps> = ({
             name="status"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{t('sessions.statusLabel')}</FormLabel>
+                <FormLabel className="text-sm font-medium">{t('sessions.statusLabel')}</FormLabel>
                 <Select
                   onValueChange={field.onChange}
                   defaultValue={field.value}
                   value={field.value}
                 >
                   <FormControl>
-                    <SelectTrigger>
+                    <SelectTrigger className="h-11">
                       <SelectValue placeholder={t('sessions.selectStatus')} />
                     </SelectTrigger>
                   </FormControl>
@@ -370,11 +370,11 @@ export const SessionForm: React.FC<SessionFormProps> = ({
           name="notes"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>{t('sessions.notes')}</FormLabel>
+              <FormLabel className="text-sm font-medium">{t('sessions.notes')}</FormLabel>
               <FormControl>
                 <Textarea
                   placeholder={t('sessions.notesPlaceholder')}
-                  className="resize-none"
+                  className="resize-none min-h-[80px]"
                   {...field}
                 />
               </FormControl>
@@ -383,11 +383,14 @@ export const SessionForm: React.FC<SessionFormProps> = ({
           )}
         />
 
-        <div className="flex justify-end gap-2">
+        <div className="flex flex-col sm:flex-row justify-end gap-3 pt-3 border-t">
+          <Button type="button" variant="outline" onClick={onSubmit} className="h-11">
+            {t('action.cancel')}
+          </Button>
           <Button 
             type="submit" 
             disabled={addSession.isPending || updateSession.isPending} 
-            className="bg-forest-500 hover:bg-forest-600"
+            className="bg-forest-500 hover:bg-forest-600 h-11"
           >
             {isEditing 
               ? (updateSession.isPending ? t('sessions.updating') : t('sessions.update'))
